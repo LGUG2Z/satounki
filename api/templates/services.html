@@ -1,0 +1,96 @@
+{% extends "base.html" %}
+{% block title %}Services{% endblock title %}
+
+{% block navigation %}
+    <li class="nav-item">
+        <a href="/requests" class="nav-link">Requests</a>
+    </li>
+    <li class="nav-item">
+        <a href="/policies" class="nav-link">Policies</a>
+    </li>
+    <li class="nav-item active">
+        <a href="/services" class="nav-link">Services</a>
+    </li>
+    <li class="nav-item">
+        <a href="/users" class="nav-link">Users</a>
+    </li>
+    <li class="nav-item">
+        <a href="/settings" class="nav-link">Settings</a>
+    </li>
+{% endblock navigation %}
+
+{% block content %}
+    <div class="content">
+        {% if aws | length > 0 %}
+            <div class="card">
+                <h1 class="card-title">Amazon Web Services Accounts</h1>
+                <table class="table table-hover" style="table-layout: fixed">
+                    <thead>
+                        <tr>
+                            <th>Account Alias</th>
+                            <th>Approvals Required</th>
+                            <th>Admin Approval Required</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for account in aws %}
+                            <tr>
+                                <th>{{ account.aws_account_alias }}</th>
+                                <td>{{ account.approvals_required }}</td>
+                                <td>{{ account.admin_approval_required }}</td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        {% endif %}
+
+        {% if cloudflare | length > 0 %}
+            <div class="card">
+                <h1 class="card-title">Cloudflare Accounts</h1>
+                <table class="table table-hover" style="table-layout: fixed">
+                    <thead>
+                        <tr>
+                            <th>Account Alias</th>
+                            <th>Approvals Required</th>
+                            <th>Admin Approval Required</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for account in cloudflare %}
+                            <tr>
+                                <th>{{ account.cloudflare_account_alias }}</th>
+                                <td>{{ account.approvals_required }}</td>
+                                <td>{{ account.admin_approval_required }}</td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        {% endif %}
+
+        {% if gcp | length > 0 %}
+            <div class="card">
+                <h1 class="card-title">Google Cloud Platform Projects</h1>
+                <table class="table table-hover" style="table-layout: fixed">
+                    <thead>
+                        <tr>
+                            <th>Project Name</th>
+                            <th>Approvals Required</th>
+                            <th>Admin Approval Required</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for project in gcp %}
+                            <tr>
+                                <th>{{ project.gcp_project }}</th>
+                                <td>{{ project.approvals_required }}</td>
+                                <td>{{ project.admin_approval_required }}</td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        {% endif %}
+    </div>
+{% endblock content %}

@@ -1,0 +1,70 @@
+{% extends "base.html" %}
+{% block title %}Requests{% endblock title %}
+
+{% block navigation %}
+    <li class="nav-item active">
+        <a href="/requests" class="nav-link">Requests</a>
+    </li>
+    <li class="nav-item">
+        <a href="/policies" class="nav-link">Policies</a>
+    </li>
+    <li class="nav-item">
+        <a href="/services" class="nav-link">Services</a>
+    </li>
+    <li class="nav-item">
+        <a href="/users" class="nav-link">Users</a>
+    </li>
+    <li class="nav-item">
+        <a href="/settings" class="nav-link">Settings</a>
+    </li>
+{% endblock navigation %}
+
+{% block content %}
+    <div class="row">
+        <div class="col-lg-10">
+            <div class="content">
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th>Request</th>
+                            <th>Policy</th>
+                            <th>Timestamp</th>
+                            <th>State</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for request in requests %}
+                            <tr>
+                                <th>
+                                    <a href="/request/{{ request.alias }}">
+                                        {{ request.alias }}
+                                    </a>
+                                </th>
+                                <td>
+                                    <a href="/policy/{{ request.policy }}">
+                                        {{ request.policy }}
+                                    </a>
+                                </td>
+                                <td>{{ request.timestamp | date(format="%Y-%m-%d %H:%M") }}</td>
+                                <td>{{ request.state }}</td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="col-lg-2 d-none d-lg-block">
+            <!-- d-none = display: none, d-lg-block = display: block only on large screens and up (> 992px) -->
+            <div class="content">
+                <h2 class="content-title font-size-16">Filter by State</h2> <!-- font-size-16 = font-size: 1.6rem (16px) -->
+                <a class="border-left d-block pl-20 pb-10" href="/requests?state=pending">Pending</a>
+                <a class="border-left d-block pl-20 pb-10" href="/requests?state=active">Active</a>
+                <a class="border-left d-block pl-20 pb-10" href="/requests?state=completed">Completed</a>
+                <a class="border-left d-block pl-20 pb-10" href="/requests?state=cancelled">Cancelled</a>
+                <a class="border-left d-block pl-20 pb-10" href="/requests?state=rejected">Rejected</a>
+                <a class="border-left d-block pl-20 pb-10" href="/requests?state=revoked">Revoked</a>
+            </div>
+        </div>
+    </div>
+
+{% endblock content %}

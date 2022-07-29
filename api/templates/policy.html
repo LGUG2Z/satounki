@@ -1,0 +1,72 @@
+{% extends "base.html" %}
+{% block title %}Policies{% endblock title %}
+
+{% block navigation %}
+    <li class="nav-item">
+        <a href="/requests" class="nav-link">Requests</a>
+    </li>
+    <li class="nav-item active">
+        <a href="/policies" class="nav-link">Policies</a>
+    </li>
+    <li class="nav-item">
+        <a href="/services" class="nav-link">Services</a>
+    </li>
+    <li class="nav-item">
+        <a href="/users" class="nav-link">Users</a>
+    </li>
+    <li class="nav-item">
+        <a href="/settings" class="nav-link">Settings</a>
+    </li>
+{% endblock navigation %}
+
+{% block content %}
+    <div class="content">
+        <div class="card">
+            <h1 class="card-title">{{ name }}</h1>
+            <p>{{ description }}</p>
+
+            <table class="table table-hover">
+                <tbody>
+                    {% if aws %}
+                        {% for role in aws %}
+                            <tr>
+                                <td>Amazon Web Services</td>
+                                <td>
+                                    <a href="https://console.aws.amazon.com/iam/home?#/policies/{{ role }}$jsonEditor">
+                                        {{ role | split(pat="/") | last }}
+                                    </a>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    {% endif %}
+                    {% if cloudflare %}
+                        {% for role in cloudflare %}
+                            <tr>
+                                <td>Cloudflare</td>
+                                <td>
+                                    <a
+                                        href="https://developers.cloudflare.com/fundamentals/account-and-billing/account-setup/account-roles/">
+                                        {{ role }}
+                                    </a>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    {% endif %}
+                    {% if gcp %}
+                        {% for role in gcp %}
+                            <tr>
+                                <td>Google Cloud Platform</td>
+                                <td>
+                                    <a
+                                        href="https://cloud.google.com/iam/docs/understanding-roles#{{ role | trim_start_matches(pat='roles/')}}">
+                                        {{ role | split(pat="/") | last }}
+                                    </a>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    {% endif %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+{% endblock content %}

@@ -1,0 +1,132 @@
+{% extends "base.html" %}
+{% block title %}Requests{% endblock title %}
+
+{% block navigation %}
+    <li class="nav-item active">
+        <a href="/requests" class="nav-link">Requests</a>
+    </li>
+    <li class="nav-item">
+        <a href="/policies" class="nav-link">Policies</a>
+    </li>
+    <li class="nav-item">
+        <a href="/services" class="nav-link">Services</a>
+    </li>
+    <li class="nav-item">
+        <a href="/users" class="nav-link">Users</a>
+    </li>
+    <li class="nav-item">
+        <a href="/settings" class="nav-link">Settings</a>
+    </li>
+{% endblock navigation %}
+
+{% block content %}
+    <div class="content">
+        <div class="card">
+            <h2 class="card-title">{{ alias }}</h2>
+            <table class="table table-hover">
+                <tbody>
+                    <tr>
+                        <td>Justification</td>
+                        <td>{{ justification }}</td>
+                    </tr>
+                    <tr>
+                        <td>Requester</td>
+                        <td>{{ requester }}</td>
+                    </tr>
+                    <tr>
+                        <td>Timestamp</td>
+                        <td>{{ timestamp | date(format="%Y-%m-%d %H:%M") }}</td>
+                    </tr>
+                    <tr>
+                        <td>Duration</td>
+                        <td>{{ minutes }} minutes</td>
+                    </tr>
+                    <tr>
+                        <td>Policy</td>
+                        <td>
+                            <a href="/policy/{{policy}}">
+                                {{ policy }}
+                            </a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Approvals Required</td>
+                        <td>{{ approvals_required }}</td>
+                    </tr>
+                    <tr>
+                        <td>Admin Approval Required</td>
+                        <td>{{ admin_approval_required }}</td>
+                    </tr>
+                    <tr>
+                        <td>Approved</td>
+                        <td>{{ approved }}</td>
+                    </tr>
+                    <tr>
+                        <td>State</td>
+                        <td>{{ state }}</td>
+                    </tr>
+                    {% if access_expiry %}
+                        <tr>
+                            <td>Access Expiry</td>
+                            <td>{{ access_expiry| date(format="%Y-%m-%d %H:%M") }}</td>
+                        </tr>
+                    {% endif %}
+                    {% if aws %}
+                        <tr>
+                            <td>Amazon Web Services Account</td>
+                            <td>{{ aws_account }}</td>
+                        </tr>
+                    {% endif %}
+                    {% if cloudflare %}
+                        <tr>
+                            <td>Cloudflare Account</td>
+                            <td>{{ cloudflare_account }}</td>
+                        </tr>
+                    {% endif %}
+                    {% if gcp %}
+                        <tr>
+                            <td>Google Cloud Platform Project</td>
+                            <td>{{ gcp_project }}</td>
+                        </tr>
+                    {% endif %}
+                    {% if approvals %}
+                        <tr>
+                            <td>Approvals</td>
+                            <td>
+                                {% for approval in approvals %}
+                                    {{ approval.user }} ({{ approval.timestamp | date(format="%Y-%m-%d %H:%M") }}){% if not loop.last %}<br/>{% endif %}
+                                {% endfor %}
+                            </td>
+                        </tr>
+                    {% endif %}
+                    {% if extensions %}
+                        <tr>
+                            <td>Extensions</td>
+                            <td>
+                                {% for extension in extensions %}
+                                    {{ extension.user }} ({{ extension.timestamp | date(format="%Y-%m-%d %H:%M") }}){% if not loop.last %}<br/>{% endif %}
+                                {% endfor %}
+                            </td>
+                        </tr>
+                    {% endif %}
+                    {% if rejection %}
+                        <tr>
+                            <td>Rejection</td>
+                            <td>
+                                {{ rejection.user }} ({{ rejection.timestamp | date(format="%Y-%m-%d %H:%M") }})
+                            </td>
+                        </tr>
+                    {% endif %}
+                    {% if cancellation %}
+                        <tr>
+                            <td>Cancellation</td>
+                            <td>
+                                {{ cancellation.user }} ({{ cancellation.timestamp | date(format="%Y-%m-%d %H:%M") }})
+                            </td>
+                        </tr>
+                    {% endif %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+{% endblock content %}

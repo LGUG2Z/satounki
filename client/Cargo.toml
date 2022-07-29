@@ -1,0 +1,25 @@
+[package]
+name = "client"
+version = "0.1.0"
+edition = "2021"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+aws = { path = "../aws" }
+chrono = { workspace = true }
+clap = { workspace = true }
+cloudflare = { path = "../cloudflare" }
+color-eyre = { workspace = true }
+common = { path = "../common" }
+env_logger = { workspace = true }
+futures-util = "0.3"
+gcloud = { path = "../gcloud" }
+log = "0.4"
+serde = { workspace = true }
+serde_json = { workspace = true }
+serde_yaml = { workspace = true }
+tokio = { workspace = true }
+tokio-tungstenite = "0.20"
+url = "2"
+derive_more = { workspace = true }

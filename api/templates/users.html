@@ -1,0 +1,63 @@
+{% extends "base.html" %}
+{% block title %}Users{% endblock title %}
+
+{% block navigation %}
+    <li class="nav-item">
+        <a href="/requests" class="nav-link">Requests</a>
+    </li>
+    <li class="nav-item">
+        <a href="/policies" class="nav-link">Policies</a>
+    </li>
+    <li class="nav-item">
+        <a href="/services" class="nav-link">Services</a>
+    </li>
+    <li class="nav-item active">
+        <a href="/users" class="nav-link">Users</a>
+    </li>
+    <li class="nav-item">
+        <a href="/settings" class="nav-link">Settings</a>
+    </li>
+{% endblock navigation %}
+
+{% block content %}
+    <div class="row">
+        <div class="col-lg-10">
+            <div class="content">
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Email</th>
+                            <th>Active</th>
+                            <th>Roles</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for user in users %}
+                            <tr>
+                                <th>{{ user.first_name }} {{ user.last_name }}</th>
+                                <td>{{ user.email }}</td>
+                                <td>{{ user.active }}</td>
+                                <td>{{ user.roles | join(sep=", ") }}</td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="col-lg-2 d-none d-lg-block">
+            <!-- d-none = display: none, d-lg-block = display: block only on large screens and up (> 992px) -->
+            <div class="content">
+                <h2 class="content-title font-size-16">Filter by Role</h2> <!-- font-size-16 = font-size: 1.6rem (16px) -->
+                <a class="border-left d-block pl-20 pb-10" href="/users?role=user">User</a>
+                <a class="border-left d-block pl-20 pb-10" href="/users?state=approver">Approver</a>
+                <a class="border-left d-block pl-20 pb-10" href="/users?state=administrator">Administrator</a>
+                <br />
+                <h2 class="content-title font-size-16">Filter by Status</h2>
+                <!-- font-size-16 = font-size: 1.6rem (16px) -->
+                <a class="border-left d-block pl-20 pb-10" href="/users?active=true">Active</a>
+                <a class="border-left d-block pl-20 pb-10" href="/users?active=false">Disabled</a>
+            </div>
+        </div>
+    </div>
+{% endblock content %}

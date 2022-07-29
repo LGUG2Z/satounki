@@ -1,0 +1,95 @@
+{% extends "base.html" %}
+{% block title %}Dashboard{% endblock title %}
+
+{% block navigation %}
+    <li class="nav-item">
+        <a href="/requests" class="nav-link">Requests</a>
+    </li>
+    <li class="nav-item">
+        <a href="/policies" class="nav-link">Policies</a>
+    </li>
+    <li class="nav-item">
+        <a href="/services" class="nav-link">Services</a>
+    </li>
+    <li class="nav-item">
+        <a href="/users" class="nav-link">Users</a>
+    </li>
+    <li class="nav-item">
+        <a href="/settings" class="nav-link">Settings</a>
+    </li>
+{% endblock navigation %}
+
+{% block content %}
+    <div class="content">
+        <!-- First row (equally spaced) -->
+        {% if roles | length == 0 %}
+            <div class="card">
+                <h2 class="card-title">Welcome {{ user.first_name }}!</h2>
+                <p>
+                    Congratulations on creating your Satounki account!
+                </p>
+                <p>
+                    Unfortunately, your company "{{ company.name }}" has met its limit of {{ company.user_seats }}
+                    user seats, so you have not been automatically assigned the <b>user</b> role.
+                </p>
+                <p>
+                    Without the <b>user</b> role, you will not be able to make any access requests.
+                </p>
+                <p>
+                    You can speak to the administrator for your company's Satounki subscription
+                    (<a href="mailto:{{ company.root_user }}">{{ company.root_user }}</a>) about increasing the
+                    number of user seats.
+                </p>
+                <p>
+                    In the meantime, feel free to get an idea of the permissions you'll soon be able to request over in the
+                    <a href="/policies">Policies</a> tab.
+                </p>
+            </div>
+        {% endif %}
+        <div class="row row-eq-spacing">
+            <div class="col-6 col-xl-3">
+                <div class="card">
+                    <h2 class="card-title">Worker</h2>
+                    <div class="font-size-24">
+                        {% if worker_connected %}
+                            <span class="text-success">
+                                Connected
+                            </span>
+                        {% else %}
+                            <span class="text-danger">
+                                Disconnected
+                            </span>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+            <div class="col-6 col-xl-3">
+                <div class="card">
+                    <h2 class="card-title">Policies</h2>
+                    <div class="font-size-24">
+                        {{ policies }}
+                    </div>
+                </div>
+            </div>
+            <!-- Overflow occurs here on large screens (and down) -->
+            <!-- Therefore, a v-spacer is added at this point -->
+            <div class="v-spacer d-xl-none"></div> <!-- d-xl-none = display: none only on extra large screens (> 1200px) -->
+            <div class="col-6 col-xl-3">
+                <div class="card">
+                    <h2 class="card-title">Services</h2>
+                    <div class="font-size-24">
+                        {{ services }}
+                    </div>
+                </div>
+            </div>
+            <div class="col-6 col-xl-3">
+                <div class="card">
+                    <h2 class="card-title">Users</h2>
+                    <div class="font-size-24">
+                        {{ users }}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock content %}

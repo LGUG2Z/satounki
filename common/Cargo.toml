@@ -1,0 +1,21 @@
+[package]
+name = "common"
+version = "0.1.0"
+edition = "2021"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+common-macros = { path = "../common-macros" }
+
+serde_json = { workspace = true }
+serde = { workspace = true }
+display_json = { workspace = true }
+chrono = { workspace = true }
+derive_more = { workspace = true }
+schemars = { workspace = true }
+diesel = { workspace = true }
+diesel-derive-enum = { workspace = true }
+utoipa = { workspace = true }
+paste = { workspace = true }
+macro_rules_attribute = { workspace = true }

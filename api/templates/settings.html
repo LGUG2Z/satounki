@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+{% block title %}Settings{% endblock title %}
+
+{% block navigation %}
+    <li class="nav-item">
+        <a href="/requests" class="nav-link">Requests</a>
+    </li>
+    <li class="nav-item">
+        <a href="/policies" class="nav-link">Policies</a>
+    </li>
+    <li class="nav-item">
+        <a href="/services" class="nav-link">Services</a>
+    </li>
+    <li class="nav-item">
+        <a href="/users" class="nav-link">Users</a>
+    </li>
+    <li class="nav-item active">
+        <a href="/settings" class="nav-link">Settings</a>
+    </li>
+{% endblock navigation %}
+
+{% block content %}
+    <div class="content">
+        <div class="card">
+            <h2 class="card-title">{{ company.name }}</h2>
+            <table class="table table-hover">
+                <tbody>
+                    <tr>
+                        <td>Domain</td>
+                        <td>{{ company.domain }}</td>
+                    </tr>
+                    <tr>
+                        <td>Root User</td>
+                        <td>{{ company.root_user }}</td>
+                    </tr>
+                    <tr>
+                        <td>User Token</td>
+                        <td>{{ user_token }}</td>
+                    </tr>
+                    {% if api_token %}
+                        <tr>
+                            <td>API Token</td>
+                            <td>{{ api_token }}</td>
+                        </tr>
+                    {% endif %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+{% endblock content %}

@@ -1,0 +1,12 @@
+aws:
+  dev:
+    aws_access_key_id: bla
+    aws_secret_access_key: bla
+  canary:
+    aws_access_key_id: bla
+    aws_secret_access_key: bla
+  prod:
+    aws_access_key_id: bla
+    aws_secret_access_key: bla
+gcp: ~/credentials.json
+cf: token

@@ -1,0 +1,5 @@
+{
+  "dependencies": {
+    "typed-rest-client": "^1.8.9"
+  }
+}

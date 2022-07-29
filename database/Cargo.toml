@@ -1,0 +1,22 @@
+[package]
+name = "database"
+version = "0.1.0"
+edition = "2021"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+common = { path = "../common" }
+common-platform = { path = "../common-platform" }
+
+chrono = { workspace = true }
+color-eyre = { workspace = true }
+derive_more = { workspace = true }
+diesel = { workspace = true }
+diesel-autoincrement-new-struct = "0.1"
+diesel-derive-enum = { workspace = true }
+display_json = { workspace = true }
+memorable-wordlist = "0.1"
+serde = { workspace = true }
+serde_json = { workspace = true }
+uuid = { version = "1", features = ["v4"] }

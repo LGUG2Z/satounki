@@ -1,0 +1,40 @@
+[workspace]
+resolver = "2"
+
+members = [
+    "api",
+    "aws",
+    "cli",
+    "client",
+    "cloudflare",
+    "common",
+    "common-macros",
+    "common-platform",
+    "common-gen",
+    "database",
+    "gcloud",
+    "rolescraper",
+    "slack",
+]
+
+[workspace.dependencies]
+chrono = { version = "0.4", features = ["serde"] }
+clap = { version = "4", features = ["derive", "env"] }
+color-eyre = "0.6"
+derive_more = "0.99"
+diesel = { version = "2", features = [ "r2d2", "sqlite", "chrono", "serde_json", "returning_clauses_for_sqlite_3_35" ] }
+diesel-derive-enum = { version = "2", features = [ "sqlite" ] }
+display_json = "0.2"
+env_logger = "0.10"
+macro_rules_attribute = "0.2"
+paste = "1"
+reqwest = { version = "0.11", features = ["blocking", "rustls", "json"] }
+schemars = { version = "0.8", features = ["derive", "chrono", "preserve_order"] }
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+serde_yaml = "0.8"
+strum = { version = "0.25", features = ["derive"] }
+thiserror = "1"
+tokio = { version = "1", features = ["full"] }
+utoipa = { version = "4", features = ["actix_extras", "debug", "chrono", "uuid"] }
+utoipa-swagger-ui = { version = "4", features = ["actix-web"] }

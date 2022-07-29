@@ -1,0 +1,45 @@
+[package]
+name = "api"
+version = "0.1.0"
+edition = "2021"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+common = { path = "../common" }
+common-platform = { path = "../common-platform" }
+database = { path = "../database" }
+slack = { path = "../slack" }
+
+actix = "0.13"
+actix-session = { version = "0.8", features = ["cookie-session"] }
+actix-web-actors = "4"
+actix-web-httpauth = "0.8.0"
+paste = { workspace = true }
+chrono = { workspace = true }
+color-eyre = { workspace = true }
+derive_more = { workspace = true }
+dotenv = "0.15"
+env_logger = { workspace = true }
+lazy_static = "1.4"
+log = "0.4"
+oauth2 = "4.2"
+openidconnect = "3"
+parking_lot = "0.12"
+serde = { workspace = true }
+serde_json = { workspace = true }
+strum = { workspace = true }
+tera = "1.17"
+thiserror = { workspace = true }
+utoipa = { workspace = true }
+utoipa-swagger-ui = { workspace = true }
+uuid = { version = "1", features = ["serde", "v4"] }
+slack-blocks = "0.25"
+reqwest = { workspace = true }
+diesel_migrations = "2"
+
+[dependencies.actix-web]
+version = "4"
+features = [
+    "cookies"
+]

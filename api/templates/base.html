@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+        <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport" />
+        <meta name="viewport" content="width=device-width" />
+
+        <link rel="icon" href="path/to/fav.png">
+        <title>{% block title %}{% endblock title %} - Satounki</title>
+
+        <link href="https://cdn.jsdelivr.net/npm/halfmoon@1.1.1/css/halfmoon-variables.min.css" rel="stylesheet" />
+    </head>
+
+    <body data-set-preferred-mode-onload="true">
+        <div class="page-wrapper with-navbar">
+            <div class="sticky-alerts"></div>
+
+            <nav class="navbar">
+                <a href="/" class="navbar-brand" style="text-transform: uppercase full-width">
+                    💻🔐☁️ Satounki
+                </a>
+                <ul class="navbar-nav d-none d-md-flex">
+                    {% block navigation %}
+                    {% endblock navigation%}
+                </ul>
+            </nav>
+
+            <div class="content-wrapper">
+                <div class="content-fluid">
+                    {% block content %}
+                    {% endblock content %}
+                </div>
+            </div>
+
+        </div>
+
+        <script src="https://cdn.jsdelivr.net/npm/halfmoon@1.1.1/js/halfmoon.min.js"></script>
+    </body>
+</html>

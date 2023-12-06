@@ -3,12 +3,12 @@
 page_title: "satounki Provider"
 subcategory: ""
 description: |-
-  
+  Interact with Satounki
 ---
 
 # satounki Provider
 
-
+Interact with Satounki
 
 ## Example Usage
 
@@ -24,7 +24,4 @@ provider "scaffolding" {
 ### Required
 
 - `api_token` (String, Sensitive) API Token
-
-### Optional
-
-- `base_url` (String) Base URL
+- `base_url` (String) Satounki API Base URL

@@ -58,7 +58,7 @@ resource "satounki_policy" "storage_analytics_ro" {
 }
 ```
 
-The roles of users, request approvers and adminstrators can similarly be configured via Terraform or API.
+The roles of users, request approvers and administrators can similarly be configured via Terraform or API.
 
 ### Usage
 
@@ -103,11 +103,8 @@ that anyone use this software for anything mission-critical just yet.
 If you would like to get involved in an open source Rust project, I would welcome your collaboration on Satounki!
 
 If you are still exploring an interest in Rust and do not yet feel comfortable contributing, you can also help this
-project with skills you may have in **Go** and **Typescript**.
-
-Go and Typescript API client libraries are automatically generated from the Rust code, as is the majority of the
-Terraform provider code, and help is needed to update the Terraform provider code to handle the various breaking changes
-in the [Terraform Plugin Framework](https://github.com/hashicorp/terraform-plugin-framework).
+project with skills you may have in **Go** and **Typescript** by providing feedback on the Go and Typescript API client
+libraries which are automatically generated from the Rust code.
 
 Some of the next areas that I would like see being worked on include:
 
@@ -120,7 +117,6 @@ Some of the next areas that I would like see being worked on include:
 - [ ] Bots for Discord, Microsoft Teams and other team-chat services which can be used to approve or reject requests
 - [ ] Generation of Pulumi providers in Typescript and Go (maybe Python too?)
 - [ ] Improving the Terraform provider documentation and getting the provider published
-- [ ] CI and nightly builds on GitHub Actions
 - [ ] Setting up a collaborative development/staging environment for contributors
 - [ ] Setting up issue and contribution templates/standards/checks on GitHub
 - [ ] Add conditions for automatic approvals on a Satounki policy
@@ -177,6 +173,7 @@ With the `.env` file in place, you have everything you need to get started
 - `sqlite3 dev.db < dev_data.sql` to load some predictable dev data as mentioned above
 - `just tf` to generate the Terraform provider code and initialize the projects in `./terraform`
 - `cd terraform/platform` and `terraform apply` to create a company (modify as you see fit)
+  - `terraform import satounkiplatform_company.satounki 1` if you're using `dev_data.sql`
 - `cd terraform/company` and `terraform apply` to create some accounts and policies in that company (modify as you see
   fit)
 - `just satounki [user token (crj and smr are in dev_data.sql)] [command]` to start sending requests via the CLI

@@ -2,104 +2,112 @@ package provider
 
 import (
 	"context"
+	"fmt"
+	"github.com/hashicorp/terraform-plugin-framework/resource"
+	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
+	"github.com/hashicorp/terraform-plugin-framework/resource/schema/planmodifier"
+	"github.com/hashicorp/terraform-plugin-framework/resource/schema/stringplanmodifier"
+	"satounki"
 
-	"github.com/hashicorp/terraform-plugin-framework/diag"
 	"github.com/hashicorp/terraform-plugin-framework/path"
-	"github.com/hashicorp/terraform-plugin-framework/tfsdk"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 )
 
-// Ensure provider defined types fully satisfy framework interfaces
-var _ tfsdk.ResourceType = policyResourceType{}
-var _ tfsdk.Resource = policyResource{}
-var _ tfsdk.ResourceWithImportState = policyResource{}
+// Ensure the implementation satisfies the expected interfaces.
+var (
+	_ resource.Resource                = &policyResource{}
+	_ resource.ResourceWithConfigure   = &policyResource{}
+	_ resource.ResourceWithImportState = &policyResource{}
+)
 
-type policyResourceType struct{}
+// NewpolicyResource is a helper function to simplify the provider implementation.
+func NewPolicyResource() resource.Resource {
+	return &policyResource{}
+}
 
-func (t policyResourceType) GetSchema(ctx context.Context) (tfsdk.Schema, diag.Diagnostics) {
-	return tfsdk.Schema{
-		// This description is used by the documentation generator and the language server.
-		MarkdownDescription: resourceDoc(policyResourceData{}),
+// policyResource is the resource implementation.
+type policyResource struct {
+	client *satounki.API
+}
 
-		Attributes: map[string]tfsdk.Attribute{
-			"id": {
-				Computed:            true,
-				MarkdownDescription: fieldDoc(policyResourceData{}, "id"),
-				PlanModifiers: tfsdk.AttributePlanModifiers{
-					tfsdk.UseStateForUnknown(),
+// Metadata returns the resource type name.
+func (r *policyResource) Metadata(_ context.Context, req resource.MetadataRequest, resp *resource.MetadataResponse) {
+	resp.TypeName = req.ProviderTypeName + "_policy"
+}
+
+func (r *policyResource) Schema(_ context.Context, _ resource.SchemaRequest, resp *resource.SchemaResponse) {
+	resp.Schema = schema.Schema{
+		Description: resourceDoc(policyResourceData{}),
+		Attributes: map[string]schema.Attribute{
+			"id": schema.StringAttribute{
+				Description: fieldDoc(policyResourceData{}, "id"),
+				Computed:    true,
+				PlanModifiers: []planmodifier.String{
+					stringplanmodifier.UseStateForUnknown(),
 				},
-				Type: types.StringType,
 			},
-			"last_updated": {
-				MarkdownDescription: fieldDoc(policyResourceData{}, "last_updated"),
-				Type:                types.StringType,
-				Computed:            true,
+			"last_updated": schema.StringAttribute{
+				Description: fieldDoc(policyResourceData{}, "last_updated"),
+				Computed:    true,
 			},
-			"name": {
-				MarkdownDescription: fieldDoc(policyResourceData{}, "name"),
-				Type:                types.StringType,
-				Required:            true,
+			"name": schema.StringAttribute{
+				Description: fieldDoc(policyResourceData{}, "name"),
+				Required:    true,
 			},
-			"description": {
-				MarkdownDescription: fieldDoc(policyResourceData{}, "description"),
-				Type:                types.StringType,
-				Required:            true,
+			"description": schema.StringAttribute{
+				Description: fieldDoc(policyResourceData{}, "description"),
+				Required:    true,
 			},
-			"aws": {
-				MarkdownDescription: fieldDoc(policyResourceData{}, "aws"),
-				Type: types.ListType{
-					ElemType: types.StringType,
-				},
-				Optional: true,
+			"aws": schema.ListAttribute{
+				ElementType: types.StringType,
+				Description: fieldDoc(policyResourceData{}, "aws"),
+				Optional:    true,
 			},
-			"cloudflare": {
-				MarkdownDescription: fieldDoc(policyResourceData{}, "cloudflare"),
-				Type: types.ListType{
-					ElemType: types.StringType,
-				},
-				Optional: true,
+			"cloudflare": schema.ListAttribute{
+				ElementType: types.StringType,
+				Description: fieldDoc(policyResourceData{}, "cloudflare"),
+				Optional:    true,
 			},
-			"gcp": {
-				MarkdownDescription: fieldDoc(policyResourceData{}, "gcp"),
-				Type: types.ListType{
-					ElemType: types.StringType,
-				},
-				Optional: true,
+			"gcp": schema.ListAttribute{
+				ElementType: types.StringType,
+				Description: fieldDoc(policyResourceData{}, "gcp"),
+				Optional:    true,
 			},
 		},
-	}, nil
+	}
 }
 
-func (t policyResourceType) NewResource(ctx context.Context, in tfsdk.Provider) (tfsdk.Resource, diag.Diagnostics) {
-	provider, diags := convertProviderType(in)
-
-	return policyResource{
-		provider: provider,
-	}, diags
-}
-
-type policyResource struct {
-	provider provider
-}
-
-func (r policyResource) Create(ctx context.Context, req tfsdk.CreateResourceRequest, resp *tfsdk.CreateResourceResponse) {
-	if !r.provider.configured {
-		resp.Diagnostics.AddError(
-			"Provider not configured",
-			"The provider hasn't been configured before apply, likely because it depends on an unknown value from another resource. This leads to weird stuff happening, so we'd prefer if you didn't do that. Thanks!",
-		)
+func (r *policyResource) Configure(_ context.Context, req resource.ConfigureRequest, resp *resource.ConfigureResponse) {
+	if req.ProviderData == nil {
 		return
 	}
 
-	var data policyResourceData
+	client, ok := req.ProviderData.(satounki.API)
 
-	diags := req.Config.Get(ctx, &data)
+	if !ok {
+		resp.Diagnostics.AddError(
+			"Unexpected Data Source Configure Type",
+			fmt.Sprintf("Expected *satounki.API, got: %T. Please report this issue to the provider developers.", req.ProviderData),
+		)
+
+		return
+	}
+
+	r.client = &client
+}
+
+func (r *policyResource) Create(ctx context.Context, req resource.CreateRequest, resp *resource.CreateResponse) {
+	// Retrieve values from plan
+	var plan policyResourceData
+	diags := req.Plan.Get(ctx, &plan)
 	resp.Diagnostics.Append(diags...)
 	if resp.Diagnostics.HasError() {
 		return
 	}
 
-	response, _, err := r.provider.api.PolicyPost(data.PostBody())
+	body := plan.PostBody()
+
+	response, _, err := r.client.PolicyPost(body)
 	if err != nil {
 		resp.Diagnostics.AddError("Error creating policy",
 			err.Error(),
@@ -108,33 +116,26 @@ func (r policyResource) Create(ctx context.Context, req tfsdk.CreateResourceRequ
 		return
 	}
 
-	data.PostResponse(response)
+	plan.PostResponse(response)
 
-	diags = resp.State.Set(ctx, data)
+	// Set state to fully populated data
+	diags = resp.State.Set(ctx, plan)
 	resp.Diagnostics.Append(diags...)
 	if resp.Diagnostics.HasError() {
 		return
 	}
 }
 
-func (r policyResource) Read(ctx context.Context, req tfsdk.ReadResourceRequest, resp *tfsdk.ReadResourceResponse) {
-	if !r.provider.configured {
-		resp.Diagnostics.AddError(
-			"Provider not configured",
-			"The provider hasn't been configured before apply, likely because it depends on an unknown value from another resource. This leads to weird stuff happening, so we'd prefer if you didn't do that. Thanks!",
-		)
-		return
-	}
-
-	var data policyResourceData
-
-	diags := req.State.Get(ctx, &data)
+func (r *policyResource) Read(ctx context.Context, req resource.ReadRequest, resp *resource.ReadResponse) {
+	// Get current state
+	var state policyResourceData
+	diags := req.State.Get(ctx, &state)
 	resp.Diagnostics.Append(diags...)
 	if resp.Diagnostics.HasError() {
 		return
 	}
 
-	response, _, err := r.provider.api.PolicyGet(data.ID.Value)
+	response, _, err := r.client.PolicyGet(state.ID.ValueString())
 	if err != nil {
 		resp.Diagnostics.AddError("Error reading policy",
 			err.Error(),
@@ -143,41 +144,28 @@ func (r policyResource) Read(ctx context.Context, req tfsdk.ReadResourceRequest,
 		return
 	}
 
-	data.GetResponse(response)
+	state.GetResponse(response)
 
-	diags = resp.State.Set(ctx, data)
+	// Set refreshed state
+	diags = resp.State.Set(ctx, &state)
 	resp.Diagnostics.Append(diags...)
 	if resp.Diagnostics.HasError() {
 		return
 	}
 }
 
-func (r policyResource) Update(ctx context.Context, req tfsdk.UpdateResourceRequest, resp *tfsdk.UpdateResourceResponse) {
-	if !r.provider.configured {
-		resp.Diagnostics.AddError(
-			"Provider not configured",
-			"The provider hasn't been configured before apply, likely because it depends on an unknown value from another resource. This leads to weird stuff happening, so we'd prefer if you didn't do that. Thanks!",
-		)
-		return
-	}
-
-	var data policyResourceData
-
-	diags := req.Plan.Get(ctx, &data)
+func (r *policyResource) Update(ctx context.Context, req resource.UpdateRequest, resp *resource.UpdateResponse) {
+	// Retrieve values from plan
+	var plan policyResourceData
+	diags := req.Plan.Get(ctx, &plan)
 	resp.Diagnostics.Append(diags...)
 	if resp.Diagnostics.HasError() {
 		return
 	}
 
-	var state policyResourceData
-	diags = req.State.Get(ctx, &state)
-	resp.Diagnostics.Append(diags...)
+	body := plan.PutBody()
 
-	if resp.Diagnostics.HasError() {
-		return
-	}
-
-	response, _, err := r.provider.api.PolicyPut(state.ID.Value, data.PutBody())
+	response, _, err := r.client.PolicyPut(plan.ID.ValueString(), body)
 	if err != nil {
 		resp.Diagnostics.AddError("Error updating policy",
 			err.Error(),
@@ -186,34 +174,26 @@ func (r policyResource) Update(ctx context.Context, req tfsdk.UpdateResourceRequ
 		return
 	}
 
-	data.PutResponse(response)
+	plan.PutResponse(response)
 
-	diags = resp.State.Set(ctx, data)
+	diags = resp.State.Set(ctx, plan)
 	resp.Diagnostics.Append(diags...)
 	if resp.Diagnostics.HasError() {
 		return
 	}
 }
 
-func (r policyResource) Delete(ctx context.Context, req tfsdk.DeleteResourceRequest, resp *tfsdk.DeleteResourceResponse) {
-	if !r.provider.configured {
-		resp.Diagnostics.AddError(
-			"Provider not configured",
-			"The provider hasn't been configured before apply, likely because it depends on an unknown value from another resource. This leads to weird stuff happening, so we'd prefer if you didn't do that. Thanks!",
-		)
-		return
-	}
-
-	var data policyResourceData
-
-	diags := req.State.Get(ctx, &data)
+func (r *policyResource) Delete(ctx context.Context, req resource.DeleteRequest, resp *resource.DeleteResponse) {
+	// Retrieve values from state
+	var state policyResourceData
+	diags := req.State.Get(ctx, &state)
 	resp.Diagnostics.Append(diags...)
-
 	if resp.Diagnostics.HasError() {
 		return
 	}
 
-	if err := r.provider.api.PolicyDelete(data.ID.Value); err != nil {
+	err := r.client.PolicyDelete(state.ID.ValueString())
+	if err != nil {
 		resp.Diagnostics.AddError("Client Error",
 			err.Error(),
 		)
@@ -224,6 +204,7 @@ func (r policyResource) Delete(ctx context.Context, req tfsdk.DeleteResourceRequ
 	resp.State.RemoveResource(ctx)
 }
 
-func (r policyResource) ImportState(ctx context.Context, req tfsdk.ImportResourceStateRequest, resp *tfsdk.ImportResourceStateResponse) {
-	tfsdk.ResourceImportStatePassthroughID(ctx, path.Root("id"), req, resp)
+func (r *policyResource) ImportState(ctx context.Context, req resource.ImportStateRequest, resp *resource.ImportStateResponse) {
+	// Retrieve import ID and save to id attribute
+	resource.ImportStatePassthroughID(ctx, path.Root("id"), req, resp)
 }

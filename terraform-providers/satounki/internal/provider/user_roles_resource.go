@@ -2,86 +2,97 @@ package provider
 
 import (
 	"context"
-	"satounki"
-
-	"github.com/hashicorp/terraform-plugin-framework/diag"
+	"fmt"
 	"github.com/hashicorp/terraform-plugin-framework/path"
-	"github.com/hashicorp/terraform-plugin-framework/tfsdk"
+	"github.com/hashicorp/terraform-plugin-framework/resource"
+	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
+	"github.com/hashicorp/terraform-plugin-framework/resource/schema/planmodifier"
+	"github.com/hashicorp/terraform-plugin-framework/resource/schema/stringplanmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/types"
+	"satounki"
 )
 
-// Ensure provider defined types fully satisfy framework interfaces
-var _ tfsdk.ResourceType = userRolesResourceType{}
-var _ tfsdk.Resource = userRolesResource{}
-var _ tfsdk.ResourceWithImportState = userRolesResource{}
+// Ensure the implementation satisfies the expected interfaces.
+var (
+	_ resource.Resource                = &userRolesResource{}
+	_ resource.ResourceWithConfigure   = &userRolesResource{}
+	_ resource.ResourceWithImportState = &userRolesResource{}
+)
 
-type userRolesResourceType struct{}
+// NewUserRolesResource is a helper function to simplify the provider implementation.
+func NewUserRolesResource() resource.Resource {
+	return &userRolesResource{}
+}
 
-func (t userRolesResourceType) GetSchema(ctx context.Context) (tfsdk.Schema, diag.Diagnostics) {
-	return tfsdk.Schema{
-		// This description is used by the documentation generator and the language server.
-		MarkdownDescription: resourceDoc(userRolesResourceData{}),
+// userRolesResource is the resource implementation.
+type userRolesResource struct {
+	client *satounki.API
+}
 
-		Attributes: map[string]tfsdk.Attribute{
-			"id": {
-				Computed:            true,
-				MarkdownDescription: fieldDoc(userRolesResourceData{}, "id"),
-				PlanModifiers: tfsdk.AttributePlanModifiers{
-					tfsdk.UseStateForUnknown(),
+// Metadata returns the resource type name.
+func (r *userRolesResource) Metadata(_ context.Context, req resource.MetadataRequest, resp *resource.MetadataResponse) {
+	resp.TypeName = req.ProviderTypeName + "_user_roles"
+}
+
+func (r *userRolesResource) Schema(_ context.Context, _ resource.SchemaRequest, resp *resource.SchemaResponse) {
+	resp.Schema = schema.Schema{
+		Description: resourceDoc(userRolesResourceData{}),
+		Attributes: map[string]schema.Attribute{
+			"id": schema.StringAttribute{
+				Description: fieldDoc(userRolesResourceData{}, "id"),
+				Computed:    true,
+				PlanModifiers: []planmodifier.String{
+					stringplanmodifier.UseStateForUnknown(),
 				},
-				Type: types.StringType,
 			},
-			"last_updated": {
-				MarkdownDescription: fieldDoc(userRolesResourceData{}, "last_updated"),
-				Type:                types.StringType,
-				Computed:            true,
+			"last_updated": schema.StringAttribute{
+				Description: fieldDoc(userRolesResourceData{}, "last_updated"),
+				Computed:    true,
 			},
-			"email": {
-				MarkdownDescription: fieldDoc(userRolesResourceData{}, "email"),
-				Type:                types.StringType,
-				Required:            true,
+			"email": schema.StringAttribute{
+				Description: fieldDoc(userRolesResourceData{}, "email"),
+				Required:    true,
 			},
-			"access_roles": {
-				MarkdownDescription: fieldDoc(userRolesResourceData{}, "access_roles"),
-				Type: types.ListType{
-					ElemType: types.StringType,
-				},
-				Required: true,
+			"access_roles": schema.ListAttribute{
+				ElementType: types.StringType,
+				Description: fieldDoc(userRolesResourceData{}, "access_roles"),
+				Required:    true,
 			},
 		},
-	}, nil
+	}
 }
 
-func (t userRolesResourceType) NewResource(ctx context.Context, in tfsdk.Provider) (tfsdk.Resource, diag.Diagnostics) {
-	provider, diags := convertProviderType(in)
-
-	return userRolesResource{
-		provider: provider,
-	}, diags
-}
-
-type userRolesResource struct {
-	provider provider
-}
-
-func (r userRolesResource) Create(ctx context.Context, req tfsdk.CreateResourceRequest, resp *tfsdk.CreateResourceResponse) {
-	if !r.provider.configured {
-		resp.Diagnostics.AddError(
-			"Provider not configured",
-			"The provider hasn't been configured before apply, likely because it depends on an unknown value from another resource. This leads to weird stuff happening, so we'd prefer if you didn't do that. Thanks!",
-		)
+func (r *userRolesResource) Configure(_ context.Context, req resource.ConfigureRequest, resp *resource.ConfigureResponse) {
+	if req.ProviderData == nil {
 		return
 	}
 
-	var data userRolesResourceData
+	client, ok := req.ProviderData.(satounki.API)
 
-	diags := req.Config.Get(ctx, &data)
+	if !ok {
+		resp.Diagnostics.AddError(
+			"Unexpected Data Source Configure Type",
+			fmt.Sprintf("Expected *satounki.API, got: %T. Please report this issue to the provider developers.", req.ProviderData),
+		)
+
+		return
+	}
+
+	r.client = &client
+}
+
+func (r *userRolesResource) Create(ctx context.Context, req resource.CreateRequest, resp *resource.CreateResponse) {
+	// Retrieve values from plan
+	var plan userRolesResourceData
+	diags := req.Plan.Get(ctx, &plan)
 	resp.Diagnostics.Append(diags...)
 	if resp.Diagnostics.HasError() {
 		return
 	}
 
-	response, _, err := r.provider.api.UserRolesPost(data.Email.Value, data.PostBody())
+	body := plan.PostBody()
+
+	response, _, err := r.client.UserRolesPost(plan.Email.ValueString(), body)
 	if err != nil {
 		resp.Diagnostics.AddError("Error creating user roles",
 			err.Error(),
@@ -90,33 +101,26 @@ func (r userRolesResource) Create(ctx context.Context, req tfsdk.CreateResourceR
 		return
 	}
 
-	data.PostResponse(response)
+	plan.PostResponse(response)
 
-	diags = resp.State.Set(ctx, data)
+	// Set state to fully populated data
+	diags = resp.State.Set(ctx, plan)
 	resp.Diagnostics.Append(diags...)
 	if resp.Diagnostics.HasError() {
 		return
 	}
 }
 
-func (r userRolesResource) Read(ctx context.Context, req tfsdk.ReadResourceRequest, resp *tfsdk.ReadResourceResponse) {
-	if !r.provider.configured {
-		resp.Diagnostics.AddError(
-			"Provider not configured",
-			"The provider hasn't been configured before apply, likely because it depends on an unknown value from another resource. This leads to weird stuff happening, so we'd prefer if you didn't do that. Thanks!",
-		)
-		return
-	}
-
-	var data userRolesResourceData
-
-	diags := req.State.Get(ctx, &data)
+func (r *userRolesResource) Read(ctx context.Context, req resource.ReadRequest, resp *resource.ReadResponse) {
+	// Get current state
+	var state userRolesResourceData
+	diags := req.State.Get(ctx, &state)
 	resp.Diagnostics.Append(diags...)
 	if resp.Diagnostics.HasError() {
 		return
 	}
 
-	response, _, err := r.provider.api.UserRolesGet(data.Email.Value)
+	response, _, err := r.client.UserRolesGet(state.Email.ValueString())
 	if err != nil {
 		resp.Diagnostics.AddError("Error reading user roles",
 			err.Error(),
@@ -125,78 +129,56 @@ func (r userRolesResource) Read(ctx context.Context, req tfsdk.ReadResourceReque
 		return
 	}
 
-	data.GetResponse(response)
+	state.GetResponse(response)
 
-	diags = resp.State.Set(ctx, data)
+	// Set refreshed state
+	diags = resp.State.Set(ctx, &state)
 	resp.Diagnostics.Append(diags...)
 	if resp.Diagnostics.HasError() {
 		return
 	}
 }
 
-func (r userRolesResource) Update(ctx context.Context, req tfsdk.UpdateResourceRequest, resp *tfsdk.UpdateResourceResponse) {
-	if !r.provider.configured {
-		resp.Diagnostics.AddError(
-			"Provider not configured",
-			"The provider hasn't been configured before apply, likely because it depends on an unknown value from another resource. This leads to weird stuff happening, so we'd prefer if you didn't do that. Thanks!",
-		)
-		return
-	}
-
-	var data userRolesResourceData
-
-	diags := req.Plan.Get(ctx, &data)
+func (r *userRolesResource) Update(ctx context.Context, req resource.UpdateRequest, resp *resource.UpdateResponse) {
+	// Retrieve values from plan
+	var plan userRolesResourceData
+	diags := req.Plan.Get(ctx, &plan)
 	resp.Diagnostics.Append(diags...)
 	if resp.Diagnostics.HasError() {
 		return
 	}
 
-	var state userRolesResourceData
-	diags = req.State.Get(ctx, &state)
-	resp.Diagnostics.Append(diags...)
+	body := plan.PutBody()
 
-	if resp.Diagnostics.HasError() {
-		return
-	}
-
-	response, _, err := r.provider.api.UserRolesPut(state.Email.Value, data.PutBody())
+	response, _, err := r.client.UserRolesPut(plan.Email.ValueString(), body)
 	if err != nil {
-		resp.Diagnostics.AddError("Error updating user roles",
+		resp.Diagnostics.AddError("Error updating company",
 			err.Error(),
 		)
 
 		return
 	}
 
-	data.PutResponse(response)
+	plan.PutResponse(response)
 
-	diags = resp.State.Set(ctx, data)
+	diags = resp.State.Set(ctx, plan)
 	resp.Diagnostics.Append(diags...)
 	if resp.Diagnostics.HasError() {
 		return
 	}
 }
 
-func (r userRolesResource) Delete(ctx context.Context, req tfsdk.DeleteResourceRequest, resp *tfsdk.DeleteResourceResponse) {
-	if !r.provider.configured {
-		resp.Diagnostics.AddError(
-			"Provider not configured",
-			"The provider hasn't been configured before apply, likely because it depends on an unknown value from another resource. This leads to weird stuff happening, so we'd prefer if you didn't do that. Thanks!",
-		)
-		return
-	}
-
-	var data userRolesResourceData
-
-	diags := req.State.Get(ctx, &data)
+func (r *userRolesResource) Delete(ctx context.Context, req resource.DeleteRequest, resp *resource.DeleteResponse) {
+	// Retrieve values from state
+	var state userRolesResourceData
+	diags := req.State.Get(ctx, &state)
 	resp.Diagnostics.Append(diags...)
-
 	if resp.Diagnostics.HasError() {
 		return
 	}
 
-	if _, _, err := r.provider.api.UserRolesPost(
-		data.Email.Value,
+	if _, _, err := r.client.UserRolesPost(
+		state.Email.ValueString(),
 		satounki.UserRolesPostBody([]satounki.AccessRole{})); err != nil {
 		resp.Diagnostics.AddError("Client Error",
 			err.Error(),
@@ -208,6 +190,7 @@ func (r userRolesResource) Delete(ctx context.Context, req tfsdk.DeleteResourceR
 	resp.State.RemoveResource(ctx)
 }
 
-func (r userRolesResource) ImportState(ctx context.Context, req tfsdk.ImportResourceStateRequest, resp *tfsdk.ImportResourceStateResponse) {
-	tfsdk.ResourceImportStatePassthroughID(ctx, path.Root("id"), req, resp)
+func (r *userRolesResource) ImportState(ctx context.Context, req resource.ImportStateRequest, resp *resource.ImportStateResponse) {
+	// Retrieve import ID and save to id attribute
+	resource.ImportStatePassthroughID(ctx, path.Root("email"), req, resp)
 }

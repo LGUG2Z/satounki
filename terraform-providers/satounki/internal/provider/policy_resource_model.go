@@ -1,10 +1,9 @@
 package provider
 
 import (
+	"github.com/hashicorp/terraform-plugin-framework/types"
 	"satounki"
 	"time"
-
-	"github.com/hashicorp/terraform-plugin-framework/types"
 )
 
 func (d policyResourceData) PostBody() satounki.PolicyPostBody {
@@ -13,23 +12,23 @@ func (d policyResourceData) PostBody() satounki.PolicyPostBody {
 	var gcp []string
 
 	for _, r := range d.Aws {
-		aws = append(aws, r.Value)
+		aws = append(aws, r.ValueString())
 	}
 
 	for _, r := range d.Cloudflare {
-		cloudflare = append(cloudflare, satounki.CloudflareRole(r.Value))
+		cloudflare = append(cloudflare, satounki.CloudflareRole(r.ValueString()))
 	}
 
 	for _, r := range d.Gcp {
-		gcp = append(gcp, r.Value)
+		gcp = append(gcp, r.ValueString())
 	}
 
 	return satounki.PolicyPostBody{
 		Aws:         aws,
 		Cloudflare:  cloudflare,
-		Description: d.Description.Value,
+		Description: d.Description.ValueString(),
 		Gcp:         gcp,
-		Name:        d.Name.Value,
+		Name:        d.Name.ValueString(),
 	}
 }
 
@@ -39,21 +38,21 @@ func (d *policyResourceData) PostResponse(r satounki.PolicyPostResponse) {
 	var gcp []types.String
 
 	for _, p := range r.Aws {
-		aws = append(aws, types.String{Value: p})
+		aws = append(aws, types.StringValue(p))
 	}
 
 	for _, p := range r.Cloudflare {
-		cloudflare = append(cloudflare, types.String{Value: string(p)})
+		cloudflare = append(cloudflare, types.StringValue(string(p)))
 	}
 
 	for _, p := range r.Gcp {
-		gcp = append(gcp, types.String{Value: p})
+		gcp = append(gcp, types.StringValue(p))
 	}
 
-	d.ID = types.String{Value: r.ID}
-	d.LastUpdated = types.String{Value: time.Now().Format(time.RFC850)}
-	d.Description = types.String{Value: r.Description}
-	d.Name = types.String{Value: r.Name}
+	d.ID = types.StringValue(r.ID)
+	d.LastUpdated = types.StringValue(time.Now().Format(time.RFC850))
+	d.Description = types.StringValue(r.Description)
+	d.Name = types.StringValue(r.Name)
 	d.Aws = aws
 	d.Cloudflare = cloudflare
 	d.Gcp = gcp
@@ -65,23 +64,23 @@ func (d policyResourceData) PutBody() satounki.PolicyPutBody {
 	var gcp []string
 
 	for _, r := range d.Aws {
-		aws = append(aws, r.Value)
+		aws = append(aws, r.ValueString())
 	}
 
 	for _, r := range d.Cloudflare {
-		cloudflare = append(cloudflare, satounki.CloudflareRole(r.Value))
+		cloudflare = append(cloudflare, satounki.CloudflareRole(r.ValueString()))
 	}
 
 	for _, r := range d.Gcp {
-		gcp = append(gcp, r.Value)
+		gcp = append(gcp, r.ValueString())
 	}
 
 	return satounki.PolicyPutBody{
 		Aws:         aws,
 		Cloudflare:  cloudflare,
-		Description: d.Description.Value,
+		Description: d.Description.ValueString(),
 		Gcp:         gcp,
-		Name:        d.Name.Value,
+		Name:        d.Name.ValueString(),
 	}
 
 }
@@ -92,20 +91,20 @@ func (d *policyResourceData) PutResponse(r satounki.PolicyPutResponse) {
 	var gcp []types.String
 
 	for _, p := range r.Aws {
-		aws = append(aws, types.String{Value: p})
+		aws = append(aws, types.StringValue(p))
 	}
 
 	for _, p := range r.Cloudflare {
-		cloudflare = append(cloudflare, types.String{Value: string(p)})
+		cloudflare = append(cloudflare, types.StringValue(string(p)))
 	}
 
 	for _, p := range r.Gcp {
-		gcp = append(gcp, types.String{Value: p})
+		gcp = append(gcp, types.StringValue(p))
 	}
 
-	d.LastUpdated = types.String{Value: time.Now().Format(time.RFC850)}
-	d.Description = types.String{Value: r.Description}
-	d.Name = types.String{Value: r.Name}
+	d.LastUpdated = types.StringValue(time.Now().Format(time.RFC850))
+	d.Description = types.StringValue(r.Description)
+	d.Name = types.StringValue(r.Name)
 	d.Aws = aws
 	d.Cloudflare = cloudflare
 	d.Gcp = gcp
@@ -117,22 +116,21 @@ func (d *policyResourceData) GetResponse(r satounki.PolicyGetResponse) {
 	var gcp []types.String
 
 	for _, p := range r.Aws {
-		aws = append(aws, types.String{Value: p})
+		aws = append(aws, types.StringValue(p))
 	}
 
 	for _, p := range r.Cloudflare {
-		cloudflare = append(cloudflare, types.String{Value: string(p)})
+		cloudflare = append(cloudflare, types.StringValue(string(p)))
 	}
 
 	for _, p := range r.Gcp {
-		gcp = append(gcp, types.String{Value: p})
+		gcp = append(gcp, types.StringValue(p))
 	}
 
-	d.LastUpdated = types.String{Value: time.Now().Format(time.RFC850)}
-	d.Description = types.String{Value: r.Description}
-	d.Name = types.String{Value: r.Name}
+	d.LastUpdated = types.StringValue(time.Now().Format(time.RFC850))
+	d.Description = types.StringValue(r.Description)
+	d.Name = types.StringValue(r.Name)
 	d.Aws = aws
 	d.Cloudflare = cloudflare
 	d.Gcp = gcp
-
 }

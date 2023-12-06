@@ -24,5 +24,3 @@ Satounki user access roles
 
 - `id` (String) Terraform-generated resource ID
 - `last_updated` (String) Time of the last modification to this resource
-
-

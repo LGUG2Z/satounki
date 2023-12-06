@@ -11,6 +11,7 @@ fmt:
     gofmt -w ./terraform-providers/satounkiplatform
     gofmt -w ./terraform-providers/satounki
     cd terraform-providers/satounkiplatform && golangci-lint run
+    cd terraform-providers/satounki && golangci-lint run
     prettier -w ./satounki-ts
     prettier -w README.md
     tsc --noEmit -p ./satounki-ts/tsconfig.json

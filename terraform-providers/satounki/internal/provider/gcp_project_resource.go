@@ -2,88 +2,98 @@ package provider
 
 import (
 	"context"
-
-	"github.com/hashicorp/terraform-plugin-framework/diag"
+	"fmt"
 	"github.com/hashicorp/terraform-plugin-framework/path"
-	"github.com/hashicorp/terraform-plugin-framework/tfsdk"
-	"github.com/hashicorp/terraform-plugin-framework/types"
+	"github.com/hashicorp/terraform-plugin-framework/resource"
+	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
+	"github.com/hashicorp/terraform-plugin-framework/resource/schema/planmodifier"
+	"github.com/hashicorp/terraform-plugin-framework/resource/schema/stringplanmodifier"
+	"satounki"
 )
 
-// Ensure provider defined types fully satisfy framework interfaces
-var _ tfsdk.ResourceType = gcpProjectResourceType{}
-var _ tfsdk.Resource = gcpProjectResource{}
-var _ tfsdk.ResourceWithImportState = gcpProjectResource{}
+// Ensure the implementation satisfies the expected interfaces.
+var (
+	_ resource.Resource                = &gcpProjectResource{}
+	_ resource.ResourceWithConfigure   = &gcpProjectResource{}
+	_ resource.ResourceWithImportState = &gcpProjectResource{}
+)
 
-type gcpProjectResourceType struct{}
+// NewCompanyResource is a helper function to simplify the provider implementation.
+func NewGcpProjectResource() resource.Resource {
+	return &gcpProjectResource{}
+}
 
-func (t gcpProjectResourceType) GetSchema(ctx context.Context) (tfsdk.Schema, diag.Diagnostics) {
-	return tfsdk.Schema{
-		// This description is used by the documentation generator and the language server.
-		MarkdownDescription: resourceDoc(gcpProjectResourceData{}),
+// gcpProjectResource is the resource implementation.
+type gcpProjectResource struct {
+	client *satounki.API
+}
 
-		Attributes: map[string]tfsdk.Attribute{
-			"id": {
-				Computed:            true,
-				MarkdownDescription: fieldDoc(gcpProjectResourceData{}, "id"),
-				PlanModifiers: tfsdk.AttributePlanModifiers{
-					tfsdk.UseStateForUnknown(),
+func (r *gcpProjectResource) Metadata(_ context.Context, req resource.MetadataRequest, resp *resource.MetadataResponse) {
+	resp.TypeName = req.ProviderTypeName + "_gcp_project"
+}
+
+func (r *gcpProjectResource) Schema(_ context.Context, _ resource.SchemaRequest, resp *resource.SchemaResponse) {
+	resp.Schema = schema.Schema{
+		Description: resourceDoc(gcpProjectResourceData{}),
+		Attributes: map[string]schema.Attribute{
+			"id": schema.StringAttribute{
+				Description: fieldDoc(gcpProjectResourceData{}, "id"),
+				Computed:    true,
+				PlanModifiers: []planmodifier.String{
+					stringplanmodifier.UseStateForUnknown(),
 				},
-				Type: types.StringType,
 			},
-			"last_updated": {
-				MarkdownDescription: fieldDoc(gcpProjectResourceData{}, "last_updated"),
-				Type:                types.StringType,
-				Computed:            true,
+			"last_updated": schema.StringAttribute{
+				Description: fieldDoc(gcpProjectResourceData{}, "last_updated"),
+				Computed:    true,
 			},
-			"project": {
-				MarkdownDescription: fieldDoc(gcpProjectResourceData{}, "project"),
-				Type:                types.StringType,
-				Required:            true,
+			"project": schema.StringAttribute{
+				Description: fieldDoc(gcpProjectResourceData{}, "project"),
+				Required:    true,
 			},
-			"approvals_required": {
-				MarkdownDescription: fieldDoc(gcpProjectResourceData{}, "approvals_required"),
-				Type:                types.Int64Type,
-				Required:            true,
+			"approvals_required": schema.Int64Attribute{
+				Description: fieldDoc(gcpProjectResourceData{}, "approvals_required"),
+				Required:    true,
 			},
-			"admin_approval_required": {
-				MarkdownDescription: fieldDoc(gcpProjectResourceData{}, "admin_approval_required"),
-				Type:                types.BoolType,
-				Required:            true,
+			"admin_approval_required": schema.BoolAttribute{
+				Description: fieldDoc(gcpProjectResourceData{}, "admin_approval_required"),
+				Required:    true,
 			},
 		},
-	}, nil
+	}
 }
 
-func (t gcpProjectResourceType) NewResource(ctx context.Context, in tfsdk.Provider) (tfsdk.Resource, diag.Diagnostics) {
-	provider, diags := convertProviderType(in)
-
-	return gcpProjectResource{
-		provider: provider,
-	}, diags
-}
-
-type gcpProjectResource struct {
-	provider provider
-}
-
-func (r gcpProjectResource) Create(ctx context.Context, req tfsdk.CreateResourceRequest, resp *tfsdk.CreateResourceResponse) {
-	if !r.provider.configured {
-		resp.Diagnostics.AddError(
-			"Provider not configured",
-			"The provider hasn't been configured before apply, likely because it depends on an unknown value from another resource. This leads to weird stuff happening, so we'd prefer if you didn't do that. Thanks!",
-		)
+func (r *gcpProjectResource) Configure(_ context.Context, req resource.ConfigureRequest, resp *resource.ConfigureResponse) {
+	if req.ProviderData == nil {
 		return
 	}
 
-	var data gcpProjectResourceData
+	client, ok := req.ProviderData.(satounki.API)
 
-	diags := req.Config.Get(ctx, &data)
+	if !ok {
+		resp.Diagnostics.AddError(
+			"Unexpected Data Source Configure Type",
+			fmt.Sprintf("Expected *satounki.API, got: %T. Please report this issue to the provider developers.", req.ProviderData),
+		)
+
+		return
+	}
+
+	r.client = &client
+}
+
+func (r *gcpProjectResource) Create(ctx context.Context, req resource.CreateRequest, resp *resource.CreateResponse) {
+	// Retrieve values from plan
+	var plan gcpProjectResourceData
+	diags := req.Plan.Get(ctx, &plan)
 	resp.Diagnostics.Append(diags...)
 	if resp.Diagnostics.HasError() {
 		return
 	}
 
-	response, _, err := r.provider.api.SettingsGcpProjectPost(data.PostBody())
+	body := plan.PostBody()
+
+	response, _, err := r.client.SettingsGcpProjectPost(body)
 	if err != nil {
 		resp.Diagnostics.AddError("Error creating GCP project",
 			err.Error(),
@@ -92,33 +102,26 @@ func (r gcpProjectResource) Create(ctx context.Context, req tfsdk.CreateResource
 		return
 	}
 
-	data.PostResponse(response)
+	plan.PostResponse(response)
 
-	diags = resp.State.Set(ctx, data)
+	// Set state to fully populated data
+	diags = resp.State.Set(ctx, plan)
 	resp.Diagnostics.Append(diags...)
 	if resp.Diagnostics.HasError() {
 		return
 	}
 }
 
-func (r gcpProjectResource) Read(ctx context.Context, req tfsdk.ReadResourceRequest, resp *tfsdk.ReadResourceResponse) {
-	if !r.provider.configured {
-		resp.Diagnostics.AddError(
-			"Provider not configured",
-			"The provider hasn't been configured before apply, likely because it depends on an unknown value from another resource. This leads to weird stuff happening, so we'd prefer if you didn't do that. Thanks!",
-		)
-		return
-	}
-
-	var data gcpProjectResourceData
-
-	diags := req.State.Get(ctx, &data)
+func (r *gcpProjectResource) Read(ctx context.Context, req resource.ReadRequest, resp *resource.ReadResponse) {
+	// Get current state
+	var state gcpProjectResourceData
+	diags := req.State.Get(ctx, &state)
 	resp.Diagnostics.Append(diags...)
 	if resp.Diagnostics.HasError() {
 		return
 	}
 
-	response, _, err := r.provider.api.SettingsGcpProjectGet(data.ID.Value)
+	response, _, err := r.client.SettingsGcpProjectGet(state.ID.ValueString())
 	if err != nil {
 		resp.Diagnostics.AddError("Error reading GCP project",
 			err.Error(),
@@ -127,41 +130,28 @@ func (r gcpProjectResource) Read(ctx context.Context, req tfsdk.ReadResourceRequ
 		return
 	}
 
-	data.GetResponse(response)
+	state.GetResponse(response)
 
-	diags = resp.State.Set(ctx, data)
+	// Set refreshed state
+	diags = resp.State.Set(ctx, &state)
 	resp.Diagnostics.Append(diags...)
 	if resp.Diagnostics.HasError() {
 		return
 	}
 }
 
-func (r gcpProjectResource) Update(ctx context.Context, req tfsdk.UpdateResourceRequest, resp *tfsdk.UpdateResourceResponse) {
-	if !r.provider.configured {
-		resp.Diagnostics.AddError(
-			"Provider not configured",
-			"The provider hasn't been configured before apply, likely because it depends on an unknown value from another resource. This leads to weird stuff happening, so we'd prefer if you didn't do that. Thanks!",
-		)
-		return
-	}
-
-	var data gcpProjectResourceData
-
-	diags := req.Plan.Get(ctx, &data)
+func (r *gcpProjectResource) Update(ctx context.Context, req resource.UpdateRequest, resp *resource.UpdateResponse) {
+	// Retrieve values from plan
+	var plan gcpProjectResourceData
+	diags := req.Plan.Get(ctx, &plan)
 	resp.Diagnostics.Append(diags...)
 	if resp.Diagnostics.HasError() {
 		return
 	}
 
-	var state gcpProjectResourceData
-	diags = req.State.Get(ctx, &state)
-	resp.Diagnostics.Append(diags...)
+	body := plan.PutBody()
 
-	if resp.Diagnostics.HasError() {
-		return
-	}
-
-	response, _, err := r.provider.api.SettingsGcpProjectPut(state.ID.Value, data.PutBody())
+	response, _, err := r.client.SettingsGcpProjectPut(plan.ID.ValueString(), body)
 	if err != nil {
 		resp.Diagnostics.AddError("Error updating GCP project",
 			err.Error(),
@@ -170,34 +160,26 @@ func (r gcpProjectResource) Update(ctx context.Context, req tfsdk.UpdateResource
 		return
 	}
 
-	data.PutResponse(response)
+	plan.PutResponse(response)
 
-	diags = resp.State.Set(ctx, data)
+	diags = resp.State.Set(ctx, plan)
 	resp.Diagnostics.Append(diags...)
 	if resp.Diagnostics.HasError() {
 		return
 	}
 }
 
-func (r gcpProjectResource) Delete(ctx context.Context, req tfsdk.DeleteResourceRequest, resp *tfsdk.DeleteResourceResponse) {
-	if !r.provider.configured {
-		resp.Diagnostics.AddError(
-			"Provider not configured",
-			"The provider hasn't been configured before apply, likely because it depends on an unknown value from another resource. This leads to weird stuff happening, so we'd prefer if you didn't do that. Thanks!",
-		)
-		return
-	}
-
-	var data gcpProjectResourceData
-
-	diags := req.State.Get(ctx, &data)
+func (r *gcpProjectResource) Delete(ctx context.Context, req resource.DeleteRequest, resp *resource.DeleteResponse) {
+	// Retrieve values from state
+	var state gcpProjectResourceData
+	diags := req.State.Get(ctx, &state)
 	resp.Diagnostics.Append(diags...)
-
 	if resp.Diagnostics.HasError() {
 		return
 	}
 
-	if err := r.provider.api.SettingsGcpProjectDelete(data.ID.Value); err != nil {
+	err := r.client.SettingsGcpProjectDelete(state.ID.ValueString())
+	if err != nil {
 		resp.Diagnostics.AddError("Client Error",
 			err.Error(),
 		)
@@ -208,6 +190,7 @@ func (r gcpProjectResource) Delete(ctx context.Context, req tfsdk.DeleteResource
 	resp.State.RemoveResource(ctx)
 }
 
-func (r gcpProjectResource) ImportState(ctx context.Context, req tfsdk.ImportResourceStateRequest, resp *tfsdk.ImportResourceStateResponse) {
-	tfsdk.ResourceImportStatePassthroughID(ctx, path.Root("id"), req, resp)
+func (r *gcpProjectResource) ImportState(ctx context.Context, req resource.ImportStateRequest, resp *resource.ImportStateResponse) {
+	// Retrieve import ID and save to id attribute
+	resource.ImportStatePassthroughID(ctx, path.Root("id"), req, resp)
 }

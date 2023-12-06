@@ -18,5 +18,5 @@ dev.db*
 process-compose.yaml
 tunnel-credentials.json
 tunnel-config.yaml
-terraform/*/.terraform.lock.hcl
+.terraform.lock.hcl
 result

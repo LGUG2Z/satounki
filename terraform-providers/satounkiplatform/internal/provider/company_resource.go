@@ -2,108 +2,110 @@ package provider
 
 import (
 	"context"
-
-	"github.com/hashicorp/terraform-plugin-framework/diag"
+	"fmt"
 	"github.com/hashicorp/terraform-plugin-framework/path"
-	"github.com/hashicorp/terraform-plugin-framework/tfsdk"
-	"github.com/hashicorp/terraform-plugin-framework/types"
+	"github.com/hashicorp/terraform-plugin-framework/resource"
+	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
+	"github.com/hashicorp/terraform-plugin-framework/resource/schema/planmodifier"
+	"github.com/hashicorp/terraform-plugin-framework/resource/schema/stringplanmodifier"
+	satounki "satounki-platform"
 )
 
-// Ensure provider defined types fully satisfy framework interfaces
-var _ tfsdk.ResourceType = companyResourceType{}
-var _ tfsdk.Resource = companyResource{}
-var _ tfsdk.ResourceWithImportState = companyResource{}
+// Ensure the implementation satisfies the expected interfaces.
+var (
+	_ resource.Resource                = &companyResource{}
+	_ resource.ResourceWithConfigure   = &companyResource{}
+	_ resource.ResourceWithImportState = &companyResource{}
+)
 
-type companyResourceType struct{}
+// NewCompanyResource is a helper function to simplify the provider implementation.
+func NewCompanyResource() resource.Resource {
+	return &companyResource{}
+}
 
-func (t companyResourceType) GetSchema(ctx context.Context) (tfsdk.Schema, diag.Diagnostics) {
-	return tfsdk.Schema{
-		// This description is used by the documentation generator and the language server.
-		MarkdownDescription: resourceDoc(companyResourceData{}),
+// companyResource is the resource implementation.
+type companyResource struct {
+	client *satounki.API
+}
 
-		Attributes: map[string]tfsdk.Attribute{
-			"id": {
-				Computed:            true,
-				MarkdownDescription: fieldDoc(companyResourceData{}, "id"),
-				PlanModifiers: tfsdk.AttributePlanModifiers{
-					tfsdk.UseStateForUnknown(),
+// Metadata returns the resource type name.
+func (r *companyResource) Metadata(_ context.Context, req resource.MetadataRequest, resp *resource.MetadataResponse) {
+	resp.TypeName = req.ProviderTypeName + "_company"
+}
+
+// Schema defines the schema for the resource.
+func (r *companyResource) Schema(_ context.Context, _ resource.SchemaRequest, resp *resource.SchemaResponse) {
+	resp.Schema = schema.Schema{
+		Description: resourceDoc(companyResourceData{}),
+		Attributes: map[string]schema.Attribute{
+			"id": schema.StringAttribute{
+				Description: fieldDoc(companyResourceData{}, "id"),
+				Computed:    true,
+				PlanModifiers: []planmodifier.String{
+					stringplanmodifier.UseStateForUnknown(),
 				},
-				Type: types.StringType,
 			},
-			"last_updated": {
-				MarkdownDescription: fieldDoc(companyResourceData{}, "last_updated"),
-				Type:                types.StringType,
-				Computed:            true,
+			"last_updated": schema.StringAttribute{
+				Description: fieldDoc(companyResourceData{}, "last_updated"),
+				Computed:    true,
 			},
-			"name": {
-				MarkdownDescription: fieldDoc(companyResourceData{}, "name"),
-				Type:                types.StringType,
-				Required:            true,
+			"name": schema.StringAttribute{
+				Description: fieldDoc(companyResourceData{}, "name"),
+				Required:    true,
 			},
-			"domain": {
-				MarkdownDescription: fieldDoc(companyResourceData{}, "domain"),
-				Type:                types.StringType,
-				Required:            true,
+			"domain": schema.StringAttribute{
+				Description: fieldDoc(companyResourceData{}, "domain"),
+				Required:    true,
 			},
-			"root_user_email": {
-				MarkdownDescription: fieldDoc(companyResourceData{}, "root_user_email"),
-				Type:                types.StringType,
-				Required:            true,
+			"root_user_email": schema.StringAttribute{
+				Description: fieldDoc(companyResourceData{}, "root_user_email"),
+				Required:    true,
 			},
-			"root_user_first_name": {
-				MarkdownDescription: fieldDoc(companyResourceData{}, "root_user_first_name"),
-				Type:                types.StringType,
-				Required:            true,
+			"root_user_first_name": schema.StringAttribute{
+				Description: fieldDoc(companyResourceData{}, "root_user_first_name"),
+				Required:    true,
 			},
-			"root_user_last_name": {
-				MarkdownDescription: fieldDoc(companyResourceData{}, "root_user_last_name"),
-				Type:                types.StringType,
-				Required:            true,
+			"root_user_last_name": schema.StringAttribute{
+				Description: fieldDoc(companyResourceData{}, "root_user_last_name"),
+				Required:    true,
 			},
 		},
-	}, nil
+	}
 }
 
-func (t companyResourceType) NewResource(ctx context.Context, in tfsdk.Provider) (tfsdk.Resource, diag.Diagnostics) {
-	provider, diags := convertProviderType(in)
-
-	return companyResource{
-		provider: provider,
-	}, diags
-}
-
-type companyResource struct {
-	provider provider
-}
-
-func (r companyResource) Create(ctx context.Context, req tfsdk.CreateResourceRequest, resp *tfsdk.CreateResourceResponse) {
-	if !r.provider.configured {
-		resp.Diagnostics.AddError(
-			"Provider not configured",
-			"The provider hasn't been configured before apply, likely because it depends on an unknown value from another resource. This leads to weird stuff happening, so we'd prefer if you didn't do that. Thanks!",
-		)
+// Configure adds the provider configured client to the resource.
+func (r *companyResource) Configure(_ context.Context, req resource.ConfigureRequest, resp *resource.ConfigureResponse) {
+	if req.ProviderData == nil {
 		return
 	}
 
-	var data companyResourceData
+	client, ok := req.ProviderData.(satounki.API)
 
-	diags := req.Config.Get(ctx, &data)
+	if !ok {
+		resp.Diagnostics.AddError(
+			"Unexpected Data Source Configure Type",
+			fmt.Sprintf("Expected *satounki.API, got: %T. Please report this issue to the provider developers.", req.ProviderData),
+		)
+
+		return
+	}
+
+	r.client = &client
+}
+
+// Create a new resource.
+func (r *companyResource) Create(ctx context.Context, req resource.CreateRequest, resp *resource.CreateResponse) {
+	// Retrieve values from plan
+	var plan companyResourceData
+	diags := req.Plan.Get(ctx, &plan)
 	resp.Diagnostics.Append(diags...)
-
 	if resp.Diagnostics.HasError() {
 		return
 	}
 
-	body, err := data.PostBody()
-	if err != nil {
-		resp.Diagnostics.AddError("Error parsing expiry date",
-			"The following format must be used: 2006-01-02 15:04:05",
-		)
+	body := plan.PostBody()
 
-		return
-	}
-
-	response, _, err := r.provider.api.CompanyPost(body)
+	response, _, err := r.client.CompanyPost(body)
 	if err != nil {
 		resp.Diagnostics.AddError("Error creating company",
 			err.Error(),
@@ -112,34 +114,27 @@ func (r companyResource) Create(ctx context.Context, req tfsdk.CreateResourceReq
 		return
 	}
 
-	data.PostResponse(response)
+	plan.PostResponse(response)
 
-	diags = resp.State.Set(ctx, data)
+	// Set state to fully populated data
+	diags = resp.State.Set(ctx, plan)
 	resp.Diagnostics.Append(diags...)
 	if resp.Diagnostics.HasError() {
 		return
 	}
 }
 
-func (r companyResource) Read(ctx context.Context, req tfsdk.ReadResourceRequest, resp *tfsdk.ReadResourceResponse) {
-	if !r.provider.configured {
-		resp.Diagnostics.AddError(
-			"Provider not configured",
-			"The provider hasn't been configured before apply, likely because it depends on an unknown value from another resource. This leads to weird stuff happening, so we'd prefer if you didn't do that. Thanks!",
-		)
-		return
-	}
-
-	var data companyResourceData
-
-	diags := req.State.Get(ctx, &data)
+// Read resource information.
+func (r *companyResource) Read(ctx context.Context, req resource.ReadRequest, resp *resource.ReadResponse) {
+	// Get current state
+	var state companyResourceData
+	diags := req.State.Get(ctx, &state)
 	resp.Diagnostics.Append(diags...)
-
 	if resp.Diagnostics.HasError() {
 		return
 	}
 
-	response, _, err := r.provider.api.CompanyGet(data.ID.Value)
+	response, _, err := r.client.CompanyGet(state.ID.ValueString())
 	if err != nil {
 		resp.Diagnostics.AddError("Error reading company",
 			err.Error(),
@@ -148,51 +143,28 @@ func (r companyResource) Read(ctx context.Context, req tfsdk.ReadResourceRequest
 		return
 	}
 
-	data.GetResponse(response)
+	state.GetResponse(response)
 
-	diags = resp.State.Set(ctx, data)
+	// Set refreshed state
+	diags = resp.State.Set(ctx, &state)
 	resp.Diagnostics.Append(diags...)
 	if resp.Diagnostics.HasError() {
 		return
 	}
 }
 
-func (r companyResource) Update(ctx context.Context, req tfsdk.UpdateResourceRequest, resp *tfsdk.UpdateResourceResponse) {
-	if !r.provider.configured {
-		resp.Diagnostics.AddError(
-			"Provider not configured",
-			"The provider hasn't been configured before apply, likely because it depends on an unknown value from another resource. This leads to weird stuff happening, so we'd prefer if you didn't do that. Thanks!",
-		)
-		return
-	}
-
-	var data companyResourceData
-
-	diags := req.Plan.Get(ctx, &data)
+func (r *companyResource) Update(ctx context.Context, req resource.UpdateRequest, resp *resource.UpdateResponse) {
+	// Retrieve values from plan
+	var plan companyResourceData
+	diags := req.Plan.Get(ctx, &plan)
 	resp.Diagnostics.Append(diags...)
-
 	if resp.Diagnostics.HasError() {
 		return
 	}
 
-	var state companyResourceData
-	diags = req.State.Get(ctx, &state)
-	resp.Diagnostics.Append(diags...)
+	body := plan.PutBody()
 
-	if resp.Diagnostics.HasError() {
-		return
-	}
-
-	body, err := data.PutBody()
-	if err != nil {
-		resp.Diagnostics.AddError("Error parsing expiry date",
-			"The following format must be used: 2006-01-02 15:04:05",
-		)
-
-		return
-	}
-
-	response, _, err := r.provider.api.CompanyPut(state.ID.Value, body)
+	response, _, err := r.client.CompanyPut(plan.ID.ValueString(), body)
 	if err != nil {
 		resp.Diagnostics.AddError("Error updating company",
 			err.Error(),
@@ -201,34 +173,25 @@ func (r companyResource) Update(ctx context.Context, req tfsdk.UpdateResourceReq
 		return
 	}
 
-	data.PutResponse(response)
+	plan.PutResponse(response)
 
-	diags = resp.State.Set(ctx, data)
+	diags = resp.State.Set(ctx, plan)
 	resp.Diagnostics.Append(diags...)
 	if resp.Diagnostics.HasError() {
 		return
 	}
 }
 
-func (r companyResource) Delete(ctx context.Context, req tfsdk.DeleteResourceRequest, resp *tfsdk.DeleteResourceResponse) {
-	if !r.provider.configured {
-		resp.Diagnostics.AddError(
-			"Provider not configured",
-			"The provider hasn't been configured before apply, likely because it depends on an unknown value from another resource. This leads to weird stuff happening, so we'd prefer if you didn't do that. Thanks!",
-		)
-		return
-	}
-
-	var data companyResourceData
-
-	diags := req.State.Get(ctx, &data)
+func (r *companyResource) Delete(ctx context.Context, req resource.DeleteRequest, resp *resource.DeleteResponse) {
+	// Retrieve values from state
+	var state companyResourceData
+	diags := req.State.Get(ctx, &state)
 	resp.Diagnostics.Append(diags...)
-
 	if resp.Diagnostics.HasError() {
 		return
 	}
 
-	err := r.provider.api.CompanyDelete(data.ID.Value)
+	err := r.client.CompanyDelete(state.ID.ValueString())
 	if err != nil {
 		resp.Diagnostics.AddError("Client Error",
 			err.Error(),
@@ -240,6 +203,7 @@ func (r companyResource) Delete(ctx context.Context, req tfsdk.DeleteResourceReq
 	resp.State.RemoveResource(ctx)
 }
 
-func (r companyResource) ImportState(ctx context.Context, req tfsdk.ImportResourceStateRequest, resp *tfsdk.ImportResourceStateResponse) {
-	tfsdk.ResourceImportStatePassthroughID(ctx, path.Root("id"), req, resp)
+func (r *companyResource) ImportState(ctx context.Context, req resource.ImportStateRequest, resp *resource.ImportStateResponse) {
+	// Retrieve import ID and save to id attribute
+	resource.ImportStatePassthroughID(ctx, path.Root("id"), req, resp)
 }

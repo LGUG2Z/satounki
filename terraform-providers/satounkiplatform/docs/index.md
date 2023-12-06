@@ -3,12 +3,12 @@
 page_title: "satounkiplatform Provider"
 subcategory: ""
 description: |-
-  
+  Interact with Satounki's Platform
 ---
 
 # satounkiplatform Provider
 
-
+Interact with Satounki's Platform
 
 ## Example Usage
 
@@ -24,7 +24,4 @@ provider "scaffolding" {
 ### Required
 
 - `api_token` (String, Sensitive) Platform Token
-
-### Optional
-
 - `base_url` (String) Base URL

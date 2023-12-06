@@ -27,5 +27,3 @@ Company
 
 - `id` (String) Auto-incrementing integer
 - `last_updated` (String) Time of the last modification to this resource
-
-

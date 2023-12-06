@@ -1,8 +1,0 @@
-go 1.19
-
-use (
-	satounki-go
-	satounki-platform-go
-	terraform-providers/satounki
-	terraform-providers/satounkiplatform
-)

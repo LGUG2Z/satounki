@@ -78,6 +78,7 @@ in
         diesel-cli
         djhtml
         go
+        golangci-lint
         google-cloud-sdk
         httpie
         jq

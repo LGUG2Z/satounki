@@ -30,12 +30,14 @@
           webmanifestFilter = path: _type: builtins.match ".*webmanifest$" path != null;
           cssFilter = path: _type: builtins.match ".*css$" path != null;
           scssFilter = path: _type: builtins.match ".*scss$" path != null;
+          rolescraperFilter = path: _type: builtins.match ".*json$" path != null;
           customOrCargo = path: type:
             (sqlFilter path type)
             || (pngFilter path type)
             || (webmanifestFilter path type)
             || (cssFilter path type)
             || (scssFilter path type)
+            || (rolescraperFilter path type)
             || (teraFilter path type)
             || (craneLib.filterCargoSources path type);
 
@@ -68,6 +70,7 @@
               };
               postInstall = ''
                 cp -r ./api/templates $out/bin
+                cp -r ./rolescraper_*.json $out/bin
               '';
             });
 
@@ -102,6 +105,7 @@
           };
 
           packages = flake-utils.lib.flattenTree rec {
+            inherit satounki terraform-provider-satounki terraform-provider-satounkiplatform;
             all = pkgs.symlinkJoin {
               name = "all";
               paths = [

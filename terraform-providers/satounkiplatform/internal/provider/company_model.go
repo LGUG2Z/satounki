@@ -8,50 +8,50 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/types"
 )
 
-func (d companyResourceData) PostBody() (satounki.CompanyPostBody, error) {
+func (d companyResourceData) PostBody() satounki.CompanyPostBody {
 	return satounki.CompanyPostBody{
-		Domain:            d.Domain.Value,
-		Name:              d.Name.Value,
-		RootUserEmail:     d.RootUserEmail.Value,
-		RootUserFirstName: &d.RootUserFirstName.Value,
-		RootUserLastName:  &d.RootUserLastName.Value,
-	}, nil
+		Domain:            d.Domain.ValueString(),
+		Name:              d.Name.ValueString(),
+		RootUserEmail:     d.RootUserEmail.ValueString(),
+		RootUserFirstName: d.RootUserFirstName.ValueStringPointer(),
+		RootUserLastName:  d.RootUserLastName.ValueStringPointer(),
+	}
 }
 
 func (d *companyResourceData) PostResponse(r satounki.CompanyPostResponse) {
-	d.ID = types.String{Value: strconv.FormatInt(r.ID, 10)}
-	d.LastUpdated = types.String{Value: time.Now().Format(time.RFC850)}
-	d.Name = types.String{Value: r.Name}
-	d.Domain = types.String{Value: r.Domain}
-	d.RootUserEmail = types.String{Value: r.RootUserEmail}
-	d.RootUserFirstName = types.String{Value: *r.RootUserFirstName}
-	d.RootUserLastName = types.String{Value: *r.RootUserLastName}
+	d.ID = types.StringValue(strconv.FormatInt(r.ID, 10))
+	d.LastUpdated = types.StringValue(time.Now().Format(time.RFC850))
+	d.Name = types.StringValue(r.Name)
+	d.Domain = types.StringValue(r.Domain)
+	d.RootUserEmail = types.StringValue(r.RootUserEmail)
+	d.RootUserFirstName = types.StringValue(*r.RootUserFirstName)
+	d.RootUserLastName = types.StringValue(*r.RootUserLastName)
 }
 
-func (d companyResourceData) PutBody() (satounki.CompanyPutBody, error) {
+func (d companyResourceData) PutBody() satounki.CompanyPutBody {
 	return satounki.CompanyPutBody{
-		Domain:            d.Domain.Value,
-		Name:              d.Name.Value,
-		RootUserEmail:     d.RootUserEmail.Value,
-		RootUserFirstName: &d.RootUserFirstName.Value,
-		RootUserLastName:  &d.RootUserLastName.Value,
-	}, nil
+		Domain:            d.Domain.ValueString(),
+		Name:              d.Name.ValueString(),
+		RootUserEmail:     d.RootUserEmail.ValueString(),
+		RootUserFirstName: d.RootUserFirstName.ValueStringPointer(),
+		RootUserLastName:  d.RootUserLastName.ValueStringPointer(),
+	}
 }
 
 func (d *companyResourceData) PutResponse(r satounki.CompanyPutResponse) {
-	d.LastUpdated = types.String{Value: time.Now().Format(time.RFC850)}
-	d.Name = types.String{Value: r.Name}
-	d.Domain = types.String{Value: r.Domain}
-	d.RootUserEmail = types.String{Value: r.RootUserEmail}
-	d.RootUserFirstName = types.String{Value: *r.RootUserFirstName}
-	d.RootUserLastName = types.String{Value: *r.RootUserLastName}
+	d.LastUpdated = types.StringValue(time.Now().Format(time.RFC850))
+	d.Name = types.StringValue(r.Name)
+	d.Domain = types.StringValue(r.Domain)
+	d.RootUserEmail = types.StringValue(r.RootUserEmail)
+	d.RootUserFirstName = types.StringValue(*r.RootUserFirstName)
+	d.RootUserLastName = types.StringValue(*r.RootUserLastName)
 }
 
 func (d *companyResourceData) GetResponse(r satounki.CompanyGetResponse) {
-	d.LastUpdated = types.String{Value: time.Now().Format(time.RFC850)}
-	d.Name = types.String{Value: r.Name}
-	d.Domain = types.String{Value: r.Domain}
-	d.RootUserEmail = types.String{Value: r.RootUserEmail}
-	d.RootUserFirstName = types.String{Value: *r.RootUserFirstName}
-	d.RootUserLastName = types.String{Value: *r.RootUserLastName}
+	d.LastUpdated = types.StringValue(time.Now().Format(time.RFC850))
+	d.Name = types.StringValue(r.Name)
+	d.Domain = types.StringValue(r.Domain)
+	d.RootUserEmail = types.StringValue(r.RootUserEmail)
+	d.RootUserFirstName = types.StringValue(*r.RootUserFirstName)
+	d.RootUserLastName = types.StringValue(*r.RootUserLastName)
 }

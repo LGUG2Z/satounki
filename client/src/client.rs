@@ -38,8 +38,9 @@ impl Client {
         company_domain: String,
         company_worker_key: String,
         configuration: Configuration,
+        port: i32,
     ) -> Result<Self> {
-        let mut url = Url::parse("ws://localhost:8080/socket/worker")?;
+        let mut url = Url::parse(&format!("ws://localhost:{port}/socket/worker"))?;
         url.set_query(Some(&format!(
             "company_domain={company_domain}&company_worker_key={company_worker_key}",
         )));

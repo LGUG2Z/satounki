@@ -137,12 +137,24 @@ lazy_static! {
     static ref WORKER_SESSIONS: Arc<Mutex<HashMap<String, Recipient<Message>>>> =
         Arc::new(Mutex::new(HashMap::new()));
     static ref AWS_ROLES: Vec<RoleScraperAws> = {
-        let scraped = std::fs::read_to_string("rolescraper_aws.json").unwrap();
+        let path = if Path::new("rolescraper_aws.json").exists() {
+            String::from("rolescraper_aws.json")
+        } else {
+            format!("{}/rolescraper_aws.json", *ROOT_DIR)
+        };
+
+        let scraped = std::fs::read_to_string(path).unwrap();
         let parsed: Vec<RoleScraperAws> = serde_json::from_str(&scraped).unwrap();
         parsed
     };
     static ref GCP_ROLES: Vec<RoleScraperGcp> = {
-        let scraped = std::fs::read_to_string("rolescraper_gcp.json").unwrap();
+        let path = if Path::new("rolescraper_gcp.json").exists() {
+            String::from("rolescraper_gcp.json")
+        } else {
+            format!("{}/rolescraper_gcp.json", *ROOT_DIR)
+        };
+
+        let scraped = std::fs::read_to_string(path).unwrap();
         let parsed: Vec<RoleScraperGcp> = serde_json::from_str(&scraped).unwrap();
         parsed
     };
@@ -150,6 +162,27 @@ lazy_static! {
         std::env::var("SATOUNKI_URL").unwrap_or_else(|_| String::from("http://localhost:8080"));
     static ref DATABASE_URL: String =
         std::env::var("DATABASE_URL").unwrap_or_else(|_| String::from("dev.db"));
+    static ref PORT: String = std::env::var("PORT").unwrap_or_else(|_| String::from("8080"));
+    static ref ROOT_DIR: String = {
+        let exe = std::env::current_exe()
+            .unwrap()
+            .parent()
+            .unwrap_or_else(|| Path::new("/"))
+            .to_str()
+            .unwrap_or("/")
+            .to_string();
+
+        #[allow(clippy::option_if_let_else)]
+        let root_dir = if let Ok(cargo_manifest_dir) = std::env::var("CARGO_MANIFEST_DIR") {
+            cargo_manifest_dir
+        } else if Path::new("/templates").is_dir() {
+            String::from("/")
+        } else {
+            exe
+        };
+
+        root_dir
+    };
 }
 
 type Result<T> = std::result::Result<T, error::Api>;
@@ -163,7 +196,7 @@ async fn main() -> color_eyre::Result<()> {
         std::env::set_var("RUST_BACKTRACE", "1");
     }
 
-    dotenv()?;
+    dotenv().ok();
     env_logger::init();
     color_eyre::install()?;
 
@@ -213,14 +246,11 @@ async fn main() -> color_eyre::Result<()> {
 
     let secret_key = Key::from(std::env::var("SECRET_KEY")?.as_bytes());
 
-    let templates_dir = if Path::new("/templates").is_dir() {
-        "/templates/**/*"
-    } else {
-        concat!(env!("CARGO_MANIFEST_DIR"), "/templates/**/*")
-    };
+    let templates_dir = format!("{}/templates/**/*", *ROOT_DIR);
+    let tera = Tera::new(&templates_dir)?;
 
-    let tera = Tera::new(templates_dir)?;
     let api_token_auth = HttpAuthentication::bearer(validator);
+
     Ok(HttpServer::new(move || {
         App::new()
             .wrap(Logger::default())
@@ -332,7 +362,7 @@ async fn main() -> color_eyre::Result<()> {
                     ),
             )
     })
-    .bind(("0.0.0.0", 8080))?
+    .bind(("0.0.0.0", PORT.parse()?))?
     .run()
     .await?)
 }

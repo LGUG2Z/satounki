@@ -25,7 +25,7 @@
           craneLib = (crane.mkLib pkgs).overrideToolchain toolchain;
 
           sqlFilter = path: _type: builtins.match ".*sql$" path != null;
-          teraFilter = path: _type: builtins.match ".*tera$" path != null;
+          htmlFilter = path: _type: builtins.match ".*html$" path != null;
           pngFilter = path: _type: builtins.match ".*png$" path != null;
           webmanifestFilter = path: _type: builtins.match ".*webmanifest$" path != null;
           cssFilter = path: _type: builtins.match ".*css$" path != null;
@@ -38,7 +38,7 @@
             || (cssFilter path type)
             || (scssFilter path type)
             || (rolescraperFilter path type)
-            || (teraFilter path type)
+            || (htmlFilter path type)
             || (craneLib.filterCargoSources path type);
 
           pname = "satounki-workspace";
@@ -84,7 +84,7 @@
               name = "source-with-local-deps";
               paths = [./terraform-providers/satounkiplatform ./.];
             };
-            vendorHash = "sha256-xP8g5IhY1Ia8BmPiIQMEaiLxEMKL96bNhrA+U+X4vcQ=";
+            vendorHash = "sha256-5McUZeBJuVTQ6ygDXEKkU9HnOc7mQgnwaUo7f7ATCok=";
           };
 
           terraform-provider-satounki = pkgs.buildGoModule {
@@ -97,7 +97,7 @@
               name = "source-with-local-deps";
               paths = [./terraform-providers/satounki ./.];
             };
-            vendorHash = "sha256-IFE28HNVKg+2XrmNGWXyADWkMgnVG0D90d+nv2o6jIY=";
+            vendorHash = "sha256-LvS1eFkplj0IaA4YhpzA37TutQ0iYGbs3OoEAdeuMOc=";
           };
         in {
           devShells = flake-utils.lib.flattenTree {
@@ -106,6 +106,9 @@
 
           packages = flake-utils.lib.flattenTree rec {
             inherit satounki terraform-provider-satounki terraform-provider-satounkiplatform;
+
+            default = all;
+
             all = pkgs.symlinkJoin {
               name = "all";
               paths = [
@@ -114,8 +117,26 @@
                 terraform-provider-satounkiplatform
               ];
             };
-            default = all;
           };
         }
-      );
+      )
+      // {
+        overlays = {
+          default = _: prev: rec {
+            inherit (self.packages.${prev.system}) satounki;
+          };
+        };
+
+        nixosModules = {
+          satounki = {
+            imports = [
+              ./nixos/satounki.nix
+            ];
+          };
+
+          nixpkgs.overlays = [
+            self.overlays.default
+          ];
+        };
+      };
 }

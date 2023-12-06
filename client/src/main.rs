@@ -33,8 +33,15 @@ async fn main() -> color_eyre::Result<()> {
         std::env::var("COMPANY_DOMAIN").unwrap_or_else(|_| "satounki.com".to_string());
     let company_worker_key = std::env::var("COMPANY_WORKER_KEY")
         .unwrap_or_else(|_| "swk-e0c43bd0-38a4-4e7b-9c0f-8bd5f47f20d2".to_string());
+    let port = std::env::var("PORT").unwrap_or_else(|_| "8080".to_string());
 
-    let mut client = Client::new(company_domain, company_worker_key, configuration).await?;
+    let mut client = Client::new(
+        company_domain,
+        company_worker_key,
+        configuration,
+        port.parse()?,
+    )
+    .await?;
     client.listen().await?;
 
     Ok(())

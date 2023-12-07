@@ -24,8 +24,8 @@ pub struct Company {
 }
 
 route_request_response! {
-    #[Put] Company(Company) -> Company,
+    #[Put]  Company(Company) -> Company,
     #[Post] Company(Company) -> Company,
-    #[Get] Company() -> Company,
-    #[Get] Companies() -> Vec<Company>,
+    #[Get]  Company() -> Company,
+    #[Get]  Companies() -> Vec<Company>,
 }

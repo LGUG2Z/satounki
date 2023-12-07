@@ -1,5 +1,4 @@
-use common_macros::body;
-use common_macros::response;
+use common_macros::route_request_response;
 
 use crate::AwsPolicy;
 use crate::CloudflareRole;
@@ -35,15 +34,10 @@ pub struct Policy {
     pub cloudflare: Option<Vec<CloudflareRole>>,
 }
 
-body! {
-    #[Put] Policy -> NewPolicy,
-    #[Post] Policy -> NewPolicy,
-}
-
-response! {
-    #[Get] Policy -> Policy,
-    #[Get] PolicyName -> Policy,
-    #[Get] Policies -> Vec<Policy>,
-    #[Post] Policy -> Policy,
-    #[Put] Policy -> Policy,
+route_request_response! {
+    #[Put]  Policy(NewPolicy) -> Policy,
+    #[Post] Policy(NewPolicy) -> Policy,
+    #[Get]  Policy() -> Policy,
+    #[Get]  PolicyName() -> Policy,
+    #[Get]  Policies() -> Vec<Policy>,
 }

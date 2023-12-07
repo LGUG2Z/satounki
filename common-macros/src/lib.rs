@@ -34,7 +34,7 @@ pub use utoipa::ToSchema;
 /// ```
 #[macro_export]
 macro_rules! route_request_response {
-    ($(#[$method:ident] $route:ident($( $req:ident )?) -> $ret:ty) ,+ $(,)?) => {
+    ($(#[$method:ident] $route:ident($( $req:ty )?) -> $ret:ty) ,+ $(,)?) => {
         $(
             $crate::paste! {
                 #[derive(
@@ -68,89 +68,6 @@ macro_rules! route_request_response {
 
     };
 
-}
-
-/// Macro to generate response body wrapper structs
-///
-/// # Format:
-///
-/// ```text
-/// #[HTTP_METHOD] WRAPPER_PREFIX -> WRAPPED TYPE
-/// ```
-///
-/// # Example:
-///
-/// ```rust
-/// pub struct Policy { name: String }
-/// body! {
-///     #[Get] Policy -> Policy
-///     // pub struct GetPolicyResponse(pub Policy);
-///     #[Get] Policies -> Vec<Policy>
-///     // pub struct GetPoliciesResponse(pub Vec<Policies>);
-/// }
-/// ```
-#[macro_export]
-macro_rules! response {
-    ($(#[$method:ident] $kind:ident -> $ret:ty) ,+ $(,)?) => {
-        $(
-            $crate::paste! {
-                #[derive(
-                    Debug,
-                    Clone,
-                    $crate::Deref,
-                    $crate::Serialize,
-                    $crate::Deserialize,
-                    $crate::DisplayAsJsonPretty,
-                    $crate::JsonSchema,
-                    $crate::ToSchema,
-                    $crate::ToResponse,
-                )]
-                pub struct [< $kind $method Response >](pub $ret);
-            }
-        )+
-
-    };
-}
-
-/// Macro to generate request body wrapper structs
-///
-/// # Format:
-///
-/// ```text
-/// #[HTTP_METHOD] WRAPPER_PREFIX -> WRAPPED TYPE
-/// ```
-///
-/// # Example:
-///
-/// ```rust
-/// pub struct Policy { name: String }
-/// body! {
-///     #[Post] Policy -> Policy
-///     // pub struct PostPolicyResponse(pub Policy);
-///     #[Post] Policies -> Vec<Policy>
-///     // pub struct PostPoliciesResponse(pub Vec<Policies>);
-/// }
-/// ```
-#[macro_export]
-macro_rules! body {
-    ($(#[$method:ident] $kind:ident -> $ret:ty) ,+ $(,)?) => {
-        $(
-            $crate::paste! {
-                #[derive(
-                    Debug,
-                    Clone,
-                    $crate::Deref,
-                    $crate::Serialize,
-                    $crate::Deserialize,
-                    $crate::DisplayAsJsonPretty,
-                    $crate::JsonSchema,
-                    $crate::ToSchema,
-                )]
-                pub struct [< $kind $method Request >](pub $ret);
-            }
-        )+
-
-    };
 }
 
 /// Macro to generate a Vec of Golang member definitions for a Rust struct with tfsdk annotations

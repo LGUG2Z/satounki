@@ -1,5 +1,4 @@
-use common_macros::body;
-use common_macros::response;
+use common_macros::route_request_response;
 
 use crate::Schema;
 
@@ -34,10 +33,6 @@ pub struct PolicyRequestConfirmation {
     pub request_alias: String,
 }
 
-body! {
-    #[Post] RequestPolicy -> PolicyRequest
-}
-
-response! {
-    #[Post] RequestPolicy -> PolicyRequestConfirmation
+route_request_response! {
+    #[Post] RequestPolicy(PolicyRequest) -> PolicyRequestConfirmation
 }

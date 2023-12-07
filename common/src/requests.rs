@@ -1,4 +1,4 @@
-use common_macros::response;
+use common_macros::route_request_response;
 use schemars::JsonSchema;
 use serde::Deserialize;
 use serde::Serialize;
@@ -17,6 +17,6 @@ pub struct RequestsGetQueryParams {
     pub count: i64,
 }
 
-response! {
-    #[Get] Requests -> Vec<Request>
+route_request_response! {
+    #[Get] Requests() -> Vec<Request>
 }

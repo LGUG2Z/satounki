@@ -1,5 +1,4 @@
-use common_macros::body;
-use common_macros::response;
+use common_macros::route_request_response;
 
 use crate::New;
 use crate::Schema;
@@ -23,16 +22,11 @@ pub struct AwsAccount {
     pub admin_approval_required: bool,
 }
 
-body! {
-    #[Post] SettingsAwsAccount -> NewAwsAccount,
-    #[Put] SettingsAwsAccount -> NewAwsAccount,
-}
-
-response! {
-    #[Get] SettingsAwsAccounts -> Vec<AwsAccount>,
-    #[Get] SettingsAwsAccount -> AwsAccount,
-    #[Post] SettingsAwsAccount -> AwsAccount,
-    #[Put] SettingsAwsAccount -> AwsAccount,
+route_request_response! {
+    #[Post] SettingsAwsAccount(NewAwsAccount) -> AwsAccount,
+    #[Put]  SettingsAwsAccount(NewAwsAccount) -> AwsAccount,
+    #[Get]  SettingsAwsAccounts() -> Vec<AwsAccount>,
+    #[Get]  SettingsAwsAccount() -> AwsAccount,
 }
 
 /// Cloudflare account configuration
@@ -53,16 +47,11 @@ pub struct CloudflareAccount {
     pub admin_approval_required: bool,
 }
 
-body! {
-    #[Post] SettingsCloudflareAccount -> NewCloudflareAccount,
-    #[Put] SettingsCloudflareAccount -> NewCloudflareAccount,
-}
-
-response! {
-    #[Get] SettingsCloudflareAccounts -> Vec<CloudflareAccount>,
-    #[Get] SettingsCloudflareAccount -> CloudflareAccount,
-    #[Post] SettingsCloudflareAccount -> CloudflareAccount,
-    #[Put] SettingsCloudflareAccount -> CloudflareAccount,
+route_request_response! {
+    #[Post] SettingsCloudflareAccount(NewCloudflareAccount) -> CloudflareAccount,
+    #[Put]  SettingsCloudflareAccount(NewCloudflareAccount) -> CloudflareAccount,
+    #[Get]  SettingsCloudflareAccounts() -> Vec<CloudflareAccount>,
+    #[Get]  SettingsCloudflareAccount() -> CloudflareAccount,
 }
 
 /// Google Cloud Platform project configuration
@@ -83,16 +72,11 @@ pub struct GcpProject {
     pub admin_approval_required: bool,
 }
 
-body! {
-    #[Post] SettingsGcpProject -> NewGcpProject,
-    #[Put] SettingsGcpProject -> NewGcpProject,
-}
-
-response! {
-    #[Get] SettingsGcpProjects -> Vec<GcpProject>,
-    #[Get] SettingsGcpProject -> GcpProject,
-    #[Post] SettingsGcpProject -> GcpProject,
-    #[Put] SettingsGcpProject -> GcpProject,
+route_request_response! {
+    #[Post] SettingsGcpProject(NewGcpProject) -> GcpProject,
+    #[Put]  SettingsGcpProject(NewGcpProject) -> GcpProject,
+    #[Get]  SettingsGcpProjects() -> Vec<GcpProject>,
+    #[Get]  SettingsGcpProject() -> GcpProject,
 }
 
 /// Company API token for automation use
@@ -103,7 +87,7 @@ pub struct ApiToken {
     pub token: String,
 }
 
-response! {
-    #[Get] SettingsToken -> ApiToken,
-    #[Put] SettingsToken -> ApiToken,
+route_request_response! {
+    #[Get] SettingsToken() -> ApiToken,
+    #[Put] SettingsToken() -> ApiToken,
 }

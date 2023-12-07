@@ -1,8 +1,7 @@
 use chrono::DateTime;
 use chrono::Duration;
 use chrono::Utc;
-use common_macros::body;
-use common_macros::response;
+use common_macros::route_request_response;
 
 use crate::AccessRequestState;
 use crate::CloudflareRole;
@@ -25,10 +24,6 @@ pub enum RequestOperation {
     Complete,
     /// Revoke permissions from an active request
     Revoke,
-}
-
-body! {
-    #[Patch] RequestAlias -> RequestOperation
 }
 
 /// Record of a user interaction with an access request
@@ -121,10 +116,6 @@ pub struct Request {
     pub cancellation: Option<UserInteraction>,
 }
 
-response! {
-    #[Get] RequestAlias -> Request,
-}
-
 impl RequestAliasGetResponse {
     pub fn example() -> Self {
         Self(Request {
@@ -163,4 +154,9 @@ impl RequestAliasGetResponse {
             cancellation: None,
         })
     }
+}
+
+route_request_response! {
+    #[Patch] RequestAlias(RequestOperation) -> (),
+    #[Get]   RequestAlias() -> Request,
 }

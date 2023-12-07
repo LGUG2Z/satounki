@@ -1,5 +1,4 @@
-use common_macros::body;
-use common_macros::response;
+use common_macros::route_request_response;
 
 use crate::Schema;
 use crate::Terraform;
@@ -20,13 +19,8 @@ pub struct UserAliases {
     pub gcp: Option<String>,
 }
 
-body! {
-    #[Post] UserAliases -> UserAliases,
-    #[Put] UserAliases -> UserAliases,
-}
-
-response! {
-    #[Get] UserAliases -> UserAliases,
-    #[Post] UserAliases -> UserAliases,
-    #[Put] UserAliases -> UserAliases,
+route_request_response! {
+    #[Post] UserAliases(UserAliases) -> UserAliases,
+    #[Put]  UserAliases(UserAliases) -> UserAliases,
+    #[Get]  UserAliases() -> UserAliases,
 }

@@ -1,5 +1,4 @@
-use common_macros::body;
-use common_macros::response;
+use common_macros::route_request_response;
 use diesel_derive_enum::DbEnum;
 use schemars::JsonSchema;
 use serde::Deserialize;
@@ -21,13 +20,8 @@ pub enum AccessRole {
     Administrator,
 }
 
-body! {
-    #[Post] UserRoles -> Vec<AccessRole>,
-    #[Put] UserRoles -> Vec<AccessRole>,
-}
-
-response! {
-    #[Get] UserRoles -> Vec<AccessRole>,
-    #[Post] UserRoles -> Vec<AccessRole>,
-    #[Put] UserRoles -> Vec<AccessRole>,
+route_request_response! {
+    #[Post] UserRoles(Vec<AccessRole>) -> Vec<AccessRole>,
+    #[Put]  UserRoles(Vec<AccessRole>) -> Vec<AccessRole>,
+    #[Get]  UserRoles() -> Vec<AccessRole>,
 }

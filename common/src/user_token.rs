@@ -1,4 +1,4 @@
-use common_macros::response;
+use common_macros::route_request_response;
 
 use crate::Schema;
 
@@ -10,7 +10,7 @@ pub struct UserToken {
     pub token: String,
 }
 
-response! {
-    #[Get] UserToken -> UserToken,
-    #[Put] UserToken -> UserToken,
+route_request_response! {
+    #[Get] UserToken() -> UserToken,
+    #[Put] UserToken() -> UserToken,
 }

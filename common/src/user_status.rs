@@ -1,4 +1,4 @@
-use common_macros::response;
+use common_macros::route_request_response;
 use schemars::JsonSchema;
 use serde::Deserialize;
 use serde::Serialize;
@@ -17,6 +17,6 @@ pub enum UserStatus {
     Disabled,
 }
 
-response! {
-    #[Get] UserStatus -> UserStatus,
+route_request_response! {
+    #[Get] UserStatus() -> UserStatus,
 }

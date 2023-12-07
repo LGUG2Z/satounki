@@ -7,6 +7,69 @@ pub use serde::Serialize;
 pub use utoipa::ToResponse;
 pub use utoipa::ToSchema;
 
+/// Macro to generate API wrapper structs
+///
+/// # Format:
+///
+/// ```text
+/// #[HTTP_METHOD] ROUTE(REQUEST_TYPE?) -> RESPONSE_TYPE
+/// ```
+///
+/// # Example:
+///
+/// ```rust
+/// use common_macros::route_request_response;
+///
+/// pub struct Policy { name: String }
+/// route_request_response! {
+///     #[Post] Policy(Policy) -> Policy,
+///     // pub struct PostPolicyBody(pub Policy);
+///     #[Put] Policy(Policy) -> Policy,
+///     // pub struct PutPolicyBody(pub Policy);
+///     #[Get] Policy() -> Policy,
+///     // pub struct GetPolicyResponse(pub Policy);
+///     #[Get] Policies() -> Vec<Policy>,
+///     // pub struct GetPoliciesResponse(pub Vec<Policy>);
+/// }
+/// ```
+#[macro_export]
+macro_rules! route_request_response {
+    ($(#[$method:ident] $route:ident($( $req:ident )?) -> $ret:ty) ,+ $(,)?) => {
+        $(
+            $crate::paste! {
+                #[derive(
+                    Debug,
+                    Clone,
+                    $crate::Deref,
+                    $crate::Serialize,
+                    $crate::Deserialize,
+                    $crate::DisplayAsJsonPretty,
+                    $crate::JsonSchema,
+                    $crate::ToSchema,
+                    $crate::ToResponse,
+                )]
+                pub struct [< $route $method Response >](pub $ret);
+
+                $(
+                    #[derive(
+                        Debug,
+                        Clone,
+                        $crate::Deref,
+                        $crate::Serialize,
+                        $crate::Deserialize,
+                        $crate::DisplayAsJsonPretty,
+                        $crate::JsonSchema,
+                        $crate::ToSchema,
+                    )]
+                    pub struct [< $route $method Body >](pub $req);
+                )?
+            }
+        )+
+
+    };
+
+}
+
 /// Macro to generate response body wrapper structs
 ///
 /// # Format:

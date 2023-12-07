@@ -1,4 +1,4 @@
-use common_macros::response;
+use common_macros::route_request_response;
 
 /// Platform API token used for automation
 #[apply(crate::Schema!)]
@@ -8,7 +8,7 @@ pub struct PlatformToken {
     pub token: String,
 }
 
-response! {
-    #[Get] PlatformToken -> PlatformToken,
-    #[Put] PlatformToken -> PlatformToken,
+route_request_response! {
+    #[Get] PlatformToken() -> PlatformToken,
+    #[Put] PlatformToken() -> PlatformToken,
 }

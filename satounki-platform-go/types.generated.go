@@ -135,9 +135,9 @@ type Company struct {
 	// Company root user's email address
 	RootUserEmail string `json:"root_user_email"`
 	// Company root user's first name
-	RootUserFirstName *string `json:"root_user_first_name"`
+	RootUserFirstName *string `json:"root_user_first_name,omitempty"`
 	// Company root user's last name
-	RootUserLastName *string `json:"root_user_last_name"`
+	RootUserLastName *string `json:"root_user_last_name,omitempty"`
 }
 
 // Company
@@ -151,23 +151,25 @@ type CompanyGetResponse struct {
 	// Company root user's email address
 	RootUserEmail string `json:"root_user_email"`
 	// Company root user's first name
-	RootUserFirstName *string `json:"root_user_first_name"`
+	RootUserFirstName *string `json:"root_user_first_name,omitempty"`
 	// Company root user's last name
-	RootUserLastName *string `json:"root_user_last_name"`
+	RootUserLastName *string `json:"root_user_last_name,omitempty"`
 }
 
 // Company
 type CompanyPostBody struct {
 	// Email domain of the company (G-Suite etc.)
 	Domain string `json:"domain"`
+	// Auto-incrementing integer
+	ID int64 `json:"id"`
 	// Name of the company
 	Name string `json:"name"`
 	// Company root user's email address
 	RootUserEmail string `json:"root_user_email"`
 	// Company root user's first name
-	RootUserFirstName *string `json:"root_user_first_name"`
+	RootUserFirstName *string `json:"root_user_first_name,omitempty"`
 	// Company root user's last name
-	RootUserLastName *string `json:"root_user_last_name"`
+	RootUserLastName *string `json:"root_user_last_name,omitempty"`
 }
 
 // Company
@@ -181,23 +183,25 @@ type CompanyPostResponse struct {
 	// Company root user's email address
 	RootUserEmail string `json:"root_user_email"`
 	// Company root user's first name
-	RootUserFirstName *string `json:"root_user_first_name"`
+	RootUserFirstName *string `json:"root_user_first_name,omitempty"`
 	// Company root user's last name
-	RootUserLastName *string `json:"root_user_last_name"`
+	RootUserLastName *string `json:"root_user_last_name,omitempty"`
 }
 
 // Company
 type CompanyPutBody struct {
 	// Email domain of the company (G-Suite etc.)
 	Domain string `json:"domain"`
+	// Auto-incrementing integer
+	ID int64 `json:"id"`
 	// Name of the company
 	Name string `json:"name"`
 	// Company root user's email address
 	RootUserEmail string `json:"root_user_email"`
 	// Company root user's first name
-	RootUserFirstName *string `json:"root_user_first_name"`
+	RootUserFirstName *string `json:"root_user_first_name,omitempty"`
 	// Company root user's last name
-	RootUserLastName *string `json:"root_user_last_name"`
+	RootUserLastName *string `json:"root_user_last_name,omitempty"`
 }
 
 // Company
@@ -211,9 +215,9 @@ type CompanyPutResponse struct {
 	// Company root user's email address
 	RootUserEmail string `json:"root_user_email"`
 	// Company root user's first name
-	RootUserFirstName *string `json:"root_user_first_name"`
+	RootUserFirstName *string `json:"root_user_first_name,omitempty"`
 	// Company root user's last name
-	RootUserLastName *string `json:"root_user_last_name"`
+	RootUserLastName *string `json:"root_user_last_name,omitempty"`
 }
 
 // Error returned by the Satounki API

@@ -1,5 +1,4 @@
-use common_macros::body;
-use common_macros::response;
+use common_macros::route_request_response;
 
 use crate::New;
 use crate::Schema;
@@ -24,14 +23,9 @@ pub struct Company {
     pub root_user_last_name: Option<String>,
 }
 
-body! {
-    #[Put] Company -> NewCompany,
-    #[Post] Company -> NewCompany,
-}
-
-response! {
-    #[Get] Company -> Company,
-    #[Put] Company -> Company,
-    #[Post] Company -> Company,
-    #[Get] Companies -> Vec<Company>,
+route_request_response! {
+    #[Put] Company(Company) -> Company,
+    #[Post] Company(Company) -> Company,
+    #[Get] Company() -> Company,
+    #[Get] Companies() -> Vec<Company>,
 }

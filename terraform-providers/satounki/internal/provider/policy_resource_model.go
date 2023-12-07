@@ -1,12 +1,13 @@
 package provider
 
 import (
-	"github.com/hashicorp/terraform-plugin-framework/types"
 	"satounki"
 	"time"
+
+	"github.com/hashicorp/terraform-plugin-framework/types"
 )
 
-func (d policyResourceData) PostBody() satounki.PolicyPostBody {
+func (d policyResourceData) PostRequest() satounki.PolicyPostRequest {
 	var aws []string
 	var cloudflare []satounki.CloudflareRole
 	var gcp []string
@@ -23,7 +24,7 @@ func (d policyResourceData) PostBody() satounki.PolicyPostBody {
 		gcp = append(gcp, r.ValueString())
 	}
 
-	return satounki.PolicyPostBody{
+	return satounki.PolicyPostRequest{
 		Aws:         aws,
 		Cloudflare:  cloudflare,
 		Description: d.Description.ValueString(),
@@ -58,7 +59,7 @@ func (d *policyResourceData) PostResponse(r satounki.PolicyPostResponse) {
 	d.Gcp = gcp
 }
 
-func (d policyResourceData) PutBody() satounki.PolicyPutBody {
+func (d policyResourceData) PutRequest() satounki.PolicyPutRequest {
 	var aws []string
 	var cloudflare []satounki.CloudflareRole
 	var gcp []string
@@ -75,7 +76,7 @@ func (d policyResourceData) PutBody() satounki.PolicyPutBody {
 		gcp = append(gcp, r.ValueString())
 	}
 
-	return satounki.PolicyPutBody{
+	return satounki.PolicyPutRequest{
 		Aws:         aws,
 		Cloudflare:  cloudflare,
 		Description: d.Description.ValueString(),

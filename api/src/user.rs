@@ -8,14 +8,14 @@ use actix_web::web;
 use actix_web::HttpResponse;
 use common::UserAliases;
 use common::UserAliasesGetResponse;
-use common::UserAliasesPostBody;
+use common::UserAliasesPostRequest;
 use common::UserAliasesPostResponse;
-use common::UserAliasesPutBody;
+use common::UserAliasesPutRequest;
 use common::UserAliasesPutResponse;
 use common::UserRolesGetResponse;
-use common::UserRolesPostBody;
+use common::UserRolesPostRequest;
 use common::UserRolesPostResponse;
-use common::UserRolesPutBody;
+use common::UserRolesPutRequest;
 use common::UserRolesPutResponse;
 use common::UserStatus;
 use common::UserStatusGetResponse;
@@ -157,7 +157,7 @@ async fn user_status_get(
     context_path = "/v1/user",
     tag = "users",
     security(("user_token" = []), ("api_token" = [])),
-    request_body = UserRolesPostBody,
+    request_body = UserRolesPostRequest,
     responses(
         (status = 200, body = UserRolesPostResponse),
         (status = 401, body = ErrorResponse, example = json!(ex(StatusCode::UNAUTHORIZED))),
@@ -169,7 +169,7 @@ async fn user_status_get(
 async fn user_roles_post(
     pool: web::Data<Pool>,
     authenticated: ApiTokenOrUserWithAccessRole<AdministratorRole>,
-    body: web::Json<UserRolesPostBody>,
+    body: web::Json<UserRolesPostRequest>,
     email: web::Path<String>,
 ) -> Result<web::Json<UserRolesPostResponse>> {
     let connection = &mut *pool.get()?;
@@ -195,7 +195,7 @@ async fn user_roles_post(
     context_path = "/v1/user",
     tag = "users",
     security(("user_token" = []), ("api_token" = [])),
-    request_body = UserRolesPutBody,
+    request_body = UserRolesPutRequest,
     responses(
         (status = 200, body = UserRolesPutResponse),
         (status = 401, body = ErrorResponse, example = json!(ex(StatusCode::UNAUTHORIZED))),
@@ -207,7 +207,7 @@ async fn user_roles_post(
 async fn user_roles_put(
     pool: web::Data<Pool>,
     authenticated: ApiTokenOrUserWithAccessRole<AdministratorRole>,
-    body: web::Json<UserRolesPutBody>,
+    body: web::Json<UserRolesPutRequest>,
     email: web::Path<String>,
 ) -> Result<web::Json<UserRolesPutResponse>> {
     let connection = &mut *pool.get()?;
@@ -265,7 +265,7 @@ async fn user_roles_get(
     context_path = "/v1/user",
     tag = "users",
     security(("user_token" = []), ("api_token" = [])),
-    request_body = UserAliasesPostBody,
+    request_body = UserAliasesPostRequest,
     responses(
         (status = 200, body = UserAliasesPostResponse),
         (status = 401, body = ErrorResponse, example = json!(ex(StatusCode::UNAUTHORIZED))),
@@ -277,7 +277,7 @@ async fn user_roles_get(
 async fn user_aliases_post(
     pool: web::Data<Pool>,
     authenticated: ApiTokenOrUserWithAccessRole<AdministratorRole>,
-    body: web::Json<UserAliasesPostBody>,
+    body: web::Json<UserAliasesPostRequest>,
     email: web::Path<String>,
 ) -> Result<web::Json<UserAliasesPostResponse>> {
     let connection = &mut *pool.get()?;
@@ -320,7 +320,7 @@ async fn user_aliases_post(
     context_path = "/v1/user",
     tag = "users",
     security(("user_token" = []), ("api_token" = [])),
-    request_body = UserAliasesPutBody,
+    request_body = UserAliasesPutRequest,
     responses(
         (status = 200, body = UserAliasesPutResponse),
         (status = 401, body = ErrorResponse, example = json!(ex(StatusCode::UNAUTHORIZED))),
@@ -332,7 +332,7 @@ async fn user_aliases_post(
 async fn user_aliases_put(
     pool: web::Data<Pool>,
     authenticated: ApiTokenOrUserWithAccessRole<AdministratorRole>,
-    body: web::Json<UserAliasesPutBody>,
+    body: web::Json<UserAliasesPutRequest>,
     email: web::Path<String>,
 ) -> Result<web::Json<UserAliasesPutResponse>> {
     let connection = &mut *pool.get()?;

@@ -8,8 +8,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/id"
 )
 
-func (d userAliasesResourceData) PostBody() satounki.UserAliasesPostBody {
-	return satounki.UserAliasesPostBody{
+func (d userAliasesResourceData) PostRequest() satounki.UserAliasesPostRequest {
+	return satounki.UserAliasesPostRequest{
 		Aws:        d.Aws.ValueStringPointer(),
 		Cloudflare: d.Cloudflare.ValueStringPointer(),
 		Gcp:        d.Gcp.ValueStringPointer(),
@@ -39,8 +39,8 @@ func (d *userAliasesResourceData) PostResponse(r satounki.UserAliasesPostRespons
 	}
 }
 
-func (d userAliasesResourceData) PutBody() satounki.UserAliasesPutBody {
-	return satounki.UserAliasesPutBody{
+func (d userAliasesResourceData) PutRequest() satounki.UserAliasesPutRequest {
+	return satounki.UserAliasesPutRequest{
 		Aws:        d.Aws.ValueStringPointer(),
 		Cloudflare: d.Cloudflare.ValueStringPointer(),
 		Gcp:        d.Gcp.ValueStringPointer(),

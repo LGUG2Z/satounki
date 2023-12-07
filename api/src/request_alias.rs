@@ -6,7 +6,7 @@ use actix_web::web;
 use actix_web::HttpResponse;
 use common::AccessRequestState;
 use common::RequestAliasGetResponse;
-use common::RequestAliasPatchBody;
+use common::RequestAliasPatchRequest;
 use common::RequestOperation;
 use common::ServerMessage;
 use database::AccessRequest;
@@ -64,7 +64,7 @@ async fn request_alias_get(
     context_path = "/v1/request/alias",
     tag = "requests",
     security(("user_token" = [])),
-    request_body = RequestAliasPatchBody,
+    request_body = RequestAliasPatchRequest,
     responses(
         (status = 200),
         (status = 401, body = ErrorResponse, example = json!(ex(StatusCode::UNAUTHORIZED))),
@@ -80,7 +80,7 @@ async fn request_alias_patch(
     authenticated: UserWithAccessRole<UserRole>,
     alias: web::Path<String>,
     websocket: web::Data<Addr<Server>>,
-    body: web::Json<RequestAliasPatchBody>,
+    body: web::Json<RequestAliasPatchRequest>,
 ) -> Result<HttpResponse> {
     let connection = &mut *pool.get()?;
 

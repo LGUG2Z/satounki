@@ -61,7 +61,7 @@ macro_rules! route_request_response {
                         $crate::JsonSchema,
                         $crate::ToSchema,
                     )]
-                    pub struct [< $route $method Body >](pub $req);
+                    pub struct [< $route $method Request >](pub $req);
                 )?
             }
         )+
@@ -146,7 +146,7 @@ macro_rules! body {
                     $crate::JsonSchema,
                     $crate::ToSchema,
                 )]
-                pub struct [< $kind $method Body >](pub $ret);
+                pub struct [< $kind $method Request >](pub $ret);
             }
         )+
 

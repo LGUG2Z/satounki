@@ -7,9 +7,9 @@ use actix_web::web;
 use actix_web::HttpResponse;
 use common::GcpProject;
 use common::SettingsGcpProjectGetResponse;
-use common::SettingsGcpProjectPostBody;
+use common::SettingsGcpProjectPostRequest;
 use common::SettingsGcpProjectPostResponse;
-use common::SettingsGcpProjectPutBody;
+use common::SettingsGcpProjectPutRequest;
 use common::SettingsGcpProjectPutResponse;
 use database::CompanyGcpProject;
 use database::Pool;
@@ -27,7 +27,7 @@ use crate::Result;
     context_path = "/v1/settings",
     tag = "settings",
     security(("user_token" = []), ("api_token" = [])),
-    request_body = SettingsGcpProjectPostBody,
+    request_body = SettingsGcpProjectPostRequest,
     responses(
         (status = 200, body = SettingsGcpProjectPostResponse),
         (status = 401, body = ErrorResponse, example = json!(ex(StatusCode::UNAUTHORIZED))),
@@ -39,7 +39,7 @@ use crate::Result;
 async fn settings_gcp_project_post(
     pool: web::Data<Pool>,
     authenticated: ApiTokenOrUserWithAccessRole<AdministratorRole>,
-    body: web::Json<SettingsGcpProjectPostBody>,
+    body: web::Json<SettingsGcpProjectPostRequest>,
 ) -> Result<web::Json<SettingsGcpProjectPostResponse>> {
     let payload = body.into_inner();
 
@@ -72,7 +72,7 @@ async fn settings_gcp_project_post(
     context_path = "/v1/settings",
     tag = "settings",
     security(("user_token" = []), ("api_token" = [])),
-    request_body = SettingsGcpProjectPutBody,
+    request_body = SettingsGcpProjectPutRequest,
     responses(
         (status = 200, body = SettingsGcpProjectPutResponse),
         (status = 401, body = ErrorResponse, example = json!(ex(StatusCode::UNAUTHORIZED))),
@@ -84,7 +84,7 @@ async fn settings_gcp_project_post(
 async fn settings_gcp_project_put(
     pool: web::Data<Pool>,
     authenticated: ApiTokenOrUserWithAccessRole<AdministratorRole>,
-    body: web::Json<SettingsGcpProjectPutBody>,
+    body: web::Json<SettingsGcpProjectPutRequest>,
     id: web::Path<String>,
 ) -> Result<web::Json<SettingsGcpProjectPutResponse>> {
     let payload = body.into_inner();

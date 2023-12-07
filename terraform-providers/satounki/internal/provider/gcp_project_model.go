@@ -1,13 +1,14 @@
 package provider
 
 import (
-	"github.com/hashicorp/terraform-plugin-framework/types"
 	"satounki"
 	"time"
+
+	"github.com/hashicorp/terraform-plugin-framework/types"
 )
 
-func (d gcpProjectResourceData) PostBody() satounki.SettingsGcpProjectPostBody {
-	return satounki.SettingsGcpProjectPostBody{
+func (d gcpProjectResourceData) PostRequest() satounki.SettingsGcpProjectPostRequest {
+	return satounki.SettingsGcpProjectPostRequest{
 		Project:               d.Project.ValueString(),
 		AdminApprovalRequired: d.AdminApprovalRequired.ValueBool(),
 		ApprovalsRequired:     d.ApprovalsRequired.ValueInt64(),
@@ -22,8 +23,8 @@ func (d *gcpProjectResourceData) PostResponse(r satounki.SettingsGcpProjectPostR
 	d.ApprovalsRequired = types.Int64Value(r.ApprovalsRequired)
 }
 
-func (d gcpProjectResourceData) PutBody() satounki.SettingsGcpProjectPutBody {
-	return satounki.SettingsGcpProjectPutBody{
+func (d gcpProjectResourceData) PutRequest() satounki.SettingsGcpProjectPutRequest {
+	return satounki.SettingsGcpProjectPutRequest{
 		Project:               d.Project.ValueString(),
 		AdminApprovalRequired: d.AdminApprovalRequired.ValueBool(),
 		ApprovalsRequired:     d.ApprovalsRequired.ValueInt64(),

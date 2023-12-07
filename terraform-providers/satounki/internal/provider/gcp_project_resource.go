@@ -3,12 +3,13 @@ package provider
 import (
 	"context"
 	"fmt"
+	"satounki"
+
 	"github.com/hashicorp/terraform-plugin-framework/path"
 	"github.com/hashicorp/terraform-plugin-framework/resource"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/planmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/stringplanmodifier"
-	"satounki"
 )
 
 // Ensure the implementation satisfies the expected interfaces.
@@ -91,7 +92,7 @@ func (r *gcpProjectResource) Create(ctx context.Context, req resource.CreateRequ
 		return
 	}
 
-	body := plan.PostBody()
+	body := plan.PostRequest()
 
 	response, _, err := r.client.SettingsGcpProjectPost(body)
 	if err != nil {
@@ -149,7 +150,7 @@ func (r *gcpProjectResource) Update(ctx context.Context, req resource.UpdateRequ
 		return
 	}
 
-	body := plan.PutBody()
+	body := plan.PutRequest()
 
 	response, _, err := r.client.SettingsGcpProjectPut(plan.ID.ValueString(), body)
 	if err != nil {

@@ -12,9 +12,9 @@ use common::PoliciesGetResponse;
 use common::PolicyGetResponse;
 use common::PolicyRequest;
 use common::RequestAliasGetResponse;
-use common::RequestAliasPatchBody;
+use common::RequestAliasPatchRequest;
 use common::RequestOperation;
-use common::RequestPolicyPostBody;
+use common::RequestPolicyPostRequest;
 use common::RequestPolicyPostResponse;
 use common::RequestsGetResponse;
 use reqwest::StatusCode;
@@ -316,7 +316,7 @@ fn main() -> color_eyre::Result<()> {
 
             let response = client
                 .post(format!("{BASE_URL}/request/policy/{}", policy.id))
-                .json(&RequestPolicyPostBody(PolicyRequest {
+                .json(&RequestPolicyPostRequest(PolicyRequest {
                     minutes: args.minutes,
                     justification,
                     cloudflare_account: args.cloudflare_account,
@@ -435,7 +435,7 @@ fn main() -> color_eyre::Result<()> {
         SubCommand::ApproveRequest(args) => {
             let response = client
                 .patch(format!("{BASE_URL}/request/alias/{}", args.request))
-                .json(&RequestAliasPatchBody(RequestOperation::Approve))
+                .json(&RequestAliasPatchRequest(RequestOperation::Approve))
                 .bearer_auth(&token)
                 .send()?;
 
@@ -451,7 +451,7 @@ fn main() -> color_eyre::Result<()> {
         SubCommand::RejectRequest(args) => {
             let response = client
                 .patch(format!("{BASE_URL}/request/alias/{}", args.request))
-                .json(&RequestAliasPatchBody(RequestOperation::Reject))
+                .json(&RequestAliasPatchRequest(RequestOperation::Reject))
                 .bearer_auth(&token)
                 .send()?;
 
@@ -467,7 +467,7 @@ fn main() -> color_eyre::Result<()> {
         SubCommand::CompleteRequest(args) => {
             let response = client
                 .patch(format!("{BASE_URL}/request/alias/{}", args.request))
-                .json(&RequestAliasPatchBody(RequestOperation::Complete))
+                .json(&RequestAliasPatchRequest(RequestOperation::Complete))
                 .bearer_auth(&token)
                 .send()?;
 
@@ -483,7 +483,7 @@ fn main() -> color_eyre::Result<()> {
         SubCommand::CancelRequest(args) => {
             let response = client
                 .patch(format!("{BASE_URL}/request/alias/{}", args.request))
-                .json(&RequestAliasPatchBody(RequestOperation::Cancel))
+                .json(&RequestAliasPatchRequest(RequestOperation::Cancel))
                 .bearer_auth(&token)
                 .send()?;
 
@@ -499,7 +499,7 @@ fn main() -> color_eyre::Result<()> {
         SubCommand::ExtendRequest(args) => {
             let response = client
                 .patch(format!("{BASE_URL}/request/alias/{}", args.request))
-                .json(&RequestAliasPatchBody(RequestOperation::Extend(
+                .json(&RequestAliasPatchRequest(RequestOperation::Extend(
                     args.minutes,
                 )))
                 .bearer_auth(&token)
@@ -517,7 +517,7 @@ fn main() -> color_eyre::Result<()> {
         SubCommand::RevokeRequest(args) => {
             let response = client
                 .patch(format!("{BASE_URL}/request/alias/{}", args.request.red()))
-                .json(&RequestAliasPatchBody(RequestOperation::Revoke))
+                .json(&RequestAliasPatchRequest(RequestOperation::Revoke))
                 .bearer_auth(&token)
                 .send()?;
 

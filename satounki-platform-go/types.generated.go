@@ -7,14 +7,14 @@
 //    companyGetResponse, err := UnmarshalCompanyGetResponse(bytes)
 //    bytes, err = companyGetResponse.Marshal()
 //
-//    companyPostBody, err := UnmarshalCompanyPostBody(bytes)
-//    bytes, err = companyPostBody.Marshal()
+//    companyPostRequest, err := UnmarshalCompanyPostRequest(bytes)
+//    bytes, err = companyPostRequest.Marshal()
 //
 //    companyPostResponse, err := UnmarshalCompanyPostResponse(bytes)
 //    bytes, err = companyPostResponse.Marshal()
 //
-//    companyPutBody, err := UnmarshalCompanyPutBody(bytes)
-//    bytes, err = companyPutBody.Marshal()
+//    companyPutRequest, err := UnmarshalCompanyPutRequest(bytes)
+//    bytes, err = companyPutRequest.Marshal()
 //
 //    companyPutResponse, err := UnmarshalCompanyPutResponse(bytes)
 //    bytes, err = companyPutResponse.Marshal()
@@ -54,13 +54,13 @@ func (r *CompanyGetResponse) Marshal() ([]byte, error) {
 	return json.Marshal(r)
 }
 
-func UnmarshalCompanyPostBody(data []byte) (CompanyPostBody, error) {
-	var r CompanyPostBody
+func UnmarshalCompanyPostRequest(data []byte) (CompanyPostRequest, error) {
+	var r CompanyPostRequest
 	err := json.Unmarshal(data, &r)
 	return r, err
 }
 
-func (r *CompanyPostBody) Marshal() ([]byte, error) {
+func (r *CompanyPostRequest) Marshal() ([]byte, error) {
 	return json.Marshal(r)
 }
 
@@ -74,13 +74,13 @@ func (r *CompanyPostResponse) Marshal() ([]byte, error) {
 	return json.Marshal(r)
 }
 
-func UnmarshalCompanyPutBody(data []byte) (CompanyPutBody, error) {
-	var r CompanyPutBody
+func UnmarshalCompanyPutRequest(data []byte) (CompanyPutRequest, error) {
+	var r CompanyPutRequest
 	err := json.Unmarshal(data, &r)
 	return r, err
 }
 
-func (r *CompanyPutBody) Marshal() ([]byte, error) {
+func (r *CompanyPutRequest) Marshal() ([]byte, error) {
 	return json.Marshal(r)
 }
 
@@ -157,7 +157,7 @@ type CompanyGetResponse struct {
 }
 
 // Company
-type CompanyPostBody struct {
+type CompanyPostRequest struct {
 	// Email domain of the company (G-Suite etc.)
 	Domain string `json:"domain"`
 	// Auto-incrementing integer
@@ -189,7 +189,7 @@ type CompanyPostResponse struct {
 }
 
 // Company
-type CompanyPutBody struct {
+type CompanyPutRequest struct {
 	// Email domain of the company (G-Suite etc.)
 	Domain string `json:"domain"`
 	// Auto-incrementing integer

@@ -8,9 +8,9 @@ use actix_web::HttpResponse;
 use common::AccessRole;
 use common_platform::CompaniesGetResponse;
 use common_platform::CompanyGetResponse;
-use common_platform::CompanyPostBody;
+use common_platform::CompanyPostRequest;
 use common_platform::CompanyPostResponse;
-use common_platform::CompanyPutBody;
+use common_platform::CompanyPutRequest;
 use common_platform::CompanyPutResponse;
 use database::Company;
 use database::NewCompany;
@@ -29,7 +29,7 @@ use crate::Result;
     context_path = "/platform",
     tag = "companies",
     security(("platform_token" = ["write"])),
-    request_body = CompanyPostBody,
+    request_body = CompanyPostRequest,
     responses(
         (status = 200, body = CompanyPostResponse),
         (status = 401, body = ErrorResponse, example = json!(ex(StatusCode::UNAUTHORIZED))),
@@ -41,7 +41,7 @@ use crate::Result;
 async fn company_post(
     pool: web::Data<Pool>,
     _platform: PlatformTokenWithScope<Write>,
-    body: web::Json<CompanyPostBody>,
+    body: web::Json<CompanyPostRequest>,
 ) -> Result<web::Json<CompanyPostResponse>> {
     let connection = &mut *pool.get()?;
 
@@ -140,7 +140,7 @@ async fn companies_get(
     context_path = "/platform",
     tag = "companies",
     security(("platform_token" = ["write"])),
-    request_body = CompanyPutBody,
+    request_body = CompanyPutRequest,
     responses(
         (status = 200, body = CompanyPutResponse),
         (status = 401, body = ErrorResponse, example = json!(ex(StatusCode::UNAUTHORIZED))),
@@ -152,7 +152,7 @@ async fn companies_get(
 async fn company_put(
     pool: web::Data<Pool>,
     _platform: PlatformTokenWithScope<Write>,
-    body: web::Json<CompanyPutBody>,
+    body: web::Json<CompanyPutRequest>,
     id: web::Path<i32>,
 ) -> Result<web::Json<CompanyPutResponse>> {
     let connection = &mut *pool.get()?;

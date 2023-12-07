@@ -17,50 +17,50 @@ use common::NewPolicy;
 use common::PoliciesGetResponse;
 use common::Policy;
 use common::PolicyGetResponse;
-use common::PolicyPostBody;
+use common::PolicyPostRequest;
 use common::PolicyPostResponse;
-use common::PolicyPutBody;
+use common::PolicyPutRequest;
 use common::PolicyPutResponse;
 use common::PolicyRequest;
 use common::PolicyRequestConfirmation;
 use common::Request;
 use common::RequestAliasGetResponse;
-use common::RequestAliasPatchBody;
+use common::RequestAliasPatchRequest;
 use common::RequestOperation;
-use common::RequestPolicyPostBody;
+use common::RequestPolicyPostRequest;
 use common::RequestPolicyPostResponse;
 use common::RequestsGetResponse;
 use common::SettingsAwsAccountGetResponse;
-use common::SettingsAwsAccountPostBody;
+use common::SettingsAwsAccountPostRequest;
 use common::SettingsAwsAccountPostResponse;
-use common::SettingsAwsAccountPutBody;
+use common::SettingsAwsAccountPutRequest;
 use common::SettingsAwsAccountPutResponse;
 use common::SettingsAwsAccountsGetResponse;
 use common::SettingsCloudflareAccountGetResponse;
-use common::SettingsCloudflareAccountPostBody;
+use common::SettingsCloudflareAccountPostRequest;
 use common::SettingsCloudflareAccountPostResponse;
-use common::SettingsCloudflareAccountPutBody;
+use common::SettingsCloudflareAccountPutRequest;
 use common::SettingsCloudflareAccountPutResponse;
 use common::SettingsCloudflareAccountsGetResponse;
 use common::SettingsGcpProjectGetResponse;
-use common::SettingsGcpProjectPostBody;
+use common::SettingsGcpProjectPostRequest;
 use common::SettingsGcpProjectPostResponse;
-use common::SettingsGcpProjectPutBody;
+use common::SettingsGcpProjectPutRequest;
 use common::SettingsGcpProjectPutResponse;
 use common::SettingsGcpProjectsGetResponse;
 use common::SettingsTokenGetResponse;
 use common::SettingsTokenPutResponse;
 use common::UserAliases;
 use common::UserAliasesGetResponse;
-use common::UserAliasesPostBody;
+use common::UserAliasesPostRequest;
 use common::UserAliasesPostResponse;
-use common::UserAliasesPutBody;
+use common::UserAliasesPutRequest;
 use common::UserAliasesPutResponse;
 use common::UserInteraction;
 use common::UserRolesGetResponse;
-use common::UserRolesPostBody;
+use common::UserRolesPostRequest;
 use common::UserRolesPostResponse;
-use common::UserRolesPutBody;
+use common::UserRolesPutRequest;
 use common::UserRolesPutResponse;
 use common::UserStatus;
 use common::UserStatusGetResponse;
@@ -215,19 +215,19 @@ pub fn ex(code: StatusCode) -> ErrorResponse {
             CloudflareRole,
             CloudflareAccount,
             AccessRole,
-            PolicyPostBody,
-            PolicyPutBody,
-            SettingsAwsAccountPostBody,
-            SettingsAwsAccountPutBody,
-            SettingsCloudflareAccountPostBody,
-            SettingsCloudflareAccountPutBody,
-            SettingsGcpProjectPostBody,
-            SettingsGcpProjectPutBody,
+            PolicyPostRequest,
+            PolicyPutRequest,
+            SettingsAwsAccountPostRequest,
+            SettingsAwsAccountPutRequest,
+            SettingsCloudflareAccountPostRequest,
+            SettingsCloudflareAccountPutRequest,
+            SettingsGcpProjectPostRequest,
+            SettingsGcpProjectPutRequest,
             UserAliases,
-            UserAliasesPostBody,
-            UserAliasesPutBody,
-            UserRolesPostBody,
-            UserRolesPutBody,
+            UserAliasesPostRequest,
+            UserAliasesPutRequest,
+            UserRolesPostRequest,
+            UserRolesPutRequest,
             UserStatus,
             GcpProject,
             GcpRole,
@@ -240,8 +240,8 @@ pub fn ex(code: StatusCode) -> ErrorResponse {
             PolicyRequestConfirmation,
             Request,
             RequestOperation,
-            RequestAliasPatchBody,
-            RequestPolicyPostBody,
+            RequestAliasPatchRequest,
+            RequestPolicyPostRequest,
             UserInteraction,
             UserToken,
         )

@@ -9,9 +9,9 @@ use common::ManagedRoleValidator;
 use common::NewPolicy;
 use common::Policy;
 use common::PolicyGetResponse;
-use common::PolicyPostBody;
+use common::PolicyPostRequest;
 use common::PolicyPostResponse;
-use common::PolicyPutBody;
+use common::PolicyPutRequest;
 use common::PolicyPutResponse;
 use database::CompanyPolicy;
 use database::Pool;
@@ -31,7 +31,7 @@ use crate::GCP_ROLES;
     context_path = "/v1/policy",
     tag = "policies",
     security(("user_token" = []), ("api_token" = [])),
-    request_body = PolicyPostBody,
+    request_body = PolicyPostRequest,
     responses(
         (status = 200, body = PolicyPostResponse),
         (status = 401, body = ErrorResponse, example = json!(ex(StatusCode::UNAUTHORIZED))),
@@ -44,7 +44,7 @@ use crate::GCP_ROLES;
 async fn policy_post(
     pool: web::Data<Pool>,
     authenticated: ApiTokenOrUserWithAccessRole<AdministratorRole>,
-    body: web::Json<PolicyPostBody>,
+    body: web::Json<PolicyPostRequest>,
 ) -> Result<web::Json<PolicyPostResponse>> {
     let authenticated = authenticated.information();
 
@@ -86,7 +86,7 @@ async fn policy_post(
     context_path = "/v1/policy",
     tag = "policies",
     security(("user_token" = []), ("api_token" = [])),
-    request_body = PolicyPutBody,
+    request_body = PolicyPutRequest,
     responses(
         (status = 200, body = PolicyPutResponse),
         (status = 401, body = ErrorResponse, example = json!(ex(StatusCode::UNAUTHORIZED))),
@@ -99,7 +99,7 @@ async fn policy_post(
 async fn policy_put(
     pool: web::Data<Pool>,
     authenticated: ApiTokenOrUserWithAccessRole<AdministratorRole>,
-    body: web::Json<PolicyPutBody>,
+    body: web::Json<PolicyPutRequest>,
     id: web::Path<String>,
 ) -> Result<web::Json<PolicyPutResponse>> {
     let new_policy = body.into_inner();

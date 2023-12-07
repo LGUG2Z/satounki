@@ -3,11 +3,12 @@ package provider
 import (
 	"context"
 	"fmt"
+	"satounki"
+
 	"github.com/hashicorp/terraform-plugin-framework/resource"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/planmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/stringplanmodifier"
-	"satounki"
 
 	"github.com/hashicorp/terraform-plugin-framework/path"
 	"github.com/hashicorp/terraform-plugin-framework/types"
@@ -105,7 +106,7 @@ func (r *policyResource) Create(ctx context.Context, req resource.CreateRequest,
 		return
 	}
 
-	body := plan.PostBody()
+	body := plan.PostRequest()
 
 	response, _, err := r.client.PolicyPost(body)
 	if err != nil {
@@ -163,7 +164,7 @@ func (r *policyResource) Update(ctx context.Context, req resource.UpdateRequest,
 		return
 	}
 
-	body := plan.PutBody()
+	body := plan.PutRequest()
 
 	response, _, err := r.client.PolicyPut(plan.ID.ValueString(), body)
 	if err != nil {

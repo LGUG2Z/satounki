@@ -86,7 +86,7 @@ func (api *API) CompanyGet(id string) (CompanyGetResponse, *ErrorResponse, error
 	}
 }
 
-func (api *API) CompanyPut(id string, body CompanyPutBody) (CompanyPutResponse, *ErrorResponse, error) {
+func (api *API) CompanyPut(id string, body CompanyPutRequest) (CompanyPutResponse, *ErrorResponse, error) {
 	url := fmt.Sprintf("%s/company/%s", api.BaseURL, id)
 	reqBody, err := json.Marshal(&body)
 	if err != nil {
@@ -136,7 +136,7 @@ func (api *API) CompanyPut(id string, body CompanyPutBody) (CompanyPutResponse, 
 	}
 }
 
-func (api *API) CompanyPost(body CompanyPostBody) (CompanyPostResponse, *ErrorResponse, error) {
+func (api *API) CompanyPost(body CompanyPostRequest) (CompanyPostResponse, *ErrorResponse, error) {
 	url := fmt.Sprintf("%s/company", api.BaseURL)
 	reqBody, err := json.Marshal(&body)
 	if err != nil {

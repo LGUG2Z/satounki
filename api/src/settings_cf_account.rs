@@ -7,9 +7,9 @@ use actix_web::web;
 use actix_web::HttpResponse;
 use common::CloudflareAccount;
 use common::SettingsCloudflareAccountGetResponse;
-use common::SettingsCloudflareAccountPostBody;
+use common::SettingsCloudflareAccountPostRequest;
 use common::SettingsCloudflareAccountPostResponse;
-use common::SettingsCloudflareAccountPutBody;
+use common::SettingsCloudflareAccountPutRequest;
 use common::SettingsCloudflareAccountPutResponse;
 use database::CompanyCloudflareAccount;
 use database::Pool;
@@ -26,7 +26,7 @@ use crate::Result;
     context_path = "/v1/settings",
     tag = "settings",
     security(("user_token" = []), ("api_token" = [])),
-    request_body = SettingsCloudflareAccountPostBody,
+    request_body = SettingsCloudflareAccountPostRequest,
     responses(
         (status = 200, body = SettingsCloudflareAccountPostResponse),
         (status = 401, body = ErrorResponse, example = json!(ex(StatusCode::UNAUTHORIZED))),
@@ -38,7 +38,7 @@ use crate::Result;
 async fn settings_cf_account_post(
     pool: web::Data<Pool>,
     authenticated: ApiTokenOrUserWithAccessRole<AdministratorRole>,
-    body: web::Json<SettingsCloudflareAccountPostBody>,
+    body: web::Json<SettingsCloudflareAccountPostRequest>,
 ) -> Result<web::Json<SettingsCloudflareAccountPostResponse>> {
     let payload = body.into_inner();
 
@@ -73,7 +73,7 @@ async fn settings_cf_account_post(
     context_path = "/v1/settings",
     tag = "settings",
     security(("user_token" = []), ("api_token" = [])),
-    request_body = SettingsCloudflareAccountPutBody,
+    request_body = SettingsCloudflareAccountPutRequest,
     responses(
         (status = 200, body = SettingsCloudflareAccountPutResponse),
         (status = 401, body = ErrorResponse, example = json!(ex(StatusCode::UNAUTHORIZED))),
@@ -85,7 +85,7 @@ async fn settings_cf_account_post(
 async fn settings_cf_account_put(
     pool: web::Data<Pool>,
     authenticated: ApiTokenOrUserWithAccessRole<AdministratorRole>,
-    body: web::Json<SettingsCloudflareAccountPutBody>,
+    body: web::Json<SettingsCloudflareAccountPutRequest>,
     id: web::Path<String>,
 ) -> Result<web::Json<SettingsCloudflareAccountPutResponse>> {
     let payload = body.into_inner();

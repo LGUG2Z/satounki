@@ -1,13 +1,14 @@
 package provider
 
 import (
-	"github.com/hashicorp/terraform-plugin-framework/types"
 	"satounki"
 	"time"
+
+	"github.com/hashicorp/terraform-plugin-framework/types"
 )
 
-func (d cloudflareAccountResourceData) PostBody() satounki.SettingsCloudflareAccountPostBody {
-	return satounki.SettingsCloudflareAccountPostBody{
+func (d cloudflareAccountResourceData) PostRequest() satounki.SettingsCloudflareAccountPostRequest {
+	return satounki.SettingsCloudflareAccountPostRequest{
 		Account:               d.Account.ValueString(),
 		AdminApprovalRequired: d.AdminApprovalRequired.ValueBool(),
 		ApprovalsRequired:     d.ApprovalsRequired.ValueInt64(),
@@ -22,8 +23,8 @@ func (d *cloudflareAccountResourceData) PostResponse(r satounki.SettingsCloudfla
 	d.ApprovalsRequired = types.Int64Value(r.ApprovalsRequired)
 }
 
-func (d cloudflareAccountResourceData) PutBody() satounki.SettingsCloudflareAccountPutBody {
-	return satounki.SettingsCloudflareAccountPutBody{
+func (d cloudflareAccountResourceData) PutRequest() satounki.SettingsCloudflareAccountPutRequest {
+	return satounki.SettingsCloudflareAccountPutRequest{
 		Account:               d.Account.ValueString(),
 		AdminApprovalRequired: d.AdminApprovalRequired.ValueBool(),
 		ApprovalsRequired:     d.ApprovalsRequired.ValueInt64(),

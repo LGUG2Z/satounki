@@ -1,5 +1,5 @@
 pub const POST_TEMPLATE_GO: &str = r#"
-func (api *API) {{ name }}Post(body {{ name }}PostBody) ({{ name }}PostResponse, *ErrorResponse, error) {
+func (api *API) {{ name }}Post(body {{ name }}PostRequest) ({{ name }}PostResponse, *ErrorResponse, error) {
 	url := fmt.Sprintf("%s{{ post }}", api.BaseURL)
 	reqBody, err := json.Marshal(&body)
 	if err != nil {

@@ -135,7 +135,7 @@ export interface PolicyNameGetResponse {
 /**
  * Satounki Policy definition
  */
-export interface PolicyPostBody {
+export interface PolicyPostRequest {
   /**
    * Amazon Web Services policy ARNs associated with this policy
    */
@@ -193,7 +193,7 @@ export interface PolicyPostResponse {
 /**
  * Satounki Policy definition
  */
-export interface PolicyPutBody {
+export interface PolicyPutRequest {
   /**
    * Amazon Web Services policy ARNs associated with this policy
    */
@@ -415,7 +415,7 @@ export enum AccessRequestState {
 /**
  * Extend an active request by N minutes
  */
-export interface RequestAliasPatchBodyClass {
+export interface RequestAliasPatchRequestClass {
   extend: number;
 }
 
@@ -430,7 +430,7 @@ export interface RequestAliasPatchBodyClass {
  *
  * Revoke permissions from an active request
  */
-export enum RequestAliasPatchBodyEnum {
+export enum RequestAliasPatchRequestEnum {
   Approve = "approve",
   Cancel = "cancel",
   Complete = "complete",
@@ -441,7 +441,7 @@ export enum RequestAliasPatchBodyEnum {
 /**
  * Access request for policy permissions
  */
-export interface RequestPolicyPostBody {
+export interface RequestPolicyPostRequest {
   /**
    * AWS account to grant permissions on, if the policy includes AWS policy ARNs
    */
@@ -656,7 +656,7 @@ export interface SettingsAwsAccountGetResponse {
 /**
  * Amazon Web Services account configuration
  */
-export interface SettingsAwsAccountPostBody {
+export interface SettingsAwsAccountPostRequest {
   /**
    * Meaningful alias for the account to be used by Satounki users
    */
@@ -698,7 +698,7 @@ export interface SettingsAwsAccountPostResponse {
 /**
  * Amazon Web Services account configuration
  */
-export interface SettingsAwsAccountPutBody {
+export interface SettingsAwsAccountPutRequest {
   /**
    * Meaningful alias for the account to be used by Satounki users
    */
@@ -786,7 +786,7 @@ export interface SettingsCloudflareAccountGetResponse {
 /**
  * Cloudflare account configuration
  */
-export interface SettingsCloudflareAccountPostBody {
+export interface SettingsCloudflareAccountPostRequest {
   /**
    * Meaningful alias for the account to be used by Satounki users
    */
@@ -828,7 +828,7 @@ export interface SettingsCloudflareAccountPostResponse {
 /**
  * Cloudflare account configuration
  */
-export interface SettingsCloudflareAccountPutBody {
+export interface SettingsCloudflareAccountPutRequest {
   /**
    * Meaningful alias for the account to be used by Satounki users
    */
@@ -916,7 +916,7 @@ export interface SettingsGcpProjectGetResponse {
 /**
  * Google Cloud Platform project configuration
  */
-export interface SettingsGcpProjectPostBody {
+export interface SettingsGcpProjectPostRequest {
   /**
    * Require additional approval by an Administrator for access requests made to the project
    */
@@ -958,7 +958,7 @@ export interface SettingsGcpProjectPostResponse {
 /**
  * Google Cloud Platform project configuration
  */
-export interface SettingsGcpProjectPutBody {
+export interface SettingsGcpProjectPutRequest {
   /**
    * Require additional approval by an Administrator for access requests made to the project
    */
@@ -1042,7 +1042,7 @@ export interface UserAliasesGetResponse {
 /**
  * Service-specific username aliases
  */
-export interface UserAliasesPostBody {
+export interface UserAliasesPostRequest {
   /**
    * Username on Amazon Web Services, may not be an email address
    */
@@ -1080,7 +1080,7 @@ export interface UserAliasesPostResponse {
 /**
  * Service-specific username aliases
  */
-export interface UserAliasesPutBody {
+export interface UserAliasesPutRequest {
   /**
    * Username on Amazon Web Services, may not be an email address
    */
@@ -1152,7 +1152,7 @@ export interface UserTokenPutResponse {
   [property: string]: any;
 }
 
-export type UserRolesPutBody = UserRolesPutResponse;
-export type UserRolesPostBody = UserRolesPutResponse;
+export type UserRolesPutRequest = UserRolesPutResponse;
+export type UserRolesPostRequest = UserRolesPutResponse;
 export type UserRolesGetResponse = UserRolesPutResponse;
 export type UserRolesPostResponse = UserRolesPutResponse;

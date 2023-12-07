@@ -86,7 +86,7 @@ func (api *API) PolicyNameGet(id string) (PolicyNameGetResponse, *ErrorResponse,
 	}
 }
 
-func (api *API) PolicyPost(body PolicyPostBody) (PolicyPostResponse, *ErrorResponse, error) {
+func (api *API) PolicyPost(body PolicyPostRequest) (PolicyPostResponse, *ErrorResponse, error) {
 	url := fmt.Sprintf("%s/policy", api.BaseURL)
 	reqBody, err := json.Marshal(&body)
 	if err != nil {
@@ -132,7 +132,7 @@ func (api *API) PolicyPost(body PolicyPostBody) (PolicyPostResponse, *ErrorRespo
 	}
 }
 
-func (api *API) PolicyPut(id string, body PolicyPutBody) (PolicyPutResponse, *ErrorResponse, error) {
+func (api *API) PolicyPut(id string, body PolicyPutRequest) (PolicyPutResponse, *ErrorResponse, error) {
 	url := fmt.Sprintf("%s/policy/%s", api.BaseURL, id)
 	reqBody, err := json.Marshal(&body)
 	if err != nil {
@@ -366,7 +366,7 @@ func (api *API) SettingsGcpProjectsGet() (SettingsGcpProjectsGetResponse, *Error
 	}
 }
 
-func (api *API) SettingsAwsAccountPost(body SettingsAwsAccountPostBody) (SettingsAwsAccountPostResponse, *ErrorResponse, error) {
+func (api *API) SettingsAwsAccountPost(body SettingsAwsAccountPostRequest) (SettingsAwsAccountPostResponse, *ErrorResponse, error) {
 	url := fmt.Sprintf("%s/settings/aws-account", api.BaseURL)
 	reqBody, err := json.Marshal(&body)
 	if err != nil {
@@ -412,7 +412,7 @@ func (api *API) SettingsAwsAccountPost(body SettingsAwsAccountPostBody) (Setting
 	}
 }
 
-func (api *API) SettingsAwsAccountPut(id string, body SettingsAwsAccountPutBody) (SettingsAwsAccountPutResponse, *ErrorResponse, error) {
+func (api *API) SettingsAwsAccountPut(id string, body SettingsAwsAccountPutRequest) (SettingsAwsAccountPutResponse, *ErrorResponse, error) {
 	url := fmt.Sprintf("%s/settings/aws-account/%s", api.BaseURL, id)
 	reqBody, err := json.Marshal(&body)
 	if err != nil {
@@ -535,7 +535,7 @@ func (api *API) SettingsAwsAccountDelete(id string) error {
 	}
 }
 
-func (api *API) SettingsCloudflareAccountPost(body SettingsCloudflareAccountPostBody) (SettingsCloudflareAccountPostResponse, *ErrorResponse, error) {
+func (api *API) SettingsCloudflareAccountPost(body SettingsCloudflareAccountPostRequest) (SettingsCloudflareAccountPostResponse, *ErrorResponse, error) {
 	url := fmt.Sprintf("%s/settings/cloudflare-account", api.BaseURL)
 	reqBody, err := json.Marshal(&body)
 	if err != nil {
@@ -581,7 +581,7 @@ func (api *API) SettingsCloudflareAccountPost(body SettingsCloudflareAccountPost
 	}
 }
 
-func (api *API) SettingsCloudflareAccountPut(id string, body SettingsCloudflareAccountPutBody) (SettingsCloudflareAccountPutResponse, *ErrorResponse, error) {
+func (api *API) SettingsCloudflareAccountPut(id string, body SettingsCloudflareAccountPutRequest) (SettingsCloudflareAccountPutResponse, *ErrorResponse, error) {
 	url := fmt.Sprintf("%s/settings/cloudflare-account/%s", api.BaseURL, id)
 	reqBody, err := json.Marshal(&body)
 	if err != nil {
@@ -704,7 +704,7 @@ func (api *API) SettingsCloudflareAccountDelete(id string) error {
 	}
 }
 
-func (api *API) SettingsGcpProjectPost(body SettingsGcpProjectPostBody) (SettingsGcpProjectPostResponse, *ErrorResponse, error) {
+func (api *API) SettingsGcpProjectPost(body SettingsGcpProjectPostRequest) (SettingsGcpProjectPostResponse, *ErrorResponse, error) {
 	url := fmt.Sprintf("%s/settings/gcp-project", api.BaseURL)
 	reqBody, err := json.Marshal(&body)
 	if err != nil {
@@ -750,7 +750,7 @@ func (api *API) SettingsGcpProjectPost(body SettingsGcpProjectPostBody) (Setting
 	}
 }
 
-func (api *API) SettingsGcpProjectPut(id string, body SettingsGcpProjectPutBody) (SettingsGcpProjectPutResponse, *ErrorResponse, error) {
+func (api *API) SettingsGcpProjectPut(id string, body SettingsGcpProjectPutRequest) (SettingsGcpProjectPutResponse, *ErrorResponse, error) {
 	url := fmt.Sprintf("%s/settings/gcp-project/%s", api.BaseURL, id)
 	reqBody, err := json.Marshal(&body)
 	if err != nil {
@@ -873,7 +873,7 @@ func (api *API) SettingsGcpProjectDelete(id string) error {
 	}
 }
 
-func (api *API) UserAliasesPost(id string, policy UserAliasesPostBody) (UserAliasesPostResponse, *ErrorResponse, error) {
+func (api *API) UserAliasesPost(id string, policy UserAliasesPostRequest) (UserAliasesPostResponse, *ErrorResponse, error) {
 	url := fmt.Sprintf("%s/user/%s/aliases", api.BaseURL, id)
 	reqBody, err := json.Marshal(&policy)
 	if err != nil {
@@ -919,7 +919,7 @@ func (api *API) UserAliasesPost(id string, policy UserAliasesPostBody) (UserAlia
 	}
 }
 
-func (api *API) UserAliasesPut(id string, body UserAliasesPutBody) (UserAliasesPutResponse, *ErrorResponse, error) {
+func (api *API) UserAliasesPut(id string, body UserAliasesPutRequest) (UserAliasesPutResponse, *ErrorResponse, error) {
 	url := fmt.Sprintf("%s/user/%s/aliases", api.BaseURL, id)
 	reqBody, err := json.Marshal(&body)
 	if err != nil {
@@ -1042,7 +1042,7 @@ func (api *API) UserAliasesDelete(id string) error {
 	}
 }
 
-func (api *API) UserRolesPost(id string, policy UserRolesPostBody) (UserRolesPostResponse, *ErrorResponse, error) {
+func (api *API) UserRolesPost(id string, policy UserRolesPostRequest) (UserRolesPostResponse, *ErrorResponse, error) {
 	url := fmt.Sprintf("%s/user/%s/roles", api.BaseURL, id)
 	reqBody, err := json.Marshal(&policy)
 	if err != nil {
@@ -1088,7 +1088,7 @@ func (api *API) UserRolesPost(id string, policy UserRolesPostBody) (UserRolesPos
 	}
 }
 
-func (api *API) UserRolesPut(id string, body UserRolesPutBody) (UserRolesPutResponse, *ErrorResponse, error) {
+func (api *API) UserRolesPut(id string, body UserRolesPutRequest) (UserRolesPutResponse, *ErrorResponse, error) {
 	url := fmt.Sprintf("%s/user/%s/roles", api.BaseURL, id)
 	reqBody, err := json.Marshal(&body)
 	if err != nil {
@@ -1368,7 +1368,7 @@ func (api *API) RequestAliasGet(id string) (RequestAliasGetResponse, *ErrorRespo
 	}
 }
 
-func (api *API) RequestAliasPatch(id string, body RequestAliasPatchBody) error {
+func (api *API) RequestAliasPatch(id string, body RequestAliasPatchRequest) error {
 	url := fmt.Sprintf("%s/request/alias/%s", api.BaseURL, id)
 	reqBody, err := json.Marshal(&body)
 	if err != nil {
@@ -1410,7 +1410,7 @@ func (api *API) RequestAliasPatch(id string, body RequestAliasPatchBody) error {
 	}
 }
 
-func (api *API) RequestPolicyPost(id string, policy RequestPolicyPostBody) (RequestPolicyPostResponse, *ErrorResponse, error) {
+func (api *API) RequestPolicyPost(id string, policy RequestPolicyPostRequest) (RequestPolicyPostResponse, *ErrorResponse, error) {
 	url := fmt.Sprintf("%s/request/policy/%s", api.BaseURL, id)
 	reqBody, err := json.Marshal(&policy)
 	if err != nil {

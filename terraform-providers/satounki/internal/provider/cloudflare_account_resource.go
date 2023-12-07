@@ -3,12 +3,13 @@ package provider
 import (
 	"context"
 	"fmt"
+	"satounki"
+
 	"github.com/hashicorp/terraform-plugin-framework/path"
 	"github.com/hashicorp/terraform-plugin-framework/resource"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/planmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/stringplanmodifier"
-	"satounki"
 )
 
 // Ensure the implementation satisfies the expected interfaces.
@@ -91,7 +92,7 @@ func (r *cloudflareAccountResource) Create(ctx context.Context, req resource.Cre
 		return
 	}
 
-	body := plan.PostBody()
+	body := plan.PostRequest()
 
 	response, _, err := r.client.SettingsCloudflareAccountPost(body)
 	if err != nil {
@@ -149,7 +150,7 @@ func (r *cloudflareAccountResource) Update(ctx context.Context, req resource.Upd
 		return
 	}
 
-	body := plan.PutBody()
+	body := plan.PutRequest()
 
 	response, _, err := r.client.SettingsCloudflareAccountPut(plan.ID.ValueString(), body)
 	if err != nil {

@@ -1,19 +1,20 @@
 package provider
 
 import (
-	"github.com/hashicorp/terraform-plugin-framework/types"
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/id"
 	"satounki"
 	"time"
+
+	"github.com/hashicorp/terraform-plugin-framework/types"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/id"
 )
 
-func (d userRolesResourceData) PostBody() satounki.UserRolesPostBody {
+func (d userRolesResourceData) PostRequest() satounki.UserRolesPostRequest {
 	var roles []satounki.AccessRole
 	for _, r := range d.AccessRoles {
 		roles = append(roles, satounki.AccessRole(r.ValueString()))
 	}
 
-	return satounki.UserRolesPostBody(roles)
+	return satounki.UserRolesPostRequest(roles)
 }
 
 func (d *userRolesResourceData) PostResponse(r satounki.UserRolesPostResponse) {
@@ -27,13 +28,13 @@ func (d *userRolesResourceData) PostResponse(r satounki.UserRolesPostResponse) {
 	d.AccessRoles = roles
 }
 
-func (d userRolesResourceData) PutBody() satounki.UserRolesPutBody {
+func (d userRolesResourceData) PutRequest() satounki.UserRolesPutRequest {
 	var roles []satounki.AccessRole
 	for _, r := range d.AccessRoles {
 		roles = append(roles, satounki.AccessRole(r.ValueString()))
 	}
 
-	return satounki.UserRolesPutBody(roles)
+	return satounki.UserRolesPutRequest(roles)
 }
 
 func (d *userRolesResourceData) PutResponse(r satounki.UserRolesPutResponse) {

@@ -3,7 +3,7 @@ use actix_web::post;
 use actix_web::web;
 use common::NewPolicy;
 use common::PolicyRequestConfirmation;
-use common::RequestPolicyPostBody;
+use common::RequestPolicyPostRequest;
 use common::RequestPolicyPostResponse;
 use database::CompanyAwsAccount;
 use database::CompanyCloudflareAccount;
@@ -29,7 +29,7 @@ use crate::Result;
     context_path = "/v1/request/policy",
     tag = "requests",
     security(("user_token" = [])),
-    request_body = RequestPolicyPostBody,
+    request_body = RequestPolicyPostRequest,
     responses(
         (status = 200, body = RequestPolicyPostResponse),
         (status = 400, body = ErrorResponse, example = json!(ex(StatusCode::BAD_REQUEST))),
@@ -44,7 +44,7 @@ async fn request_policy_post(
     pool: web::Data<Pool>,
     authenticated: UserWithAccessRole<UserRole>,
     id: web::Path<String>,
-    body: web::Json<RequestPolicyPostBody>,
+    body: web::Json<RequestPolicyPostRequest>,
 ) -> Result<web::Json<RequestPolicyPostResponse>> {
     let connection = &mut *pool.get()?;
 

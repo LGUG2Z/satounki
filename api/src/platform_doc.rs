@@ -3,9 +3,9 @@ use actix_web::http::StatusCode;
 use common_platform::CompaniesGetResponse;
 use common_platform::Company;
 use common_platform::CompanyGetResponse;
-use common_platform::CompanyPostBody;
+use common_platform::CompanyPostRequest;
 use common_platform::CompanyPostResponse;
-use common_platform::CompanyPutBody;
+use common_platform::CompanyPutRequest;
 use common_platform::CompanyPutResponse;
 use common_platform::ErrorResponse;
 use common_platform::PlatformToken;
@@ -58,8 +58,8 @@ pub fn ex(code: StatusCode) -> ErrorResponse {
             PlatformTokenPutResponse,
 
             Company,
-            CompanyPostBody,
-            CompanyPutBody,
+            CompanyPostRequest,
+            CompanyPutRequest,
             ErrorResponse,
             PlatformToken,
         )

@@ -7,9 +7,9 @@ use actix_web::web;
 use actix_web::HttpResponse;
 use common::AwsAccount;
 use common::SettingsAwsAccountGetResponse;
-use common::SettingsAwsAccountPostBody;
+use common::SettingsAwsAccountPostRequest;
 use common::SettingsAwsAccountPostResponse;
-use common::SettingsAwsAccountPutBody;
+use common::SettingsAwsAccountPutRequest;
 use common::SettingsAwsAccountPutResponse;
 use database::CompanyAwsAccount;
 use database::Pool;
@@ -26,7 +26,7 @@ use crate::Result;
     context_path = "/v1/settings",
     tag = "settings",
     security(("user_token" = []), ("api_token" = [])),
-    request_body = SettingsAwsAccountPostBody,
+    request_body = SettingsAwsAccountPostRequest,
     responses(
         (status = 200, body = SettingsAwsAccountPostResponse),
         (status = 401, body = ErrorResponse, example = json!(ex(StatusCode::UNAUTHORIZED))),
@@ -38,7 +38,7 @@ use crate::Result;
 async fn settings_aws_account_post(
     pool: web::Data<Pool>,
     authenticated: ApiTokenOrUserWithAccessRole<AdministratorRole>,
-    body: web::Json<SettingsAwsAccountPostBody>,
+    body: web::Json<SettingsAwsAccountPostRequest>,
 ) -> Result<web::Json<SettingsAwsAccountPostResponse>> {
     let payload = body.into_inner();
 
@@ -71,7 +71,7 @@ async fn settings_aws_account_post(
     context_path = "/v1/settings",
     tag = "settings",
     security(("user_token" = []), ("api_token" = [])),
-    request_body = SettingsAwsAccountPutBody,
+    request_body = SettingsAwsAccountPutRequest,
     responses(
         (status = 200, body = SettingsAwsAccountPutResponse),
         (status = 401, body = ErrorResponse, example = json!(ex(StatusCode::UNAUTHORIZED))),
@@ -83,7 +83,7 @@ async fn settings_aws_account_post(
 async fn settings_aws_account_put(
     pool: web::Data<Pool>,
     authenticated: ApiTokenOrUserWithAccessRole<AdministratorRole>,
-    body: web::Json<SettingsAwsAccountPutBody>,
+    body: web::Json<SettingsAwsAccountPutRequest>,
     id: web::Path<String>,
 ) -> Result<web::Json<SettingsAwsAccountPutResponse>> {
     let payload = body.into_inner();

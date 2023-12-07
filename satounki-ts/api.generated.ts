@@ -37,7 +37,7 @@ export class Api {
   }
 
   async policyPost(
-    body: satounki.PolicyPostBody,
+    body: satounki.PolicyPostRequest,
   ): Promise<
     IRestResponse<satounki.PolicyPostResponse | satounki.ErrorResponse>
   > {
@@ -46,7 +46,7 @@ export class Api {
 
   async policyPut(
     id: string,
-    body: satounki.PolicyPutBody,
+    body: satounki.PolicyPutRequest,
   ): Promise<
     IRestResponse<satounki.PolicyPutResponse | satounki.ErrorResponse>
   > {
@@ -92,7 +92,7 @@ export class Api {
   }
 
   async settingsAwsAccountPost(
-    body: satounki.SettingsAwsAccountPostBody,
+    body: satounki.SettingsAwsAccountPostRequest,
   ): Promise<
     IRestResponse<
       satounki.SettingsAwsAccountPostResponse | satounki.ErrorResponse
@@ -103,7 +103,7 @@ export class Api {
 
   async settingsAwsAccountPut(
     id: string,
-    body: satounki.SettingsAwsAccountPutBody,
+    body: satounki.SettingsAwsAccountPutRequest,
   ): Promise<
     IRestResponse<
       satounki.SettingsAwsAccountPutResponse | satounki.ErrorResponse
@@ -129,7 +129,7 @@ export class Api {
   }
 
   async settingsCloudflareAccountPost(
-    body: satounki.SettingsCloudflareAccountPostBody,
+    body: satounki.SettingsCloudflareAccountPostRequest,
   ): Promise<
     IRestResponse<
       satounki.SettingsCloudflareAccountPostResponse | satounki.ErrorResponse
@@ -140,7 +140,7 @@ export class Api {
 
   async settingsCloudflareAccountPut(
     id: string,
-    body: satounki.SettingsCloudflareAccountPutBody,
+    body: satounki.SettingsCloudflareAccountPutRequest,
   ): Promise<
     IRestResponse<
       satounki.SettingsCloudflareAccountPutResponse | satounki.ErrorResponse
@@ -169,7 +169,7 @@ export class Api {
   }
 
   async settingsGcpProjectPost(
-    body: satounki.SettingsGcpProjectPostBody,
+    body: satounki.SettingsGcpProjectPostRequest,
   ): Promise<
     IRestResponse<
       satounki.SettingsGcpProjectPostResponse | satounki.ErrorResponse
@@ -180,7 +180,7 @@ export class Api {
 
   async settingsGcpProjectPut(
     id: string,
-    body: satounki.SettingsGcpProjectPutBody,
+    body: satounki.SettingsGcpProjectPutRequest,
   ): Promise<
     IRestResponse<
       satounki.SettingsGcpProjectPutResponse | satounki.ErrorResponse
@@ -207,7 +207,7 @@ export class Api {
 
   async userAliasesPost(
     id: string,
-    body: satounki.UserAliasesPostBody,
+    body: satounki.UserAliasesPostRequest,
   ): Promise<
     IRestResponse<satounki.UserAliasesPostResponse | satounki.ErrorResponse>
   > {
@@ -216,7 +216,7 @@ export class Api {
 
   async userAliasesPut(
     id: string,
-    body: satounki.UserAliasesPutBody,
+    body: satounki.UserAliasesPutRequest,
   ): Promise<
     IRestResponse<satounki.UserAliasesPutResponse | satounki.ErrorResponse>
   > {
@@ -239,7 +239,7 @@ export class Api {
 
   async userRolesPost(
     id: string,
-    body: satounki.UserRolesPostBody,
+    body: satounki.UserRolesPostRequest,
   ): Promise<
     IRestResponse<satounki.UserRolesPostResponse | satounki.ErrorResponse>
   > {
@@ -248,7 +248,7 @@ export class Api {
 
   async userRolesPut(
     id: string,
-    body: satounki.UserRolesPutBody,
+    body: satounki.UserRolesPutRequest,
   ): Promise<
     IRestResponse<satounki.UserRolesPutResponse | satounki.ErrorResponse>
   > {
@@ -297,14 +297,14 @@ export class Api {
 
   async requestAliasPatch(
     id: string,
-    body: satounki.RequestAliasPatchBodyEnum,
+    body: satounki.RequestAliasPatchRequestEnum,
   ): Promise<IRestResponse<null | satounki.ErrorResponse>> {
     return await this.client.update(`/v1/request/alias/${id}`, body);
   }
 
   async requestPolicyPost(
     id: string,
-    body: satounki.RequestPolicyPostBody,
+    body: satounki.RequestPolicyPostRequest,
   ): Promise<
     IRestResponse<satounki.RequestPolicyPostResponse | satounki.ErrorResponse>
   > {

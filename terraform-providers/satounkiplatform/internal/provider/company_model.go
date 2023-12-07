@@ -8,8 +8,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/types"
 )
 
-func (d companyResourceData) PostBody() satounki.CompanyPostBody {
-	return satounki.CompanyPostBody{
+func (d companyResourceData) PostRequest() satounki.CompanyPostRequest {
+	return satounki.CompanyPostRequest{
 		Domain:            d.Domain.ValueString(),
 		Name:              d.Name.ValueString(),
 		RootUserEmail:     d.RootUserEmail.ValueString(),
@@ -28,8 +28,8 @@ func (d *companyResourceData) PostResponse(r satounki.CompanyPostResponse) {
 	d.RootUserLastName = types.StringValue(*r.RootUserLastName)
 }
 
-func (d companyResourceData) PutBody() satounki.CompanyPutBody {
-	return satounki.CompanyPutBody{
+func (d companyResourceData) PutRequest() satounki.CompanyPutRequest {
+	return satounki.CompanyPutRequest{
 		Domain:            d.Domain.ValueString(),
 		Name:              d.Name.ValueString(),
 		RootUserEmail:     d.RootUserEmail.ValueString(),

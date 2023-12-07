@@ -13,14 +13,14 @@
 //    policyNameGetResponse, err := UnmarshalPolicyNameGetResponse(bytes)
 //    bytes, err = policyNameGetResponse.Marshal()
 //
-//    policyPostBody, err := UnmarshalPolicyPostBody(bytes)
-//    bytes, err = policyPostBody.Marshal()
+//    policyPostRequest, err := UnmarshalPolicyPostRequest(bytes)
+//    bytes, err = policyPostRequest.Marshal()
 //
 //    policyPostResponse, err := UnmarshalPolicyPostResponse(bytes)
 //    bytes, err = policyPostResponse.Marshal()
 //
-//    policyPutBody, err := UnmarshalPolicyPutBody(bytes)
-//    bytes, err = policyPutBody.Marshal()
+//    policyPutRequest, err := UnmarshalPolicyPutRequest(bytes)
+//    bytes, err = policyPutRequest.Marshal()
 //
 //    policyPutResponse, err := UnmarshalPolicyPutResponse(bytes)
 //    bytes, err = policyPutResponse.Marshal()
@@ -28,11 +28,11 @@
 //    requestAliasGetResponse, err := UnmarshalRequestAliasGetResponse(bytes)
 //    bytes, err = requestAliasGetResponse.Marshal()
 //
-//    requestAliasPatchBody, err := UnmarshalRequestAliasPatchBody(bytes)
-//    bytes, err = requestAliasPatchBody.Marshal()
+//    requestAliasPatchRequest, err := UnmarshalRequestAliasPatchRequest(bytes)
+//    bytes, err = requestAliasPatchRequest.Marshal()
 //
-//    requestPolicyPostBody, err := UnmarshalRequestPolicyPostBody(bytes)
-//    bytes, err = requestPolicyPostBody.Marshal()
+//    requestPolicyPostRequest, err := UnmarshalRequestPolicyPostRequest(bytes)
+//    bytes, err = requestPolicyPostRequest.Marshal()
 //
 //    requestPolicyPostResponse, err := UnmarshalRequestPolicyPostResponse(bytes)
 //    bytes, err = requestPolicyPostResponse.Marshal()
@@ -46,14 +46,14 @@
 //    settingsAwsAccountGetResponse, err := UnmarshalSettingsAwsAccountGetResponse(bytes)
 //    bytes, err = settingsAwsAccountGetResponse.Marshal()
 //
-//    settingsAwsAccountPostBody, err := UnmarshalSettingsAwsAccountPostBody(bytes)
-//    bytes, err = settingsAwsAccountPostBody.Marshal()
+//    settingsAwsAccountPostRequest, err := UnmarshalSettingsAwsAccountPostRequest(bytes)
+//    bytes, err = settingsAwsAccountPostRequest.Marshal()
 //
 //    settingsAwsAccountPostResponse, err := UnmarshalSettingsAwsAccountPostResponse(bytes)
 //    bytes, err = settingsAwsAccountPostResponse.Marshal()
 //
-//    settingsAwsAccountPutBody, err := UnmarshalSettingsAwsAccountPutBody(bytes)
-//    bytes, err = settingsAwsAccountPutBody.Marshal()
+//    settingsAwsAccountPutRequest, err := UnmarshalSettingsAwsAccountPutRequest(bytes)
+//    bytes, err = settingsAwsAccountPutRequest.Marshal()
 //
 //    settingsAwsAccountPutResponse, err := UnmarshalSettingsAwsAccountPutResponse(bytes)
 //    bytes, err = settingsAwsAccountPutResponse.Marshal()
@@ -64,14 +64,14 @@
 //    settingsCloudflareAccountGetResponse, err := UnmarshalSettingsCloudflareAccountGetResponse(bytes)
 //    bytes, err = settingsCloudflareAccountGetResponse.Marshal()
 //
-//    settingsCloudflareAccountPostBody, err := UnmarshalSettingsCloudflareAccountPostBody(bytes)
-//    bytes, err = settingsCloudflareAccountPostBody.Marshal()
+//    settingsCloudflareAccountPostRequest, err := UnmarshalSettingsCloudflareAccountPostRequest(bytes)
+//    bytes, err = settingsCloudflareAccountPostRequest.Marshal()
 //
 //    settingsCloudflareAccountPostResponse, err := UnmarshalSettingsCloudflareAccountPostResponse(bytes)
 //    bytes, err = settingsCloudflareAccountPostResponse.Marshal()
 //
-//    settingsCloudflareAccountPutBody, err := UnmarshalSettingsCloudflareAccountPutBody(bytes)
-//    bytes, err = settingsCloudflareAccountPutBody.Marshal()
+//    settingsCloudflareAccountPutRequest, err := UnmarshalSettingsCloudflareAccountPutRequest(bytes)
+//    bytes, err = settingsCloudflareAccountPutRequest.Marshal()
 //
 //    settingsCloudflareAccountPutResponse, err := UnmarshalSettingsCloudflareAccountPutResponse(bytes)
 //    bytes, err = settingsCloudflareAccountPutResponse.Marshal()
@@ -82,14 +82,14 @@
 //    settingsGcpProjectGetResponse, err := UnmarshalSettingsGcpProjectGetResponse(bytes)
 //    bytes, err = settingsGcpProjectGetResponse.Marshal()
 //
-//    settingsGcpProjectPostBody, err := UnmarshalSettingsGcpProjectPostBody(bytes)
-//    bytes, err = settingsGcpProjectPostBody.Marshal()
+//    settingsGcpProjectPostRequest, err := UnmarshalSettingsGcpProjectPostRequest(bytes)
+//    bytes, err = settingsGcpProjectPostRequest.Marshal()
 //
 //    settingsGcpProjectPostResponse, err := UnmarshalSettingsGcpProjectPostResponse(bytes)
 //    bytes, err = settingsGcpProjectPostResponse.Marshal()
 //
-//    settingsGcpProjectPutBody, err := UnmarshalSettingsGcpProjectPutBody(bytes)
-//    bytes, err = settingsGcpProjectPutBody.Marshal()
+//    settingsGcpProjectPutRequest, err := UnmarshalSettingsGcpProjectPutRequest(bytes)
+//    bytes, err = settingsGcpProjectPutRequest.Marshal()
 //
 //    settingsGcpProjectPutResponse, err := UnmarshalSettingsGcpProjectPutResponse(bytes)
 //    bytes, err = settingsGcpProjectPutResponse.Marshal()
@@ -100,14 +100,14 @@
 //    userAliasesGetResponse, err := UnmarshalUserAliasesGetResponse(bytes)
 //    bytes, err = userAliasesGetResponse.Marshal()
 //
-//    userAliasesPostBody, err := UnmarshalUserAliasesPostBody(bytes)
-//    bytes, err = userAliasesPostBody.Marshal()
+//    userAliasesPostRequest, err := UnmarshalUserAliasesPostRequest(bytes)
+//    bytes, err = userAliasesPostRequest.Marshal()
 //
 //    userAliasesPostResponse, err := UnmarshalUserAliasesPostResponse(bytes)
 //    bytes, err = userAliasesPostResponse.Marshal()
 //
-//    userAliasesPutBody, err := UnmarshalUserAliasesPutBody(bytes)
-//    bytes, err = userAliasesPutBody.Marshal()
+//    userAliasesPutRequest, err := UnmarshalUserAliasesPutRequest(bytes)
+//    bytes, err = userAliasesPutRequest.Marshal()
 //
 //    userAliasesPutResponse, err := UnmarshalUserAliasesPutResponse(bytes)
 //    bytes, err = userAliasesPutResponse.Marshal()
@@ -115,14 +115,14 @@
 //    userRolesGetResponse, err := UnmarshalUserRolesGetResponse(bytes)
 //    bytes, err = userRolesGetResponse.Marshal()
 //
-//    userRolesPostBody, err := UnmarshalUserRolesPostBody(bytes)
-//    bytes, err = userRolesPostBody.Marshal()
+//    userRolesPostRequest, err := UnmarshalUserRolesPostRequest(bytes)
+//    bytes, err = userRolesPostRequest.Marshal()
 //
 //    userRolesPostResponse, err := UnmarshalUserRolesPostResponse(bytes)
 //    bytes, err = userRolesPostResponse.Marshal()
 //
-//    userRolesPutBody, err := UnmarshalUserRolesPutBody(bytes)
-//    bytes, err = userRolesPutBody.Marshal()
+//    userRolesPutRequest, err := UnmarshalUserRolesPutRequest(bytes)
+//    bytes, err = userRolesPutRequest.Marshal()
 //
 //    userRolesPutResponse, err := UnmarshalUserRolesPutResponse(bytes)
 //    bytes, err = userRolesPutResponse.Marshal()
@@ -181,13 +181,13 @@ func (r *PolicyNameGetResponse) Marshal() ([]byte, error) {
 	return json.Marshal(r)
 }
 
-func UnmarshalPolicyPostBody(data []byte) (PolicyPostBody, error) {
-	var r PolicyPostBody
+func UnmarshalPolicyPostRequest(data []byte) (PolicyPostRequest, error) {
+	var r PolicyPostRequest
 	err := json.Unmarshal(data, &r)
 	return r, err
 }
 
-func (r *PolicyPostBody) Marshal() ([]byte, error) {
+func (r *PolicyPostRequest) Marshal() ([]byte, error) {
 	return json.Marshal(r)
 }
 
@@ -201,13 +201,13 @@ func (r *PolicyPostResponse) Marshal() ([]byte, error) {
 	return json.Marshal(r)
 }
 
-func UnmarshalPolicyPutBody(data []byte) (PolicyPutBody, error) {
-	var r PolicyPutBody
+func UnmarshalPolicyPutRequest(data []byte) (PolicyPutRequest, error) {
+	var r PolicyPutRequest
 	err := json.Unmarshal(data, &r)
 	return r, err
 }
 
-func (r *PolicyPutBody) Marshal() ([]byte, error) {
+func (r *PolicyPutRequest) Marshal() ([]byte, error) {
 	return json.Marshal(r)
 }
 
@@ -231,23 +231,23 @@ func (r *RequestAliasGetResponse) Marshal() ([]byte, error) {
 	return json.Marshal(r)
 }
 
-func UnmarshalRequestAliasPatchBody(data []byte) (RequestAliasPatchBody, error) {
-	var r RequestAliasPatchBody
+func UnmarshalRequestAliasPatchRequest(data []byte) (RequestAliasPatchRequest, error) {
+	var r RequestAliasPatchRequest
 	err := json.Unmarshal(data, &r)
 	return r, err
 }
 
-func (r *RequestAliasPatchBody) Marshal() ([]byte, error) {
+func (r *RequestAliasPatchRequest) Marshal() ([]byte, error) {
 	return json.Marshal(r)
 }
 
-func UnmarshalRequestPolicyPostBody(data []byte) (RequestPolicyPostBody, error) {
-	var r RequestPolicyPostBody
+func UnmarshalRequestPolicyPostRequest(data []byte) (RequestPolicyPostRequest, error) {
+	var r RequestPolicyPostRequest
 	err := json.Unmarshal(data, &r)
 	return r, err
 }
 
-func (r *RequestPolicyPostBody) Marshal() ([]byte, error) {
+func (r *RequestPolicyPostRequest) Marshal() ([]byte, error) {
 	return json.Marshal(r)
 }
 
@@ -293,13 +293,13 @@ func (r *SettingsAwsAccountGetResponse) Marshal() ([]byte, error) {
 	return json.Marshal(r)
 }
 
-func UnmarshalSettingsAwsAccountPostBody(data []byte) (SettingsAwsAccountPostBody, error) {
-	var r SettingsAwsAccountPostBody
+func UnmarshalSettingsAwsAccountPostRequest(data []byte) (SettingsAwsAccountPostRequest, error) {
+	var r SettingsAwsAccountPostRequest
 	err := json.Unmarshal(data, &r)
 	return r, err
 }
 
-func (r *SettingsAwsAccountPostBody) Marshal() ([]byte, error) {
+func (r *SettingsAwsAccountPostRequest) Marshal() ([]byte, error) {
 	return json.Marshal(r)
 }
 
@@ -313,13 +313,13 @@ func (r *SettingsAwsAccountPostResponse) Marshal() ([]byte, error) {
 	return json.Marshal(r)
 }
 
-func UnmarshalSettingsAwsAccountPutBody(data []byte) (SettingsAwsAccountPutBody, error) {
-	var r SettingsAwsAccountPutBody
+func UnmarshalSettingsAwsAccountPutRequest(data []byte) (SettingsAwsAccountPutRequest, error) {
+	var r SettingsAwsAccountPutRequest
 	err := json.Unmarshal(data, &r)
 	return r, err
 }
 
-func (r *SettingsAwsAccountPutBody) Marshal() ([]byte, error) {
+func (r *SettingsAwsAccountPutRequest) Marshal() ([]byte, error) {
 	return json.Marshal(r)
 }
 
@@ -355,13 +355,13 @@ func (r *SettingsCloudflareAccountGetResponse) Marshal() ([]byte, error) {
 	return json.Marshal(r)
 }
 
-func UnmarshalSettingsCloudflareAccountPostBody(data []byte) (SettingsCloudflareAccountPostBody, error) {
-	var r SettingsCloudflareAccountPostBody
+func UnmarshalSettingsCloudflareAccountPostRequest(data []byte) (SettingsCloudflareAccountPostRequest, error) {
+	var r SettingsCloudflareAccountPostRequest
 	err := json.Unmarshal(data, &r)
 	return r, err
 }
 
-func (r *SettingsCloudflareAccountPostBody) Marshal() ([]byte, error) {
+func (r *SettingsCloudflareAccountPostRequest) Marshal() ([]byte, error) {
 	return json.Marshal(r)
 }
 
@@ -375,13 +375,13 @@ func (r *SettingsCloudflareAccountPostResponse) Marshal() ([]byte, error) {
 	return json.Marshal(r)
 }
 
-func UnmarshalSettingsCloudflareAccountPutBody(data []byte) (SettingsCloudflareAccountPutBody, error) {
-	var r SettingsCloudflareAccountPutBody
+func UnmarshalSettingsCloudflareAccountPutRequest(data []byte) (SettingsCloudflareAccountPutRequest, error) {
+	var r SettingsCloudflareAccountPutRequest
 	err := json.Unmarshal(data, &r)
 	return r, err
 }
 
-func (r *SettingsCloudflareAccountPutBody) Marshal() ([]byte, error) {
+func (r *SettingsCloudflareAccountPutRequest) Marshal() ([]byte, error) {
 	return json.Marshal(r)
 }
 
@@ -417,13 +417,13 @@ func (r *SettingsGcpProjectGetResponse) Marshal() ([]byte, error) {
 	return json.Marshal(r)
 }
 
-func UnmarshalSettingsGcpProjectPostBody(data []byte) (SettingsGcpProjectPostBody, error) {
-	var r SettingsGcpProjectPostBody
+func UnmarshalSettingsGcpProjectPostRequest(data []byte) (SettingsGcpProjectPostRequest, error) {
+	var r SettingsGcpProjectPostRequest
 	err := json.Unmarshal(data, &r)
 	return r, err
 }
 
-func (r *SettingsGcpProjectPostBody) Marshal() ([]byte, error) {
+func (r *SettingsGcpProjectPostRequest) Marshal() ([]byte, error) {
 	return json.Marshal(r)
 }
 
@@ -437,13 +437,13 @@ func (r *SettingsGcpProjectPostResponse) Marshal() ([]byte, error) {
 	return json.Marshal(r)
 }
 
-func UnmarshalSettingsGcpProjectPutBody(data []byte) (SettingsGcpProjectPutBody, error) {
-	var r SettingsGcpProjectPutBody
+func UnmarshalSettingsGcpProjectPutRequest(data []byte) (SettingsGcpProjectPutRequest, error) {
+	var r SettingsGcpProjectPutRequest
 	err := json.Unmarshal(data, &r)
 	return r, err
 }
 
-func (r *SettingsGcpProjectPutBody) Marshal() ([]byte, error) {
+func (r *SettingsGcpProjectPutRequest) Marshal() ([]byte, error) {
 	return json.Marshal(r)
 }
 
@@ -479,13 +479,13 @@ func (r *UserAliasesGetResponse) Marshal() ([]byte, error) {
 	return json.Marshal(r)
 }
 
-func UnmarshalUserAliasesPostBody(data []byte) (UserAliasesPostBody, error) {
-	var r UserAliasesPostBody
+func UnmarshalUserAliasesPostRequest(data []byte) (UserAliasesPostRequest, error) {
+	var r UserAliasesPostRequest
 	err := json.Unmarshal(data, &r)
 	return r, err
 }
 
-func (r *UserAliasesPostBody) Marshal() ([]byte, error) {
+func (r *UserAliasesPostRequest) Marshal() ([]byte, error) {
 	return json.Marshal(r)
 }
 
@@ -499,13 +499,13 @@ func (r *UserAliasesPostResponse) Marshal() ([]byte, error) {
 	return json.Marshal(r)
 }
 
-func UnmarshalUserAliasesPutBody(data []byte) (UserAliasesPutBody, error) {
-	var r UserAliasesPutBody
+func UnmarshalUserAliasesPutRequest(data []byte) (UserAliasesPutRequest, error) {
+	var r UserAliasesPutRequest
 	err := json.Unmarshal(data, &r)
 	return r, err
 }
 
-func (r *UserAliasesPutBody) Marshal() ([]byte, error) {
+func (r *UserAliasesPutRequest) Marshal() ([]byte, error) {
 	return json.Marshal(r)
 }
 
@@ -531,15 +531,15 @@ func (r *UserRolesGetResponse) Marshal() ([]byte, error) {
 	return json.Marshal(r)
 }
 
-type UserRolesPostBody []AccessRole
+type UserRolesPostRequest []AccessRole
 
-func UnmarshalUserRolesPostBody(data []byte) (UserRolesPostBody, error) {
-	var r UserRolesPostBody
+func UnmarshalUserRolesPostRequest(data []byte) (UserRolesPostRequest, error) {
+	var r UserRolesPostRequest
 	err := json.Unmarshal(data, &r)
 	return r, err
 }
 
-func (r *UserRolesPostBody) Marshal() ([]byte, error) {
+func (r *UserRolesPostRequest) Marshal() ([]byte, error) {
 	return json.Marshal(r)
 }
 
@@ -555,15 +555,15 @@ func (r *UserRolesPostResponse) Marshal() ([]byte, error) {
 	return json.Marshal(r)
 }
 
-type UserRolesPutBody []AccessRole
+type UserRolesPutRequest []AccessRole
 
-func UnmarshalUserRolesPutBody(data []byte) (UserRolesPutBody, error) {
-	var r UserRolesPutBody
+func UnmarshalUserRolesPutRequest(data []byte) (UserRolesPutRequest, error) {
+	var r UserRolesPutRequest
 	err := json.Unmarshal(data, &r)
 	return r, err
 }
 
-func (r *UserRolesPutBody) Marshal() ([]byte, error) {
+func (r *UserRolesPutRequest) Marshal() ([]byte, error) {
 	return json.Marshal(r)
 }
 
@@ -656,7 +656,7 @@ type PolicyNameGetResponse struct {
 }
 
 // Satounki Policy definition
-type PolicyPostBody struct {
+type PolicyPostRequest struct {
 	// Amazon Web Services policy ARNs associated with this policy
 	Aws []string `json:"aws,omitempty"`
 	// Cloudflare roles associated with this policy
@@ -686,7 +686,7 @@ type PolicyPostResponse struct {
 }
 
 // Satounki Policy definition
-type PolicyPutBody struct {
+type PolicyPutRequest struct {
 	// Amazon Web Services policy ARNs associated with this policy
 	Aws []string `json:"aws,omitempty"`
 	// Cloudflare roles associated with this policy
@@ -786,12 +786,12 @@ type RequestAliasGetResponseRequesterAliases struct {
 }
 
 // Extend an active request by N minutes
-type RequestAliasPatchBodyClass struct {
+type RequestAliasPatchRequestClass struct {
 	Extend int64 `json:"extend"`
 }
 
 // Access request for policy permissions
-type RequestPolicyPostBody struct {
+type RequestPolicyPostRequest struct {
 	// AWS account to grant permissions on, if the policy includes AWS policy ARNs
 	AwsAccount *string `json:"aws_account,omitempty"`
 	// Cloudflare account to grant permissions on, if the policy includes Cloudflare roles
@@ -903,7 +903,7 @@ type SettingsAwsAccountGetResponse struct {
 }
 
 // Amazon Web Services account configuration
-type SettingsAwsAccountPostBody struct {
+type SettingsAwsAccountPostRequest struct {
 	// Meaningful alias for the account to be used by Satounki users
 	Account string `json:"account"`
 	// Require additional approval by an Administrator for access requests made to the account
@@ -925,7 +925,7 @@ type SettingsAwsAccountPostResponse struct {
 }
 
 // Amazon Web Services account configuration
-type SettingsAwsAccountPutBody struct {
+type SettingsAwsAccountPutRequest struct {
 	// Meaningful alias for the account to be used by Satounki users
 	Account string `json:"account"`
 	// Require additional approval by an Administrator for access requests made to the account
@@ -971,7 +971,7 @@ type SettingsCloudflareAccountGetResponse struct {
 }
 
 // Cloudflare account configuration
-type SettingsCloudflareAccountPostBody struct {
+type SettingsCloudflareAccountPostRequest struct {
 	// Meaningful alias for the account to be used by Satounki users
 	Account string `json:"account"`
 	// Require additional approval by an Administrator for access requests made to the account
@@ -993,7 +993,7 @@ type SettingsCloudflareAccountPostResponse struct {
 }
 
 // Cloudflare account configuration
-type SettingsCloudflareAccountPutBody struct {
+type SettingsCloudflareAccountPutRequest struct {
 	// Meaningful alias for the account to be used by Satounki users
 	Account string `json:"account"`
 	// Require additional approval by an Administrator for access requests made to the account
@@ -1039,7 +1039,7 @@ type SettingsGcpProjectGetResponse struct {
 }
 
 // Google Cloud Platform project configuration
-type SettingsGcpProjectPostBody struct {
+type SettingsGcpProjectPostRequest struct {
 	// Require additional approval by an Administrator for access requests made to the project
 	AdminApprovalRequired bool `json:"admin_approval_required"`
 	// Number of approvals required for access requests made to the project
@@ -1061,7 +1061,7 @@ type SettingsGcpProjectPostResponse struct {
 }
 
 // Google Cloud Platform project configuration
-type SettingsGcpProjectPutBody struct {
+type SettingsGcpProjectPutRequest struct {
 	// Require additional approval by an Administrator for access requests made to the project
 	AdminApprovalRequired bool `json:"admin_approval_required"`
 	// Number of approvals required for access requests made to the project
@@ -1105,7 +1105,7 @@ type UserAliasesGetResponse struct {
 }
 
 // Service-specific username aliases
-type UserAliasesPostBody struct {
+type UserAliasesPostRequest struct {
 	// Username on Amazon Web Services, may not be an email address
 	Aws *string `json:"aws,omitempty"`
 	// Email address registered with Cloudflare
@@ -1125,7 +1125,7 @@ type UserAliasesPostResponse struct {
 }
 
 // Service-specific username aliases
-type UserAliasesPutBody struct {
+type UserAliasesPutRequest struct {
 	// Username on Amazon Web Services, may not be an email address
 	Aws *string `json:"aws,omitempty"`
 	// Email address registered with Cloudflare
@@ -1220,14 +1220,14 @@ const (
 // # Complete an active request
 //
 // Revoke permissions from an active request
-type RequestAliasPatchBodyEnum string
+type RequestAliasPatchRequestEnum string
 
 const (
-	Approve  RequestAliasPatchBodyEnum = "approve"
-	Cancel   RequestAliasPatchBodyEnum = "cancel"
-	Complete RequestAliasPatchBodyEnum = "complete"
-	Reject   RequestAliasPatchBodyEnum = "reject"
-	Revoke   RequestAliasPatchBodyEnum = "revoke"
+	Approve  RequestAliasPatchRequestEnum = "approve"
+	Cancel   RequestAliasPatchRequestEnum = "cancel"
+	Complete RequestAliasPatchRequestEnum = "complete"
+	Reject   RequestAliasPatchRequestEnum = "reject"
+	Revoke   RequestAliasPatchRequestEnum = "revoke"
 )
 
 // Satounki user access roles
@@ -1246,27 +1246,27 @@ const (
 )
 
 // Operation on an access request
-type RequestAliasPatchBody struct {
-	Enum                       *RequestAliasPatchBodyEnum
-	RequestAliasPatchBodyClass *RequestAliasPatchBodyClass
+type RequestAliasPatchRequest struct {
+	Enum                          *RequestAliasPatchRequestEnum
+	RequestAliasPatchRequestClass *RequestAliasPatchRequestClass
 }
 
-func (x *RequestAliasPatchBody) UnmarshalJSON(data []byte) error {
-	x.RequestAliasPatchBodyClass = nil
+func (x *RequestAliasPatchRequest) UnmarshalJSON(data []byte) error {
+	x.RequestAliasPatchRequestClass = nil
 	x.Enum = nil
-	var c RequestAliasPatchBodyClass
+	var c RequestAliasPatchRequestClass
 	object, err := unmarshalUnion(data, nil, nil, nil, nil, false, nil, true, &c, false, nil, true, &x.Enum, false)
 	if err != nil {
 		return err
 	}
 	if object {
-		x.RequestAliasPatchBodyClass = &c
+		x.RequestAliasPatchRequestClass = &c
 	}
 	return nil
 }
 
-func (x *RequestAliasPatchBody) MarshalJSON() ([]byte, error) {
-	return marshalUnion(nil, nil, nil, nil, false, nil, x.RequestAliasPatchBodyClass != nil, x.RequestAliasPatchBodyClass, false, nil, x.Enum != nil, x.Enum, false)
+func (x *RequestAliasPatchRequest) MarshalJSON() ([]byte, error) {
+	return marshalUnion(nil, nil, nil, nil, false, nil, x.RequestAliasPatchRequestClass != nil, x.RequestAliasPatchRequestClass, false, nil, x.Enum != nil, x.Enum, false)
 }
 
 func unmarshalUnion(data []byte, pi **int64, pf **float64, pb **bool, ps **string, haveArray bool, pa interface{}, haveObject bool, pc interface{}, haveMap bool, pm interface{}, haveEnum bool, pe interface{}, nullable bool) (bool, error) {

@@ -7,8 +7,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/types"
 )
 
-func (d awsAccountResourceData) PostBody() satounki.SettingsAwsAccountPostBody {
-	return satounki.SettingsAwsAccountPostBody{
+func (d awsAccountResourceData) PostRequest() satounki.SettingsAwsAccountPostRequest {
+	return satounki.SettingsAwsAccountPostRequest{
 		Account:               d.Account.ValueString(),
 		AdminApprovalRequired: d.AdminApprovalRequired.ValueBool(),
 		ApprovalsRequired:     d.ApprovalsRequired.ValueInt64(),
@@ -23,8 +23,8 @@ func (d *awsAccountResourceData) PostResponse(r satounki.SettingsAwsAccountPostR
 	d.ApprovalsRequired = types.Int64Value(r.ApprovalsRequired)
 }
 
-func (d awsAccountResourceData) PutBody() satounki.SettingsAwsAccountPutBody {
-	return satounki.SettingsAwsAccountPutBody{
+func (d awsAccountResourceData) PutRequest() satounki.SettingsAwsAccountPutRequest {
+	return satounki.SettingsAwsAccountPutRequest{
 		Account:               d.Account.ValueString(),
 		AdminApprovalRequired: d.AdminApprovalRequired.ValueBool(),
 		ApprovalsRequired:     d.ApprovalsRequired.ValueInt64(),

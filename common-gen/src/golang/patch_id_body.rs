@@ -1,5 +1,5 @@
 pub const PATCH_ID_BODY_TEMPLATE_GO: &str = r#"
-func (api *API) {{ name }}Patch(id string, body {{ name }}PatchBody) error {
+func (api *API) {{ name }}Patch(id string, body {{ name }}PatchRequest) error {
 	url := fmt.Sprintf("%s{{ patch }}", api.BaseURL, id)
 	reqBody, err := json.Marshal(&body)
 	if err != nil {

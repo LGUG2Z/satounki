@@ -1,5 +1,5 @@
 pub const PUT_ID_BODY_TEMPLATE_GO: &str = r#"
-func (api *API) {{ name }}Put(id string, body {{ name }}PutBody) ({{ name }}PutResponse, *ErrorResponse, error) {
+func (api *API) {{ name }}Put(id string, body {{ name }}PutRequest) ({{ name }}PutResponse, *ErrorResponse, error) {
 	url := fmt.Sprintf("%s{{ put }}", api.BaseURL, id)
 	reqBody, err := json.Marshal(&body)
 	if err != nil {

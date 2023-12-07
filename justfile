@@ -36,11 +36,11 @@ gen-common-patches:
     quicktype -l go -s schema ./json-platform/*.json --no-multi-file-output -o "./satounki-platform-go/types.generated.go" --package satounki
     quicktype -l typescript -s schema ./json-v1/*.json -o "./satounki-ts/types.generated.ts" --just-types --no-combine-classes
     echo "" >>./satounki-ts/types.generated.ts
-    echo "export type UserRolesPutBody = UserRolesPutResponse;" >>./satounki-ts/types.generated.ts
-    echo "export type UserRolesPostBody = UserRolesPutResponse;" >>./satounki-ts/types.generated.ts
+    echo "export type UserRolesPutRequest = UserRolesPutResponse;" >>./satounki-ts/types.generated.ts
+    echo "export type UserRolesPostRequest = UserRolesPutResponse;" >>./satounki-ts/types.generated.ts
     echo "export type UserRolesGetResponse = UserRolesPutResponse;" >>./satounki-ts/types.generated.ts
     echo "export type UserRolesPostResponse = UserRolesPutResponse;" >>./satounki-ts/types.generated.ts
-    sd "RequestAliasPatchBody" "RequestAliasPatchBodyEnum" ./satounki-ts/api.generated.ts
+    sd "RequestAliasPatchRequest" "RequestAliasPatchRequestEnum" ./satounki-ts/api.generated.ts
 
 gen:
     just gen-clean

@@ -3,13 +3,14 @@ package provider
 import (
 	"context"
 	"fmt"
+	"satounki"
+
 	"github.com/hashicorp/terraform-plugin-framework/path"
 	"github.com/hashicorp/terraform-plugin-framework/resource"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/planmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/stringplanmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/types"
-	"satounki"
 )
 
 // Ensure the implementation satisfies the expected interfaces.
@@ -90,7 +91,7 @@ func (r *userRolesResource) Create(ctx context.Context, req resource.CreateReque
 		return
 	}
 
-	body := plan.PostBody()
+	body := plan.PostRequest()
 
 	response, _, err := r.client.UserRolesPost(plan.Email.ValueString(), body)
 	if err != nil {
@@ -148,7 +149,7 @@ func (r *userRolesResource) Update(ctx context.Context, req resource.UpdateReque
 		return
 	}
 
-	body := plan.PutBody()
+	body := plan.PutRequest()
 
 	response, _, err := r.client.UserRolesPut(plan.Email.ValueString(), body)
 	if err != nil {
@@ -179,7 +180,7 @@ func (r *userRolesResource) Delete(ctx context.Context, req resource.DeleteReque
 
 	if _, _, err := r.client.UserRolesPost(
 		state.Email.ValueString(),
-		satounki.UserRolesPostBody([]satounki.AccessRole{})); err != nil {
+		satounki.UserRolesPostRequest([]satounki.AccessRole{})); err != nil {
 		resp.Diagnostics.AddError("Client Error",
 			err.Error(),
 		)

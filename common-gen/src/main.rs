@@ -21,6 +21,7 @@ use crate::golang::POST_TEMPLATE_GO;
 use crate::golang::PUT_ID_BODY_TEMPLATE_GO;
 use crate::golang::PUT_ID_TEMPLATE_GO;
 use crate::golang::PUT_TEMPLATE_GO;
+use crate::golang::TERRAFORM_INTERFACE;
 use crate::golang::TERRAFORM_RESOURCE;
 use crate::terraform::platform_resources;
 use crate::terraform::resources;
@@ -49,11 +50,43 @@ fn camelify(
     Ok(value.to_case(Case::Camel))
 }
 
+fn upper_camelify(
+    _state: &minijinja::State,
+    value: String,
+) -> std::result::Result<String, minijinja::Error> {
+    Ok(value.to_case(Case::UpperCamel))
+}
+
+fn snakeify(
+    _state: &minijinja::State,
+    value: String,
+) -> std::result::Result<String, minijinja::Error> {
+    Ok(value.to_case(Case::Snake))
+}
+
+fn titleify(
+    _state: &minijinja::State,
+    value: String,
+) -> std::result::Result<String, minijinja::Error> {
+    Ok(value.to_case(Case::Title))
+}
+
 fn generate_terraform(resources: Vec<Resource>, output_path: &str) -> Result<()> {
     let mut env = Environment::new();
     env.add_template("tf", TERRAFORM_RESOURCE)?;
+    env.add_template("interface", TERRAFORM_INTERFACE)?;
     env.add_filter("camel", camelify);
+    env.add_filter("upper_camel", upper_camelify);
+    env.add_filter("snake", snakeify);
+    env.add_filter("title", titleify);
     let tf = env.get_template("tf")?;
+    let interface = env.get_template("interface")?;
+
+    let import = if output_path.contains("satounkiplatform") {
+        r#"satounki "satounki-platform""#
+    } else {
+        r#""satounki""#
+    };
 
     for resource in resources {
         let output = tf.render(context! {
@@ -64,6 +97,20 @@ fn generate_terraform(resources: Vec<Resource>, output_path: &str) -> Result<()>
 
         std::fs::write(
             format!("{output_path}/{}_resource_data.go", resource.name),
+            output,
+        )?;
+
+        let output = interface.render(context! {
+            name => resource.name,
+            identifier => resource.identifier,
+            api_prefix => resource.api_prefix,
+            has_post_id => resource.has_post_id,
+            has_custom_delete => resource.has_custom_delete,
+            import
+        })?;
+
+        std::fs::write(
+            format!("{output_path}/{}_resource.generated.go", resource.name),
             output,
         )?;
     }

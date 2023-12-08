@@ -174,7 +174,7 @@ func (p *satounkiProvider) DataSources(_ context.Context) []func() datasource.Da
 // Resources defines the resources implemented in the provider.
 func (p *satounkiProvider) Resources(_ context.Context) []func() resource.Resource {
 	return []func() resource.Resource{
-		NewAWSAccountResource,
+		NewAwsAccountResource,
 		NewCloudflareAccountResource,
 		NewGcpProjectResource,
 		NewPolicyResource,

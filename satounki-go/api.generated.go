@@ -873,9 +873,9 @@ func (api *API) SettingsGcpProjectDelete(id string) error {
 	}
 }
 
-func (api *API) UserAliasesPost(id string, policy UserAliasesPostRequest) (UserAliasesPostResponse, *ErrorResponse, error) {
+func (api *API) UserAliasesPost(id string, body UserAliasesPostRequest) (UserAliasesPostResponse, *ErrorResponse, error) {
 	url := fmt.Sprintf("%s/user/%s/aliases", api.BaseURL, id)
-	reqBody, err := json.Marshal(&policy)
+	reqBody, err := json.Marshal(&body)
 	if err != nil {
 		return UserAliasesPostResponse{}, nil, err
 	}
@@ -1042,9 +1042,9 @@ func (api *API) UserAliasesDelete(id string) error {
 	}
 }
 
-func (api *API) UserRolesPost(id string, policy UserRolesPostRequest) (UserRolesPostResponse, *ErrorResponse, error) {
+func (api *API) UserRolesPost(id string, body UserRolesPostRequest) (UserRolesPostResponse, *ErrorResponse, error) {
 	url := fmt.Sprintf("%s/user/%s/roles", api.BaseURL, id)
-	reqBody, err := json.Marshal(&policy)
+	reqBody, err := json.Marshal(&body)
 	if err != nil {
 		return UserRolesPostResponse{}, nil, err
 	}
@@ -1410,9 +1410,9 @@ func (api *API) RequestAliasPatch(id string, body RequestAliasPatchRequest) erro
 	}
 }
 
-func (api *API) RequestPolicyPost(id string, policy RequestPolicyPostRequest) (RequestPolicyPostResponse, *ErrorResponse, error) {
+func (api *API) RequestPolicyPost(id string, body RequestPolicyPostRequest) (RequestPolicyPostResponse, *ErrorResponse, error) {
 	url := fmt.Sprintf("%s/request/policy/%s", api.BaseURL, id)
-	reqBody, err := json.Marshal(&policy)
+	reqBody, err := json.Marshal(&body)
 	if err != nil {
 		return RequestPolicyPostResponse{}, nil, err
 	}

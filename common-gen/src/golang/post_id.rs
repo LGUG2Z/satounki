@@ -1,7 +1,7 @@
 pub const POST_ID_TEMPLATE_GO: &str = r#"
-func (api *API) {{ name }}Post(id string, policy {{ name }}PostRequest) ({{ name }}PostResponse, *ErrorResponse, error) {
+func (api *API) {{ name }}Post(id string, body {{ name }}PostRequest) ({{ name }}PostResponse, *ErrorResponse, error) {
 	url := fmt.Sprintf("%s{{ post }}", api.BaseURL, id)
-	reqBody, err := json.Marshal(&policy)
+	reqBody, err := json.Marshal(&body)
 	if err != nil {
 		return {{ name }}PostResponse{}, nil, err
 	}

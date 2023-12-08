@@ -21,6 +21,10 @@ pub struct Company {
     pub root_user_first_name: Option<String>,
     /// Company root user's last name
     pub root_user_last_name: Option<String>,
+    /// Company API token
+    pub api_token: Option<String>,
+    /// Company worker key
+    pub worker_key: Option<String>,
 }
 
 route_request_response! {

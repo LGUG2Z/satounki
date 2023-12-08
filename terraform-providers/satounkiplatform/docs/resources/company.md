@@ -25,5 +25,7 @@ Company
 
 ### Read-Only
 
+- `api_token` (String, Sensitive) Company API token
 - `id` (String) Auto-incrementing integer
 - `last_updated` (String) Time of the last modification to this resource
+- `worker_key` (String, Sensitive) Company worker key

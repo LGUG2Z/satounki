@@ -70,6 +70,22 @@ func (r *companyResource) Schema(_ context.Context, _ resource.SchemaRequest, re
 				Description: fieldDoc(companyResourceData{}, "root_user_last_name"),
 				Required:    true,
 			},
+			"api_token": schema.StringAttribute{
+				Description: fieldDoc(companyResourceData{}, "api_token"),
+				Computed:    true,
+				Sensitive:   true,
+				PlanModifiers: []planmodifier.String{
+					stringplanmodifier.UseStateForUnknown(),
+				},
+			},
+			"worker_key": schema.StringAttribute{
+				Description: fieldDoc(companyResourceData{}, "worker_key"),
+				Computed:    true,
+				Sensitive:   true,
+				PlanModifiers: []planmodifier.String{
+					stringplanmodifier.UseStateForUnknown(),
+				},
+			},
 		},
 	}
 }

@@ -25,8 +25,8 @@ bacon:
     bacon -j clippy -w
 
 gen-clean:
-    rm -rf json-v1 json-platform json-platform-terraform
-    mkdir -p json-v1 json-platform json-platform-terraform
+    rm -rf json-v1 json-platform
+    mkdir -p json-v1 json-platform
 
 gen-common:
     cargo run --package common-gen
@@ -60,14 +60,13 @@ rebuild-providers:
     just rebuild-provider-satounki
     just rebuild-provider-satounkiplatform
 
-init-providers:
-    cd terraform/platform && rm -f .terraform.lock.hcl && rm -f *tfstate* && terraform init
-    cd terraform/company && rm -f .terraform.lock.hcl && rm -f *tfstate* && terraform init
+init-terraform:
+    cd terraform && rm -f .terraform.lock.hcl && rm -f *tfstate* && terraform init
 
 tf:
     just gen
     just rebuild-providers
-    just init-providers
+    just init-terraform
 
 rolescraper:
     cargo run --package rolescraper

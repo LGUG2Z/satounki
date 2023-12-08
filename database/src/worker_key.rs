@@ -32,6 +32,12 @@ impl WorkerKey {
             .optional()
     }
 
+    pub fn read_by_company_id(connection: &mut SqliteConnection, company_id: i32) -> Result<Self> {
+        worker_keys::table
+            .filter(worker_keys::dsl::company_id.eq(company_id))
+            .first(connection)
+    }
+
     pub fn delete(connection: &mut SqliteConnection, company_id: i32) -> Result<usize> {
         use worker_keys::dsl;
 

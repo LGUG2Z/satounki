@@ -15,6 +15,8 @@ func (d companyResourceData) PostRequest() satounki.CompanyPostRequest {
 		RootUserEmail:     d.RootUserEmail.ValueString(),
 		RootUserFirstName: d.RootUserFirstName.ValueStringPointer(),
 		RootUserLastName:  d.RootUserLastName.ValueStringPointer(),
+		APIToken:          d.ApiToken.ValueStringPointer(),
+		WorkerKey:         d.WorkerKey.ValueStringPointer(),
 	}
 }
 
@@ -26,6 +28,8 @@ func (d *companyResourceData) PostResponse(r satounki.CompanyPostResponse) {
 	d.RootUserEmail = types.StringValue(r.RootUserEmail)
 	d.RootUserFirstName = types.StringValue(*r.RootUserFirstName)
 	d.RootUserLastName = types.StringValue(*r.RootUserLastName)
+	d.ApiToken = types.StringValue(*r.APIToken)
+	d.WorkerKey = types.StringValue(*r.WorkerKey)
 }
 
 func (d companyResourceData) PutRequest() satounki.CompanyPutRequest {
@@ -35,6 +39,8 @@ func (d companyResourceData) PutRequest() satounki.CompanyPutRequest {
 		RootUserEmail:     d.RootUserEmail.ValueString(),
 		RootUserFirstName: d.RootUserFirstName.ValueStringPointer(),
 		RootUserLastName:  d.RootUserLastName.ValueStringPointer(),
+		APIToken:          d.ApiToken.ValueStringPointer(),
+		WorkerKey:         d.WorkerKey.ValueStringPointer(),
 	}
 }
 
@@ -45,6 +51,8 @@ func (d *companyResourceData) PutResponse(r satounki.CompanyPutResponse) {
 	d.RootUserEmail = types.StringValue(r.RootUserEmail)
 	d.RootUserFirstName = types.StringValue(*r.RootUserFirstName)
 	d.RootUserLastName = types.StringValue(*r.RootUserLastName)
+	d.ApiToken = types.StringValue(*r.APIToken)
+	d.WorkerKey = types.StringValue(*r.WorkerKey)
 }
 
 func (d *companyResourceData) GetResponse(r satounki.CompanyGetResponse) {
@@ -54,4 +62,6 @@ func (d *companyResourceData) GetResponse(r satounki.CompanyGetResponse) {
 	d.RootUserEmail = types.StringValue(r.RootUserEmail)
 	d.RootUserFirstName = types.StringValue(*r.RootUserFirstName)
 	d.RootUserLastName = types.StringValue(*r.RootUserLastName)
+	d.ApiToken = types.StringValue(*r.APIToken)
+	d.WorkerKey = types.StringValue(*r.WorkerKey)
 }

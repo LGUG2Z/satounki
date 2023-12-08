@@ -29,6 +29,12 @@ impl ApiToken {
         api_tokens::table.find(token).first(connection)
     }
 
+    pub fn read_by_company_id(connection: &mut SqliteConnection, company_id: i32) -> Result<Self> {
+        api_tokens::table
+            .filter(api_tokens::dsl::company_id.eq(company_id))
+            .first(connection)
+    }
+
     pub fn delete(connection: &mut SqliteConnection, company_id: i32) -> Result<usize> {
         use api_tokens::dsl;
 

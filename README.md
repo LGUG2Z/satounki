@@ -109,7 +109,7 @@ libraries which are automatically generated from the Rust code.
 Some of the next areas that I would like see being worked on include:
 
 - [ ] Support for other login providers besides Google
-- [ ] Publishing a Nix flake that could enable a simple `services.satounki.enable = true` NixOS deployment
+- [ ] Get the Satounki service published in Nixpkgs in 24.05 (hopefully)
 - [ ] Publishing Helm Charts and Kustomize templates for Kubernetes deployments
 - [ ] Support for Azure
 - [ ] Generate HTML reference documentation

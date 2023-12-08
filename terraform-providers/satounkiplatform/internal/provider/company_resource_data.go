@@ -20,4 +20,8 @@ type companyResourceData struct {
 	RootUserFirstName types.String `tfsdk:"root_user_first_name" rustdoc:"Company root user's first name" resourcedoc:"Company"`
 	// Company root user's last name
 	RootUserLastName types.String `tfsdk:"root_user_last_name" rustdoc:"Company root user's last name" resourcedoc:"Company"`
+	// Company API token
+	ApiToken types.String `tfsdk:"api_token" rustdoc:"Company API token" resourcedoc:"Company"`
+	// Company worker key
+	WorkerKey types.String `tfsdk:"worker_key" rustdoc:"Company worker key" resourcedoc:"Company"`
 }

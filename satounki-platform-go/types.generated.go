@@ -126,6 +126,8 @@ func (r *PlatformTokenPutResponse) Marshal() ([]byte, error) {
 
 // Company
 type Company struct {
+	// Company API token
+	APIToken *string `json:"api_token,omitempty"`
 	// Email domain of the company (G-Suite etc.)
 	Domain string `json:"domain"`
 	// Auto-incrementing integer
@@ -138,10 +140,14 @@ type Company struct {
 	RootUserFirstName *string `json:"root_user_first_name,omitempty"`
 	// Company root user's last name
 	RootUserLastName *string `json:"root_user_last_name,omitempty"`
+	// Company worker key
+	WorkerKey *string `json:"worker_key,omitempty"`
 }
 
 // Company
 type CompanyGetResponse struct {
+	// Company API token
+	APIToken *string `json:"api_token,omitempty"`
 	// Email domain of the company (G-Suite etc.)
 	Domain string `json:"domain"`
 	// Auto-incrementing integer
@@ -154,10 +160,14 @@ type CompanyGetResponse struct {
 	RootUserFirstName *string `json:"root_user_first_name,omitempty"`
 	// Company root user's last name
 	RootUserLastName *string `json:"root_user_last_name,omitempty"`
+	// Company worker key
+	WorkerKey *string `json:"worker_key,omitempty"`
 }
 
 // Company
 type CompanyPostRequest struct {
+	// Company API token
+	APIToken *string `json:"api_token,omitempty"`
 	// Email domain of the company (G-Suite etc.)
 	Domain string `json:"domain"`
 	// Auto-incrementing integer
@@ -170,10 +180,14 @@ type CompanyPostRequest struct {
 	RootUserFirstName *string `json:"root_user_first_name,omitempty"`
 	// Company root user's last name
 	RootUserLastName *string `json:"root_user_last_name,omitempty"`
+	// Company worker key
+	WorkerKey *string `json:"worker_key,omitempty"`
 }
 
 // Company
 type CompanyPostResponse struct {
+	// Company API token
+	APIToken *string `json:"api_token,omitempty"`
 	// Email domain of the company (G-Suite etc.)
 	Domain string `json:"domain"`
 	// Auto-incrementing integer
@@ -186,10 +200,14 @@ type CompanyPostResponse struct {
 	RootUserFirstName *string `json:"root_user_first_name,omitempty"`
 	// Company root user's last name
 	RootUserLastName *string `json:"root_user_last_name,omitempty"`
+	// Company worker key
+	WorkerKey *string `json:"worker_key,omitempty"`
 }
 
 // Company
 type CompanyPutRequest struct {
+	// Company API token
+	APIToken *string `json:"api_token,omitempty"`
 	// Email domain of the company (G-Suite etc.)
 	Domain string `json:"domain"`
 	// Auto-incrementing integer
@@ -202,10 +220,14 @@ type CompanyPutRequest struct {
 	RootUserFirstName *string `json:"root_user_first_name,omitempty"`
 	// Company root user's last name
 	RootUserLastName *string `json:"root_user_last_name,omitempty"`
+	// Company worker key
+	WorkerKey *string `json:"worker_key,omitempty"`
 }
 
 // Company
 type CompanyPutResponse struct {
+	// Company API token
+	APIToken *string `json:"api_token,omitempty"`
 	// Email domain of the company (G-Suite etc.)
 	Domain string `json:"domain"`
 	// Auto-incrementing integer
@@ -218,6 +240,8 @@ type CompanyPutResponse struct {
 	RootUserFirstName *string `json:"root_user_first_name,omitempty"`
 	// Company root user's last name
 	RootUserLastName *string `json:"root_user_last_name,omitempty"`
+	// Company worker key
+	WorkerKey *string `json:"worker_key,omitempty"`
 }
 
 // Error returned by the Satounki API

@@ -51,6 +51,8 @@ impl From<Company> for common_platform::Company {
             root_user_email: c.root_user,
             root_user_first_name: None,
             root_user_last_name: None,
+            api_token: None,
+            worker_key: None,
         }
     }
 }
@@ -99,6 +101,12 @@ impl Company {
             root_user_email: self.root_user.clone(),
             root_user_first_name: Option::from(root_user.first_name),
             root_user_last_name: Option::from(root_user.last_name),
+            api_token: ApiToken::read_by_company_id(connection, self.id)
+                .ok()
+                .map(|t| t.token),
+            worker_key: WorkerKey::read_by_company_id(connection, self.id)
+                .ok()
+                .map(|k| k.key),
         };
 
         Ok(company)

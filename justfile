@@ -49,11 +49,11 @@ gen:
     just fmt
 
 rebuild-provider-satounki:
-    cd terraform-providers/satounki && go mod tidy && go mod vendor && go build -o ~/.terraform.d/plugins/registry.terraform.io/hashicorp/satounki/0.1/linux_amd64/terraform-provider-satounki_v0.1
+    cd terraform-providers/satounki && rm -rf vendor && go mod vendor && go build -o ~/.terraform.d/plugins/registry.terraform.io/hashicorp/satounki/0.1/linux_amd64/terraform-provider-satounki_v0.1
     cd terraform-providers/satounki && go generate
 
 rebuild-provider-satounkiplatform:
-    cd terraform-providers/satounkiplatform && go mod tidy && go mod vendor && go build -o ~/.terraform.d/plugins/registry.terraform.io/hashicorp/satounkiplatform/0.1/linux_amd64/terraform-provider-satounkiplatform_v0.1
+    cd terraform-providers/satounkiplatform && rm -rf vendor && go mod vendor && go build -o ~/.terraform.d/plugins/registry.terraform.io/hashicorp/satounkiplatform/0.1/linux_amd64/terraform-provider-satounkiplatform_v0.1
     cd terraform-providers/satounkiplatform && go generate
 
 rebuild-providers:
@@ -61,7 +61,11 @@ rebuild-providers:
     just rebuild-provider-satounkiplatform
 
 init-terraform:
-    cd terraform && rm -f .terraform.lock.hcl && rm -f *tfstate* && terraform init
+    rm -f dev.db* && cd terraform && rm -f .terraform.lock.hcl && rm -f *tfstate* && terraform init
+
+apply:
+    cd terraform && terraform apply -target satounkiplatform_company.satounki -auto-approve
+    cd terraform && terraform apply -auto-approve
 
 tf:
     just gen

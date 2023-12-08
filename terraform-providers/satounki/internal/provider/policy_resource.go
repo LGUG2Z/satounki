@@ -3,6 +3,7 @@ package provider
 import (
 	"context"
 	"fmt"
+	"net/http"
 	"satounki"
 
 	"github.com/hashicorp/terraform-plugin-framework/resource"
@@ -136,11 +137,15 @@ func (r *policyResource) Read(ctx context.Context, req resource.ReadRequest, res
 		return
 	}
 
-	response, _, err := r.client.PolicyGet(state.ID.ValueString())
+	response, errorResponse, err := r.client.PolicyGet(state.ID.ValueString())
 	if err != nil {
-		resp.Diagnostics.AddError("Error reading policy",
-			err.Error(),
-		)
+		if errorResponse.Code == http.StatusNotFound {
+			resp.State.RemoveResource(ctx)
+		} else {
+			resp.Diagnostics.AddError("Error reading policy",
+				err.Error(),
+			)
+		}
 
 		return
 	}

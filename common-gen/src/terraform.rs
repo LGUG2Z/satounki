@@ -13,7 +13,6 @@ pub struct Resource<'a> {
     pub identifier: &'a str,
     pub api_prefix: &'a str,
     pub has_post_id: bool,
-    pub has_custom_delete: bool,
 }
 
 pub fn platform_resources<'a>() -> Vec<Resource<'a>> {
@@ -24,7 +23,6 @@ pub fn platform_resources<'a>() -> Vec<Resource<'a>> {
         identifier: "ID",
         api_prefix: "",
         has_post_id: false,
-        has_custom_delete: false,
     }]
 }
 
@@ -37,7 +35,6 @@ pub fn resources<'a>() -> Vec<Resource<'a>> {
             identifier: "ID",
             api_prefix: "",
             has_post_id: false,
-            has_custom_delete: false,
         },
         Resource {
             name: "aws_account",
@@ -46,7 +43,6 @@ pub fn resources<'a>() -> Vec<Resource<'a>> {
             identifier: "ID",
             api_prefix: "Settings",
             has_post_id: false,
-            has_custom_delete: false,
         },
         Resource {
             name: "cloudflare_account",
@@ -55,7 +51,6 @@ pub fn resources<'a>() -> Vec<Resource<'a>> {
             identifier: "ID",
             api_prefix: "Settings",
             has_post_id: false,
-            has_custom_delete: false,
         },
         Resource {
             name: "gcp_project",
@@ -64,7 +59,6 @@ pub fn resources<'a>() -> Vec<Resource<'a>> {
             identifier: "ID",
             api_prefix: "Settings",
             has_post_id: false,
-            has_custom_delete: false,
         },
         Resource {
             name: "user_aliases",
@@ -73,7 +67,6 @@ pub fn resources<'a>() -> Vec<Resource<'a>> {
             identifier: "Email",
             api_prefix: "",
             has_post_id: true,
-            has_custom_delete: false,
         },
         Resource {
             name: "user_roles",
@@ -82,7 +75,6 @@ pub fn resources<'a>() -> Vec<Resource<'a>> {
             identifier: "Email",
             api_prefix: "",
             has_post_id: true,
-            has_custom_delete: true,
         },
     ]
 }

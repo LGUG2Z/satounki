@@ -10,8 +10,8 @@ fmt:
     gofmt -w ./satounki-platform-go
     gofmt -w ./terraform-providers/satounkiplatform
     gofmt -w ./terraform-providers/satounki
-    cd terraform-providers/satounkiplatform && golangci-lint run
-    cd terraform-providers/satounki && golangci-lint run
+    cd terraform-providers/satounkiplatform && rm -rf vendor && go mod vendor && golangci-lint run
+    cd terraform-providers/satounki && rm -rf vendor && go mod vendor && golangci-lint run
     prettier -w ./satounki-ts
     prettier -w README.md
     tsc --noEmit -p ./satounki-ts/tsconfig.json
@@ -49,11 +49,11 @@ gen:
     just fmt
 
 rebuild-provider-satounki:
-    cd terraform-providers/satounki && rm -rf vendor && go mod vendor && go build -o ~/.terraform.d/plugins/registry.terraform.io/hashicorp/satounki/0.1/linux_amd64/terraform-provider-satounki_v0.1
+    cd terraform-providers/satounki && go build -o ~/.terraform.d/plugins/registry.terraform.io/hashicorp/satounki/0.1/linux_amd64/terraform-provider-satounki_v0.1
     cd terraform-providers/satounki && go generate
 
 rebuild-provider-satounkiplatform:
-    cd terraform-providers/satounkiplatform && rm -rf vendor && go mod vendor && go build -o ~/.terraform.d/plugins/registry.terraform.io/hashicorp/satounkiplatform/0.1/linux_amd64/terraform-provider-satounkiplatform_v0.1
+    cd terraform-providers/satounkiplatform && go build -o ~/.terraform.d/plugins/registry.terraform.io/hashicorp/satounkiplatform/0.1/linux_amd64/terraform-provider-satounkiplatform_v0.1
     cd terraform-providers/satounkiplatform && go generate
 
 rebuild-providers:

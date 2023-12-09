@@ -141,6 +141,27 @@ func (r *userRolesResource) Update(ctx context.Context, req resource.UpdateReque
 	}
 }
 
+func (r *userRolesResource) Delete(ctx context.Context, req resource.DeleteRequest, resp *resource.DeleteResponse) {
+	// Retrieve values from state
+	var state userRolesResourceData
+	diags := req.State.Get(ctx, &state)
+	resp.Diagnostics.Append(diags...)
+	if resp.Diagnostics.HasError() {
+		return
+	}
+
+	err := r.client.UserRolesDelete(state.Email.ValueString())
+	if err != nil {
+		resp.Diagnostics.AddError("Client Error",
+			err.Error(),
+		)
+
+		return
+	}
+
+	resp.State.RemoveResource(ctx)
+}
+
 func (r *userRolesResource) ImportState(ctx context.Context, req resource.ImportStateRequest, resp *resource.ImportStateResponse) {
 	// Retrieve import ID and save to id attribute
 	resource.ImportStatePassthroughID(ctx, path.Root("email"), req, resp)

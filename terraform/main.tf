@@ -72,12 +72,6 @@ locals {
     ]
   }
 
-  user_aliases = {
-    "lgug2z@satounki.com" = {
-      aws = "Jeezy"
-    }
-  }
-
   user = [
     "lgug2z@satounki.com",
   ]

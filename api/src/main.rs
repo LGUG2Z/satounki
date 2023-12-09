@@ -98,6 +98,7 @@ use crate::user::user_aliases_post;
 use crate::user::user_aliases_put;
 use crate::user::user_disable_patch;
 use crate::user::user_enable_patch;
+use crate::user::user_roles_delete;
 use crate::user::user_roles_get;
 use crate::user::user_roles_post;
 use crate::user::user_roles_put;
@@ -358,7 +359,8 @@ async fn main() -> color_eyre::Result<()> {
                             .service(user_aliases_delete)
                             .service(user_roles_post)
                             .service(user_roles_put)
-                            .service(user_roles_get),
+                            .service(user_roles_get)
+                            .service(user_roles_delete),
                     ),
             )
     })

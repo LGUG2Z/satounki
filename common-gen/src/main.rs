@@ -105,7 +105,6 @@ fn generate_terraform(resources: Vec<Resource>, output_path: &str) -> Result<()>
             identifier => resource.identifier,
             api_prefix => resource.api_prefix,
             has_post_id => resource.has_post_id,
-            has_custom_delete => resource.has_custom_delete,
             import
         })?;
 

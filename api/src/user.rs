@@ -256,6 +256,38 @@ async fn user_roles_get(
     Ok(web::Json(UserRolesGetResponse(roles)))
 }
 
+/// Delete roles for a user
+#[utoipa::path(
+    context_path = "/v1/user",
+    tag = "users",
+    security(("user_token" = []), ("api_token" = [])),
+    responses(
+        (status = 200),
+        (status = 401, body = ErrorResponse, example = json!(ex(StatusCode::UNAUTHORIZED))),
+        (status = 404, body = ErrorResponse, example = json!(ex(StatusCode::NOT_FOUND))),
+        (status = 500, body = ErrorResponse, example = json!(ex(StatusCode::INTERNAL_SERVER_ERROR))),
+    )
+)]
+#[delete("/{email}/roles")]
+async fn user_roles_delete(
+    pool: web::Data<Pool>,
+    authenticated: ApiTokenOrUserWithAccessRole<AdministratorRole>,
+    email: web::Path<String>,
+) -> Result<HttpResponse> {
+    let connection = &mut *pool.get()?;
+
+    let company = authenticated.information().company(connection)?;
+    let user = User::read_by_email(connection, &email)?;
+
+    if !user.belongs_to_company(connection, company.id)? {
+        return Err(error::Api::UnauthorizedNotFound);
+    }
+
+    company.update_roles(connection, &user, &vec![])?;
+
+    Ok(HttpResponse::Ok().finish())
+}
+
 /// Set service-specific aliases for a user
 ///
 /// A full set of aliases should be given.

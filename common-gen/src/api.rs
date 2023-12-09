@@ -192,12 +192,13 @@ pub fn public_routes<'a>() -> Vec<Route<'a>> {
             },
         },
         Route {
-            ops: vec![Ops::PostId, Ops::PutIdBody, Ops::GetId],
+            ops: vec![Ops::PostId, Ops::PutIdBody, Ops::GetId, Ops::Delete],
             context: Context {
                 name: "UserRoles",
                 post: Option::from("/user/%s/roles"),
                 get: Option::from("/user/%s/roles"),
                 put: Option::from("/user/%s/roles"),
+                delete: Option::from("/user/%s/roles"),
                 ..Default::default()
             },
         },

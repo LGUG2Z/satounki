@@ -130,6 +130,7 @@ pub fn ex(code: StatusCode) -> ErrorResponse {
         user::user_aliases_get,
         user::user_aliases_post,
         user::user_aliases_put,
+        user::user_roles_delete,
         user::user_roles_get,
         user::user_roles_post,
         user::user_roles_put,

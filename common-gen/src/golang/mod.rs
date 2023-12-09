@@ -175,7 +175,6 @@ func (r *{{ name | camel }}Resource) Update(ctx context.Context, req resource.Up
 	}
 }
 
-{% if not has_custom_delete %}
 func (r *{{ name | camel }}Resource) Delete(ctx context.Context, req resource.DeleteRequest, resp *resource.DeleteResponse) {
 	// Retrieve values from state
 	var state {{ name | camel }}ResourceData
@@ -196,7 +195,6 @@ func (r *{{ name | camel }}Resource) Delete(ctx context.Context, req resource.De
 
 	resp.State.RemoveResource(ctx)
 }
-{% endif %}
 
 func (r *{{ name | camel }}Resource) ImportState(ctx context.Context, req resource.ImportStateRequest, resp *resource.ImportStateResponse) {
 	// Retrieve import ID and save to id attribute

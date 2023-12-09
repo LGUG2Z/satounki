@@ -263,6 +263,12 @@ export class Api {
     return await this.client.get(`/v1/user/${id}/roles`);
   }
 
+  async userRolesDelete(
+    id: string,
+  ): Promise<IRestResponse<null | satounki.ErrorResponse>> {
+    return await this.client.del(`/v1/user/${id}/roles`);
+  }
+
   async userTokenGet(): Promise<
     IRestResponse<satounki.UserTokenGetResponse | satounki.ErrorResponse>
   > {
